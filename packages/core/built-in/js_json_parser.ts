@@ -1,7 +1,8 @@
-import { Fn } from "../chain";
-import type { ParserContext, ParserCore } from "../parser";
+import type { CoreContext } from "../context";
+import type { Parser } from "../parser/mod";
+import type { Plugin } from "../plugin/mod";
 
-export class NativeJsonParser<V extends object> implements ParserCore<V> {
+export class NativeJsonParser<V extends object> implements Parser<V> {
 	public parse<TValue extends V>(value: string): TValue {
 		return JSON.parse(value);
 	}
@@ -11,14 +12,13 @@ export class NativeJsonParser<V extends object> implements ParserCore<V> {
 	}
 }
 
-function JsJsonPlugin<V extends object>(): Fn<ParserContext<V>> {
+const json: Plugin = () => function <V extends object>(): CoreContext<V> {
 	const $$instance = new NativeJsonParser<V>;
-	return function () {
-		return {
-			$$type: 'parser',
-			$$instance,
-		}
+
+	return {
+		$$type: 'parser',
+		$$instance: $$instance,
 	}
 }
 
-export { JsJsonPlugin, JsJsonPlugin as json };
+export { json, json as NativeJsonPlugin };

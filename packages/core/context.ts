@@ -1,12 +1,12 @@
-import type { ParserContext } from "./parser";
-import type { PersistenceContext } from "./persistence";
-import type { ValidatorContext } from "./validator";
+import type { ParserContext } from "./parser/mod";
+import type { PersisterContext } from "./persister/mod";
+import type { ValidatorContext } from "./validator/mod";
 
-export interface Context<T extends Readonly<string>> {
-	readonly $$type: T;
+export interface Context<K extends Readonly<string>> {
+	readonly $$type: K;
 }
 
-export type CoreContext<T extends object> =
-	| PersistenceContext<T>
-	| ParserContext<T>
-	| ValidatorContext<T>;
+export type CoreContext<V extends object> =
+	| ParserContext<V>
+	| PersisterContext<V>
+	| ValidatorContext<V>;
