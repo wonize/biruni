@@ -2,7 +2,8 @@ import { LocalStoragePersister, LocalStoragePlugin, NativeJsonPlugin, biruni, ty
 import { beforeAll, describe, it, vi } from 'vitest';
 
 describe('Biruni :: simple setup', () => {
-	const setSpy = vi.spyOn(LocalStoragePersister.prototype, 'set');
+	const biruniLocalStorageSetSpy = vi.spyOn(LocalStoragePersister.prototype, 'set');
+	const browserLocalStorageSetSpy = vi.spyOn(Storage.prototype, 'setItem');
 
 	let store: Core<{ count: number }>;
 	beforeAll(() => {
@@ -14,25 +15,36 @@ describe('Biruni :: simple setup', () => {
 
 	it('should iniailize by correct value', () => {
 		const expection = { "$$value": JSON.stringify({ count: 9 }) };
-		expect(setSpy).toBeCalledWith(expection);
+		expect(biruniLocalStorageSetSpy).toBeCalledWith(expection);
 	})
 
-	it('should <localStorage.set> called once', () => {
-		expect(setSpy).toBeCalledTimes(1);
+	it('should biruni <localStorage.set> called once', () => {
+		expect(biruniLocalStorageSetSpy).toBeCalledTimes(1);
+	})
+
+	it('should browser <localStorage.set> called once', () => {
+		expect(browserLocalStorageSetSpy).toBeCalledTimes(1);
 	})
 
 	it('should restore initialized value', () => {
-		expect(store.get()).resolves.toMatchObject({ count: 9 });
+		const expectedObject = { count: 9 };
+		const expectedString = JSON.stringify(expectedObject);
+		expect(store.get()).resolves.toMatchObject(expectedObject);
+		expect(localStorage.getItem('b-key')).toStrictEqual(expectedString);
 	})
 
 	it('should override initialized value', () => {
 		const expection = { "$$value": JSON.stringify({ count: 7 }) };
 		store.set(() => ({ count: 7 }));
-		expect(setSpy).toBeCalledWith(expection);
+		expect(biruniLocalStorageSetSpy).toBeCalledWith(expection);
 	})
 
-	it('should <localStorage.set> called twice', () => {
-		expect(setSpy).toBeCalledTimes(2);
+	it('should biruni <localStorage.set> called twice', () => {
+		expect(biruniLocalStorageSetSpy).toBeCalledTimes(2);
+	})
+
+	it('should native <localStorage.set> called twice', () => {
+		expect(browserLocalStorageSetSpy).toBeCalledTimes(2);
 	})
 
 	it('should restore overrided value', () => {
@@ -40,7 +52,9 @@ describe('Biruni :: simple setup', () => {
 	})
 
 	afterAll(() => {
-		setSpy.mockClear();
-		setSpy.mockReset();
+		biruniLocalStorageSetSpy.mockClear();
+		biruniLocalStorageSetSpy.mockReset();
+		browserLocalStorageSetSpy.mockClear();
+		browserLocalStorageSetSpy.mockReset();
 	})
 })
