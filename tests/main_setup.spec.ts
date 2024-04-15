@@ -1,7 +1,7 @@
 import { LocalStoragePersister, LocalStoragePlugin, NativeJsonPlugin, biruni, type Core } from "@/core/mod";
 import { beforeAll, describe, it, vi } from 'vitest';
 
-describe('Biruni :: simple setup', () => {
+describe('Biruni :: Main setup', () => {
 	const biruniLocalStorageSetSpy = vi.spyOn(LocalStoragePersister.prototype, 'set');
 	const browserLocalStorageSetSpy = vi.spyOn(Storage.prototype, 'setItem');
 
@@ -18,13 +18,15 @@ describe('Biruni :: simple setup', () => {
 		expect(biruniLocalStorageSetSpy).toBeCalledWith(expection);
 	})
 
-	it('should biruni <localStorage.set> called once', () => {
+	it('should <biruni localStorage.set> called once', () => {
 		expect(biruniLocalStorageSetSpy).toBeCalledTimes(1);
 	})
 
-	it('should browser <localStorage.set> called once', () => {
-		expect(browserLocalStorageSetSpy).toBeCalledTimes(1);
-	})
+	it
+		.skipIf(() => typeof localStorage === 'undefined')
+		('should <browser localStorage.set> called once', () => {
+			expect(browserLocalStorageSetSpy).toBeCalledTimes(1);
+		})
 
 	it('should restore initialized value', () => {
 		const expectedObject = { count: 9 };
@@ -39,13 +41,15 @@ describe('Biruni :: simple setup', () => {
 		expect(biruniLocalStorageSetSpy).toBeCalledWith(expection);
 	})
 
-	it('should biruni <localStorage.set> called twice', () => {
+	it('should <biruni localStorage.set> called twice', () => {
 		expect(biruniLocalStorageSetSpy).toBeCalledTimes(2);
 	})
 
-	it('should native <localStorage.set> called twice', () => {
-		expect(browserLocalStorageSetSpy).toBeCalledTimes(2);
-	})
+	it
+		.skipIf(() => typeof localStorage === 'undefined')
+		('should <browser localStorage.set> called twice', () => {
+			expect(browserLocalStorageSetSpy).toBeCalledTimes(2);
+		})
 
 	it('should restore overrided value', () => {
 		expect(store.get()).resolves.toMatchObject({ count: 7 });
