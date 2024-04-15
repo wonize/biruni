@@ -2,7 +2,7 @@
 	"name": "biruni",
 	"version": "0.0.1",
 	"type": "module",
-	"description": "Al-Biruni Manipulator",
+	"description": "(Al-Biruni) unified store/storage management tool",
 	"main": "main.js",
 	"author": "mikoloism <mikoloism@gmail.com>",
 	"license": "GPL-3.0-only",
