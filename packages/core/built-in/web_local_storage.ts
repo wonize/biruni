@@ -2,23 +2,27 @@ import type { Persister } from "../persister/mod";
 import type { Plugin } from "../plugin/mod";
 
 class LocalStoragePersister<V extends object> implements Persister<V> {
-	public async set<TValue extends string, TKey extends string>(tag: { $$value: TValue, $$key: TKey }): Promise<void> {
-		return new Promise(function set(resolve) {
-			localStorage.setItem(tag.$$key, tag.$$value);
+	public constructor(private $$key: string) { }
+
+	public async set<TValue extends string, TKey extends string>(tag: { $$value: TValue, $$key?: TKey }): Promise<void> {
+		return new Promise((resolve) => {
+			const $$key = tag.$$key ?? this.$$key;
+			localStorage.setItem($$key, tag.$$value);
 			return resolve();
 		});
 	}
 
-	public async get<TValue extends string, TKey extends string>(tag: { $$key: TKey; }): Promise<{ $$value: TValue; }> {
-		return new Promise(function get(resolve) {
-			const $$value = localStorage.getItem(tag.$$key) as TValue;
+	public async get<TValue extends string, TKey extends string>(tag: { $$key?: TKey; }): Promise<{ $$value: TValue; }> {
+		return new Promise((resolve) => {
+			const $$key = tag.$$key ?? this.$$key;
+			const $$value = localStorage.getItem($$key) as TValue;
 			return resolve({ $$value });
 		});
 	}
 }
 
 const LocalStoragePlugin: Plugin<[key: string]> = (key: string) => function <TValue extends object>() {
-	const $$instance = new LocalStoragePersister<TValue>();
+	const $$instance = new LocalStoragePersister<TValue>(key);
 
 	return {
 		$$type: 'persister',
@@ -26,5 +30,4 @@ const LocalStoragePlugin: Plugin<[key: string]> = (key: string) => function <TVa
 	}
 }
 
-export { LocalStoragePlugin };
-
+export { LocalStoragePlugin, LocalStoragePersister };
