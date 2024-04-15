@@ -12,15 +12,24 @@
 		],
 		"baseUrl": "./",
 		"paths": {
+			"@capacitor/*": [
+				"tests/__mocks__/capacitor/*"
+			],
 			"@/*": [
 				"packages/*"
 			],
-		}
+		},
+		"types": [
+			"vitest/globals",
+			"vitest/jsdom"
+		],
 	},
 	"exclude": [
 		"node_modules"
 	],
 	"include": [
 		"packages",
+		"vitest.config.ts",
+		"tests"
 	]
 }
