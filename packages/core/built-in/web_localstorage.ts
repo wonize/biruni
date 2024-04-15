@@ -1,7 +1,7 @@
 import type { Persister } from "../persister/mod";
 import type { Plugin } from "../plugin/mod";
 
-class LocalStoragePersister<V extends object> implements Persister<V> {
+export class LocalStoragePersister<V extends object> implements Persister<V> {
 	public constructor(private $$key: string) { }
 
 	public async set<TValue extends string, TKey extends string>(tag: { $$value: TValue, $$key?: TKey }): Promise<void> {
@@ -21,7 +21,7 @@ class LocalStoragePersister<V extends object> implements Persister<V> {
 	}
 }
 
-const LocalStoragePlugin: Plugin<[key: string]> = (key: string) => function <TValue extends object>() {
+const localPersist: Plugin<[key: string]> = (key: string) => function <TValue extends object>() {
 	const $$instance = new LocalStoragePersister<TValue>(key);
 
 	return {
@@ -30,4 +30,8 @@ const LocalStoragePlugin: Plugin<[key: string]> = (key: string) => function <TVa
 	}
 }
 
-export { LocalStoragePlugin, LocalStoragePersister };
+export {
+	localPersist as LocalStoragePlugin, localPersist,
+	localPersist as localPersistTo
+};
+
