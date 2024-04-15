@@ -18,13 +18,13 @@ describe('Biruni :: Main setup', () => {
 		expect(biruniLocalStorageSetSpy).toBeCalledWith(expection);
 	})
 
-	it('should <biruni localStorage.set> called once', () => {
+	it('should called once <biruni localStorage.set>', () => {
 		expect(biruniLocalStorageSetSpy).toBeCalledTimes(1);
 	})
 
 	it
 		.skipIf(() => typeof localStorage === 'undefined')
-		('should <browser localStorage.set> called once', () => {
+		('should called once <browser localStorage.set>', () => {
 			expect(browserLocalStorageSetSpy).toBeCalledTimes(1);
 		})
 
@@ -41,13 +41,13 @@ describe('Biruni :: Main setup', () => {
 		expect(biruniLocalStorageSetSpy).toBeCalledWith(expection);
 	})
 
-	it('should <biruni localStorage.set> called twice', () => {
+	it('should called twice <biruni localStorage.set>', () => {
 		expect(biruniLocalStorageSetSpy).toBeCalledTimes(2);
 	})
 
 	it
 		.skipIf(() => typeof localStorage === 'undefined')
-		('should <browser localStorage.set> called twice', () => {
+		('should called twice <browser localStorage.set>', () => {
 			expect(browserLocalStorageSetSpy).toBeCalledTimes(2);
 		})
 
