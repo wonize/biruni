@@ -1,31 +1,29 @@
 import { Core } from "../core";
-import type { PluginInner, PluginStruct } from "../plugin/mod";
+import type { ExactPlugin, PluginStruct } from "../plugin/mod";
 import type { FactoryChain } from "./chain";
 
 class CoreFactory<V extends object> implements FactoryChain<V> {
-	readonly #pluginStruct: PluginStruct;
-	public constructor(plugin?: PluginInner, comingPluginStruct?: PluginStruct) {
+	readonly #pluginStruct: PluginStruct<V>;
+	public constructor(plugin?: ExactPlugin, comingPluginStruct?: PluginStruct<V>) {
 		const pluginStruct = comingPluginStruct ?? {
-			validator: [],
-			parser: [],
-			persister: [],
+			validator: {},
+			parser: {},
+			persister: {},
 		};
 
 		if (typeof plugin !== 'function') return;
 		const pluginContext = plugin();
 		this.#pluginStruct = Object.assign({}, pluginStruct, {
-			[pluginContext.$$type]: []
-				.concat(pluginStruct?.[pluginContext.$$type] ?? [])
-				.concat(pluginContext)
-		}) satisfies PluginStruct;
+			[pluginContext.$$type]: pluginContext
+		}) as PluginStruct<V>;
 	}
 
-	public plug(plugin: PluginInner): FactoryChain<V> {
+	public plug(plugin: ExactPlugin): FactoryChain<V> {
 		return new CoreFactory<V>(plugin, this.#pluginStruct);
 	}
 
 	public init<TValue extends V>(initializer: () => TValue): Core<TValue> {
-		return new Core<TValue>;
+		return new Core<TValue>(initializer, this.#pluginStruct);
 	}
 }
 
