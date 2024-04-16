@@ -1,13 +1,21 @@
 {
-	"type": "module",
+	"name": "@wonize/biruni",
 	"private": true,
 	"scripts": {
-		"test": "vitest"
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"lint": "turbo lint",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"devDependencies": {
+		"@repo/eslint-config": "workspace:*",
+		"@repo/typescript-config": "workspace:*",
 		"@types/node": "20.12.7",
 		"@types/react": "18.2.77",
 		"jsdom": "24.0.0",
+		"prettier": "^3.2.5",
+		"tsup": "8.0.2",
+		"turbo": "latest",
 		"typescript": "5.4.5",
 		"vite-tsconfig-paths": "4.3.2",
 		"vitest-localstorage-mock": "0.1.2"
@@ -24,5 +32,9 @@
 		"yup": "1.4.0",
 		"zod": "3.22.4",
 		"zustand": "4.5.2"
+	},
+	"packageManager": "pnpm@8.9.0",
+	"engines": {
+		"node": ">=18"
 	}
 }
