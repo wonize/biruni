@@ -1,35 +1,3 @@
 {
-	"compilerOptions": {
-		"module": "ESNext",
-		"target": "ES6",
-		"moduleResolution": "Node",
-		"esModuleInterop": true,
-		"isolatedModules": true,
-		"lib": [
-			"ES2015",
-			"ES2020",
-			"DOM",
-		],
-		"baseUrl": "./",
-		"paths": {
-			"@capacitor/*": [
-				"tests/__mocks__/capacitor/*"
-			],
-			"@/*": [
-				"packages/*"
-			],
-		},
-		"types": [
-			"vitest/globals",
-			"vitest/jsdom"
-		],
-	},
-	"exclude": [
-		"node_modules"
-	],
-	"include": [
-		"packages",
-		"vitest.config.ts",
-		"tests"
-	]
+	"extends": "@repo/typescript-config/base.json"
 }
