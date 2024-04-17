@@ -1,15 +1,19 @@
 {
-  "name": "@biruni/zod",
-  "version": "0.0.1",
-  "type": "commonjs",
-  "description": "Al-Biruni (zod) Manipulator",
-  "main": "main.js",
-  "author": "mikoloism <mikoloism@gmail.com>",
-  "license": "GPL-3.0-only",
-  "keywords": [
-    "biruni",
-    "zod",
-    "al-biruni",
-    "mikoloism"
-  ]
+	"name": "@biruni/zod",
+	"version": "0.0.1",
+	"type": "commonjs",
+	"description": "Al-Biruni (zod) Manipulator",
+	"main": "main.js",
+	"author": "mikoloism <mikoloism@gmail.com>",
+	"license": "GPL-3.0-only",
+	"keywords": [
+		"biruni",
+		"zod",
+		"al-biruni",
+		"mikoloism"
+	],
+	"devDependencies": {},
+	"peerDependencies": {
+		"zod": ">=3.22.0"
+	}
 }
