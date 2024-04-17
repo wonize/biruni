@@ -10,6 +10,6 @@ export default defineConfig({
 		globals: true,
 		environment: 'jsdom',
 		mockReset: false,
-		setupFiles: ['./tests/setup.ts'],
+		setupFiles: ['./tests/__setups__/localstorage.js'],
 	},
 });
