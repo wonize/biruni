@@ -1,6 +1,9 @@
-import type { ParserContext } from "./parser/context";
-import type { PersisterContext } from "./persister/context";
-import type { PluginStruct } from "./plugin/struct";
+import type { ParserContext } from "./parser/context.js";
+import type { PersisterContext } from "./persister/context.js";
+import type { PluginStruct } from "./plugin/struct.js";
+
+type ValueArg<V extends object> = Partial<V>;
+type SetterArg<V extends object> = (draft?: V) => ValueArg<V>;
 
 export class Core<V extends object> {
 	public constructor(
@@ -9,23 +12,24 @@ export class Core<V extends object> {
 		this.setByValue(this.initializer());
 	}
 
-	async set<TValue extends V>(value?: TValue): Promise<void>;
-	async set<TValue extends V>(setter?: (draft: TValue) => TValue): Promise<void>;
-	async set<TValue extends V>(valueOrSetter?: TValue | ((draft: TValue) => TValue)): Promise<void> {
+	async set(value: ValueArg<V>): Promise<void>;
+	async set(setter: SetterArg<V>): Promise<void>;
+	async set(valueOrSetter: ValueArg<V> | SetterArg<V>): Promise<void> {
 		if (typeof valueOrSetter === 'function') {
 			return this.setBySetter(valueOrSetter);
 		}
-
-		return this.setByValue(valueOrSetter);
+		else {
+			return this.setByValue(valueOrSetter);
+		}
 	}
 
-	private async setBySetter<TValue extends V>(setter?: (draft: TValue) => TValue): Promise<void> {
+	private async setBySetter(setter: SetterArg<V>): Promise<void> {
 		return new Promise(async (resolve) => {
-			const parser = this.pluginStruct?.parser as ParserContext<TValue>;
+			const parser = this.pluginStruct?.parser as ParserContext<V>;
 			if (typeof parser === 'undefined') throw 'should have least one parser';
-			const stringified = parser.$$instance.stringify(setter({} as TValue));
+			const stringified = parser.$$instance.stringify(setter({} as unknown as V));
 
-			const persister = this.pluginStruct?.persister as PersisterContext<TValue>;
+			const persister = this.pluginStruct?.persister as PersisterContext<V>;
 			if (typeof persister === 'undefined') throw 'should have least one persister';
 			await persister.$$instance.set({ $$value: stringified });
 
@@ -33,13 +37,13 @@ export class Core<V extends object> {
 		});
 	}
 
-	private async setByValue<TValue extends V>(value?: TValue): Promise<void> {
+	private async setByValue(value: ValueArg<V>): Promise<void> {
 		return new Promise(async (resolve) => {
-			const parser = this.pluginStruct?.parser as ParserContext<TValue>;
+			const parser = this.pluginStruct?.parser as ParserContext<V>;
 			if (typeof parser === 'undefined') throw 'should have least one parser';
 			const stringified = parser.$$instance.stringify(value);
 
-			const persister = this.pluginStruct?.persister as PersisterContext<TValue>;
+			const persister = this.pluginStruct?.persister as PersisterContext<V>;
 			if (typeof persister === 'undefined') throw 'should have least one persister';
 			await persister.$$instance.set({ $$value: stringified });
 
@@ -47,13 +51,13 @@ export class Core<V extends object> {
 		});
 	}
 
-	async get<TValue extends V>(): Promise<TValue> {
+	async get(): Promise<V> {
 		return new Promise(async (resolve) => {
-			const persister = this.pluginStruct?.persister as PersisterContext<TValue>;
+			const persister = this.pluginStruct?.persister as PersisterContext<V>;
 			if (typeof persister === 'undefined') throw 'should have least one persister';
 			const raw_value = await persister.$$instance.get({});
 
-			const parser = this.pluginStruct?.parser as ParserContext<TValue>;
+			const parser = this.pluginStruct?.parser as ParserContext<V>;
 			if (typeof parser === 'undefined') throw 'should have least one parser';
 			const parsed = parser.$$instance.parse(raw_value.$$value);
 
