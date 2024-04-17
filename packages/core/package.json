@@ -1,13 +1,45 @@
 {
 	"name": "biruni",
-	"version": "0.0.1",
 	"type": "module",
+	"version": "0.0.1",
 	"description": "(Al-Biruni) unified store/storage management tool",
-	"main": "main.js",
 	"author": "mikoloism <mikoloism@gmail.com>",
 	"license": "GPL-3.0-only",
+	"homepage": "https://github.com/wonize/biruni/tree/main/packages/biruni#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wonize/biruni.git",
+		"directory": "packages/biruni"
+	},
+	"bugs": {
+		"url": "https://github.com/wonize/biruni/issues"
+	},
 	"keywords": [
+		"wonize",
 		"biruni",
-		"al-biruni"
-	]
+		"al-biruni",
+		"localstorage",
+		"persist"
+	],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist",
+		"LICENSE",
+		"README.md",
+		"package.json"
+	],
+	"packageManager": "pnpm@8.9.0",
+	"scripts": {
+		"build": "tsup --entry.index src/index.ts --format cjs --dts"
+	},
+	"engines": {
+		"node": ">=18"
+	}
 }
