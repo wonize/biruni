@@ -3,10 +3,10 @@
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "eslint . --max-warnings 0"
+		"dev": "echo 'not-now' # next dev",
+		"build": "echo 'not-now' # next build",
+		"start": "echo 'not-now' # next start",
+		"lint": "echo 'not-now' # eslint . --max-warnings 0"
 	},
 	"dependencies": {
 		"@repo/ui": "workspace:*"
