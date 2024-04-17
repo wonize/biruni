@@ -3,13 +3,14 @@ import type { ExactPlugin, PluginStruct } from "../plugin/mod";
 import type { FactoryChain } from "./chain";
 
 class CoreFactory<V extends object> implements FactoryChain<V> {
-	readonly #pluginStruct: PluginStruct<V>;
+	readonly #pluginStruct: PluginStruct<V> = {
+		validator: {},
+		parser: {},
+		persister: {},
+	} as PluginStruct<V>;
+
 	public constructor(plugin?: ExactPlugin, comingPluginStruct?: PluginStruct<V>) {
-		const pluginStruct = comingPluginStruct ?? {
-			validator: {},
-			parser: {},
-			persister: {},
-		};
+		const pluginStruct = comingPluginStruct;
 
 		if (typeof plugin !== 'function') return;
 		const pluginContext = plugin();
