@@ -37,7 +37,7 @@
 	],
 	"packageManager": "pnpm@8.9.0",
 	"scripts": {
-		"build": "tsup --entry.index src/index.ts --format cjs --dts"
+		"build": "tsup --entry.index src/mod.ts --format cjs --dts"
 	},
 	"engines": {
 		"node": ">=18"
