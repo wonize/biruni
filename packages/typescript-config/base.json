@@ -12,13 +12,13 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "module": "NodeNext",
+    "module": "Preserve",
     "moduleDetection": "force",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2022"
+    "target": "ES2016"
   }
 }
