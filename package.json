@@ -1,11 +1,16 @@
 {
-	"name": "@wonize/biruni",
+	"name": "@biruni/monorepo",
+	"type": "module",
+	"version": "0.0.1",
 	"private": true,
+	"packageManager": "pnpm@8.9.0",
 	"scripts": {
 		"build": "turbo build",
 		"dev": "turbo dev",
 		"lint": "turbo lint",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\""
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"test": "vitest",
+		"test:update": "vitest -u"
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",
@@ -13,11 +18,12 @@
 		"@types/node": "20.12.7",
 		"@types/react": "18.2.77",
 		"jsdom": "24.0.0",
-		"prettier": "^3.2.5",
+		"prettier": "3.2.5",
 		"tsup": "8.0.2",
 		"turbo": "latest",
 		"typescript": "5.4.5",
 		"vite-tsconfig-paths": "4.3.2",
+		"vitest": "1.5.0",
 		"vitest-localstorage-mock": "0.1.2"
 	},
 	"dependencies": {
@@ -28,12 +34,10 @@
 		"pullstate": "1.25.0",
 		"superstruct": "1.0.4",
 		"vest": "5.2.12",
-		"vitest": "1.5.0",
 		"yup": "1.4.0",
 		"zod": "3.22.4",
 		"zustand": "4.5.2"
 	},
-	"packageManager": "pnpm@8.9.0",
 	"engines": {
 		"node": ">=18"
 	}
