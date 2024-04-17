@@ -1,3 +1,3 @@
-export * from './built-in/mod.js';
-export * from './core.js';
-export * from './factory/mod.js';
+export * from './built-in/mod';
+export * from './core';
+export * from './factory/mod';
