@@ -1,5 +1,4 @@
-import type { Core } from "../core";
-import type { ExactPlugin } from "../plugin/plugin";
+import type { Core, ExactPlugin } from "@biruni/core";
 
 export interface FactoryChain<T extends object> {
 	plug(plugin: ExactPlugin): FactoryChain<T>;

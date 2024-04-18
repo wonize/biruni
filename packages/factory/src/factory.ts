@@ -1,5 +1,4 @@
-import { Core } from "../core";
-import type { ExactPlugin, PluginStruct } from "../plugin/mod";
+import { Core, type ExactPlugin, PluginStruct } from "@biruni/core";
 import type { FactoryChain } from "./chain";
 
 class CoreFactory<V extends object> implements FactoryChain<V> {
