@@ -1,7 +1,7 @@
 {
 	"name": "@biruni/react",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "(Al-Biruni) unified by React",
 	"author": "mikoloism <mikoloism@gmail.com>",
 	"license": "GPL-3.0-only",
