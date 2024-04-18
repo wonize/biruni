@@ -1,3 +1,3 @@
-export * from './built-in/mod';
-export * from './core';
-export * from './factory/mod';
+export * from '@biruni/built-in';
+export * from '@biruni/core';
+export * from '@biruni/factory';
