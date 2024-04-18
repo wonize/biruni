@@ -144,7 +144,21 @@ importers:
         specifier: ^5.3.3
         version: 5.4.5
 
-  packages/biruni: {}
+  packages/biruni:
+    dependencies:
+      '@biruni/built-in':
+        specifier: workspace:*
+        version: link:../built-in
+      '@biruni/core':
+        specifier: workspace:*
+        version: link:../core
+      '@biruni/factory':
+        specifier: workspace:*
+        version: link:../factory
+
+  packages/built-in: {}
+
+  packages/core: {}
 
   packages/eslint-config:
     devDependencies:
@@ -169,6 +183,12 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.4.5
+
+  packages/factory:
+    dependencies:
+      '@biruni/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/react:
     devDependencies:

@@ -41,6 +41,11 @@
 	"scripts": {
 		"build": "tsup"
 	},
+	"dependencies": {
+		"@biruni/core": "workspace:*",
+		"@biruni/factory": "workspace:*",
+		"@biruni/built-in": "workspace:*"
+	},
 	"engines": {
 		"node": ">=18"
 	}
