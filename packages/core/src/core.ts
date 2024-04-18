@@ -1,9 +1,7 @@
 import type { ParserContext } from "./parser/context";
 import type { PersisterContext } from "./persister/context";
 import type { PluginStruct } from "./plugin/struct";
-
-type ValueArg<V extends object> = Partial<V>;
-type SetterArg<V extends object> = (draft?: V) => ValueArg<V>;
+import type { SetterArg, ValueArg } from "./proxy";
 
 export class Core<V extends object> {
 	public constructor(
@@ -50,7 +48,13 @@ export class Core<V extends object> {
 		});
 	}
 
-	async get(): Promise<V> {
+	async get<K = undefined>(): Promise<V>;
+	async get<K extends keyof V, R = V[K]>(key: K): Promise<R>;
+	async get<
+		K extends keyof V,
+		P extends undefined | K = undefined,
+		R = P extends K ? V[P] : V,
+	>(prop?: P): Promise<R> {
 		return new Promise(async (resolve) => {
 			const persister = this.pluginStruct?.persister as PersisterContext<V>;
 			if (typeof persister === 'undefined') throw 'should have least one persister';
@@ -60,7 +64,10 @@ export class Core<V extends object> {
 			if (typeof parser === 'undefined') throw 'should have least one parser';
 			const parsed = parser.$$instance.parse(raw_value.$$value);
 
-			return resolve(parsed);
+			if (typeof prop === 'undefined')
+				return resolve(parsed as unknown as never);
+			else
+				return resolve(parsed[prop] as unknown as never)
 		});
 	}
 }

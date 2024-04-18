@@ -1,0 +1,45 @@
+{
+	"name": "@biruni/core",
+	"type": "module",
+	"version": "0.0.2",
+	"description": "(Al-Biruni) main core",
+	"author": "mikoloism <mikoloism@gmail.com>",
+	"license": "GPL-3.0-only",
+	"homepage": "https://github.com/wonize/biruni/tree/main/packages/core#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wonize/biruni.git",
+		"directory": "packages/core"
+	},
+	"bugs": {
+		"url": "https://github.com/wonize/biruni/issues"
+	},
+	"keywords": [
+		"wonize",
+		"biruni",
+		"al-biruni"
+	],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist",
+		"LICENSE",
+		"README.md",
+		"package.json"
+	],
+	"packageManager": "pnpm@8.9.0",
+	"scripts": {
+		"build": "tsup"
+	},
+	"engines": {
+		"node": ">=18"
+	}
+}
