@@ -2,12 +2,7 @@
 	"name": "docs",
 	"version": "1.0.0",
 	"private": true,
-	"scripts": {
-		"dev": "echo 'not-now' # next dev --port 3001",
-		"build": "echo 'not-now' # next build",
-		"start": "echo 'not-now' # next start",
-		"lint": "echo 'not-now' # eslint . --max-warnings 0"
-	},
+	"scripts": {},
 	"dependencies": {
 		"@repo/ui": "workspace:*"
 	},
