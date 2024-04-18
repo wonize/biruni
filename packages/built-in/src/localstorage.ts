@@ -1,5 +1,4 @@
-import type { Persister } from "../persister/mod";
-import type { Plugin } from "../plugin/mod";
+import type { Persister, Plugin } from "@biruni/core";
 
 export class LocalStoragePersister<V extends object> implements Persister<V> {
 	public constructor(private $$key: string) { }
@@ -31,7 +30,9 @@ const localPersist: Plugin<[key: string]> = (key: string) => function <TValue ex
 }
 
 export {
-	localPersist as LocalStoragePlugin, localPersist,
-	localPersist as localPersistTo
+	localPersist as LocalStoragePlugin,
+	localPersist,
+	localPersist as localPersistTo,
+	localPersist as localstorage
 };
 
