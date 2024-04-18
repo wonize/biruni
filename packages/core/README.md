@@ -11,7 +11,7 @@
 
 All-In-One and Unified Tools to manage Stores OR Storages
 
-## Information
+## Can you
 
 read more in [`npm:biruni`][BIRUNI_NPM] or in [GitHub][HOMEPAGE]
 
