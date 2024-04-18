@@ -19,6 +19,7 @@
 		"@types/react": "18.2.77",
 		"jsdom": "24.0.0",
 		"prettier": "3.2.5",
+		"terser": "5.30.3",
 		"tsup": "8.0.2",
 		"turbo": "latest",
 		"typescript": "5.4.5",
