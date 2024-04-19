@@ -1,53 +1,53 @@
 {
-	"name": "@biruni/core",
-	"type": "module",
-	"version": "0.0.2",
-	"description": "(Al-Biruni) main core",
-	"author": "mikoloism <mikoloism@gmail.com>",
-	"license": "GPL-3.0-only",
-	"homepage": "https://github.com/wonize/biruni/tree/main/packages/core#readme",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/wonize/biruni.git",
-		"directory": "packages/core"
-	},
-	"bugs": {
-		"url": "https://github.com/wonize/biruni/issues"
-	},
-	"keywords": [
-		"wonize",
-		"biruni",
-		"al-biruni"
-	],
-	"sideEffects": false,
-	"exports": {
-		".": {
-			"import": {
-				"types": "./dist/mod.d.ts",
-				"default": "./dist/mod.mjs"
-			},
-			"require": {
-				"types": "./dist/mod.d.cts",
-				"default": "./dist/mod.cjs"
-			},
-			"default": "./dist/mod.mjs",
-			"types": "./dist/mod.d.ts"
-		}
-	},
-	"main": "dist/mod.mjs",
-	"module": "dist/mod.mjs",
-	"types": "dist/mod.d.ts",
-	"files": [
-		"dist",
-		"LICENSE",
-		"README.md",
-		"package.json"
-	],
-	"packageManager": "pnpm@8.9.0",
-	"scripts": {
-		"build": "tsup"
-	},
-	"engines": {
-		"node": ">=18"
-	}
+    "name": "@biruni/core",
+    "type": "module",
+    "version": "0.0.3",
+    "description": "(Al-Biruni) main core",
+    "author": "mikoloism <mikoloism@gmail.com>",
+    "license": "GPL-3.0-only",
+    "homepage": "https://github.com/wonize/biruni/tree/main/packages/core#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wonize/biruni.git",
+        "directory": "packages/core"
+    },
+    "bugs": {
+        "url": "https://github.com/wonize/biruni/issues"
+    },
+    "keywords": [
+        "wonize",
+        "biruni",
+        "al-biruni"
+    ],
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/mod.d.ts",
+                "default": "./dist/mod.mjs"
+            },
+            "require": {
+                "types": "./dist/mod.d.cts",
+                "default": "./dist/mod.cjs"
+            },
+            "default": "./dist/mod.mjs",
+            "types": "./dist/mod.d.ts"
+        }
+    },
+    "main": "dist/mod.mjs",
+    "module": "dist/mod.mjs",
+    "types": "dist/mod.d.ts",
+    "files": [
+        "dist",
+        "LICENSE",
+        "README.md",
+        "package.json"
+    ],
+    "packageManager": "pnpm@8.9.0",
+    "scripts": {
+        "build": "tsup"
+    },
+    "engines": {
+        "node": ">=18"
+    }
 }

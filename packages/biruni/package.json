@@ -1,72 +1,72 @@
 {
-	"name": "biruni",
-	"type": "module",
-	"version": "0.0.2",
-	"description": "(Al-Biruni) unified store/storage management tool",
-	"author": "mikoloism <mikoloism@gmail.com>",
-	"license": "GPL-3.0-only",
-	"homepage": "https://github.com/wonize/biruni/tree/main/packages/biruni#readme",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/wonize/biruni.git",
-		"directory": "packages/biruni"
-	},
-	"bugs": {
-		"url": "https://github.com/wonize/biruni/issues"
-	},
-	"keywords": [
-		"wonize",
-		"biruni",
-		"al-biruni",
-		"localstorage",
-		"persist"
-	],
-	"sideEffects": false,
-	"exports": {
-		".": {
-			"import": {
-				"types": "./dist/mod.d.ts",
-				"default": "./dist/mod.mjs"
-			},
-			"require": {
-				"types": "./dist/mod.d.cts",
-				"default": "./dist/mod.cjs"
-			},
-			"default": "./dist/mod.mjs",
-			"types": "./dist/mod.d.ts"
-		},
-		"./built-in": {
-			"import": {
-				"types": "./dist/built-in.d.ts",
-				"default": "./dist/built-in.mjs"
-			},
-			"require": {
-				"types": "./dist/built-in.d.cts",
-				"default": "./dist/built-in.cjs"
-			},
-			"default": "./dist/built-in.mjs",
-			"types": "./dist/built-in.d.ts"
-		}
-	},
-	"main": "dist/mod.mjs",
-	"module": "dist/mod.mjs",
-	"types": "dist/mod.d.ts",
-	"files": [
-		"dist",
-		"LICENSE",
-		"README.md",
-		"package.json"
-	],
-	"packageManager": "pnpm@8.9.0",
-	"scripts": {
-		"build": "tsup"
-	},
-	"dependencies": {
-		"@biruni/core": "workspace:*",
-		"@biruni/factory": "workspace:*",
-		"@biruni/built-in": "workspace:*"
-	},
-	"engines": {
-		"node": ">=18"
-	}
+    "name": "biruni",
+    "type": "module",
+    "version": "0.0.3",
+    "description": "(Al-Biruni) unified store/storage management tool",
+    "author": "mikoloism <mikoloism@gmail.com>",
+    "license": "GPL-3.0-only",
+    "homepage": "https://github.com/wonize/biruni/tree/main/packages/biruni#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wonize/biruni.git",
+        "directory": "packages/biruni"
+    },
+    "bugs": {
+        "url": "https://github.com/wonize/biruni/issues"
+    },
+    "keywords": [
+        "wonize",
+        "biruni",
+        "al-biruni",
+        "localstorage",
+        "persist"
+    ],
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/mod.d.ts",
+                "default": "./dist/mod.mjs"
+            },
+            "require": {
+                "types": "./dist/mod.d.cts",
+                "default": "./dist/mod.cjs"
+            },
+            "default": "./dist/mod.mjs",
+            "types": "./dist/mod.d.ts"
+        },
+        "./built-in": {
+            "import": {
+                "types": "./dist/built-in.d.ts",
+                "default": "./dist/built-in.mjs"
+            },
+            "require": {
+                "types": "./dist/built-in.d.cts",
+                "default": "./dist/built-in.cjs"
+            },
+            "default": "./dist/built-in.mjs",
+            "types": "./dist/built-in.d.ts"
+        }
+    },
+    "main": "dist/mod.mjs",
+    "module": "dist/mod.mjs",
+    "types": "dist/mod.d.ts",
+    "files": [
+        "dist",
+        "LICENSE",
+        "README.md",
+        "package.json"
+    ],
+    "packageManager": "pnpm@8.9.0",
+    "scripts": {
+        "build": "tsup"
+    },
+    "dependencies": {
+        "@biruni/core": "workspace:*",
+        "@biruni/factory": "workspace:*",
+        "@biruni/built-in": "workspace:*"
+    },
+    "engines": {
+        "node": ">=18"
+    }
 }
