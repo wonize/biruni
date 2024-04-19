@@ -17,6 +17,7 @@
 		"@repo/typescript-config": "workspace:*",
 		"@types/node": "20.12.7",
 		"@types/react": "18.2.77",
+		"glob": "10.3.12",
 		"jsdom": "24.0.0",
 		"prettier": "3.2.5",
 		"terser": "5.30.3",
