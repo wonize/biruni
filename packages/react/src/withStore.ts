@@ -1,4 +1,4 @@
-import type { Core } from 'biruni';
+import type { Core } from '@biruni/core';
 import React, { Attributes, useMemo } from "react";
 import { useStore } from './useStore';
 

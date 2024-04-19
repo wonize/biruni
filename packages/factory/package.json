@@ -19,16 +19,24 @@
 		"biruni",
 		"al-biruni"
 	],
+	"sideEffects": false,
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js",
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
+			"import": {
+				"types": "./dist/mod.d.ts",
+				"default": "./dist/mod.mjs"
+			},
+			"require": {
+				"types": "./dist/mod.d.cts",
+				"default": "./dist/mod.cjs"
+			},
+			"default": "./dist/mod.mjs",
+			"types": "./dist/mod.d.ts"
 		}
 	},
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"main": "dist/mod.mjs",
+	"module": "dist/mod.mjs",
+	"types": "dist/mod.d.ts",
 	"files": [
 		"dist",
 		"LICENSE",

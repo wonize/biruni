@@ -20,16 +20,24 @@
 		"al-biruni",
 		"react"
 	],
+	"sideEffects": false,
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js",
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
+			"import": {
+				"types": "./dist/mod.d.ts",
+				"default": "./dist/mod.mjs"
+			},
+			"require": {
+				"types": "./dist/mod.d.cts",
+				"default": "./dist/mod.cjs"
+			},
+			"default": "./dist/mod.mjs",
+			"types": "./dist/mod.d.ts"
 		}
 	},
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"main": "dist/mod.mjs",
+	"module": "dist/mod.mjs",
+	"types": "dist/mod.d.ts",
 	"files": [
 		"dist",
 		"LICENSE",
@@ -43,11 +51,18 @@
 	"devDependencies": {
 		"@types/react": "18.2.79",
 		"react": "^18.2.0",
-		"@repo/typescript-config": "workspace:*",
-		"biruni": "workspace:*"
+		"@biruni/core": "workspace:*"
 	},
 	"peerDependencies": {
 		"react": ">=18"
+	},
+	"peerDependenciesMeta": {
+		"react": {
+			"optional": false
+		},
+		"@biruni/core": {
+			"optional": true
+		}
 	},
 	"engines": {
 		"node": ">=18"

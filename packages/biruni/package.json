@@ -21,16 +21,36 @@
 		"localstorage",
 		"persist"
 	],
+	"sideEffects": false,
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js",
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
+			"import": {
+				"types": "./dist/mod.d.ts",
+				"default": "./dist/mod.mjs"
+			},
+			"require": {
+				"types": "./dist/mod.d.cts",
+				"default": "./dist/mod.cjs"
+			},
+			"default": "./dist/mod.mjs",
+			"types": "./dist/mod.d.ts"
+		},
+		"./built-in": {
+			"import": {
+				"types": "./dist/built-in.d.ts",
+				"default": "./dist/built-in.mjs"
+			},
+			"require": {
+				"types": "./dist/built-in.d.cts",
+				"default": "./dist/built-in.cjs"
+			},
+			"default": "./dist/built-in.mjs",
+			"types": "./dist/built-in.d.ts"
 		}
 	},
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"main": "dist/mod.mjs",
+	"module": "dist/mod.mjs",
+	"types": "dist/mod.d.ts",
 	"files": [
 		"dist",
 		"LICENSE",

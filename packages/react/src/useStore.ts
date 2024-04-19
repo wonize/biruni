@@ -1,4 +1,4 @@
-import type { Core } from 'biruni';
+import type { Core } from '@biruni/core';
 import React from 'react';
 
 function useStore<V extends object>(store: Core<V>) {
