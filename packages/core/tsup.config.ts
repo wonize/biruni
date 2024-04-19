@@ -1,11 +1,20 @@
 import { defineConfig } from 'tsup';
 
-export default defineConfig((option) => ({
-	outDir: 'dist',
-	entry: { 'index': 'src/mod.ts' },
+export default defineConfig({
 	dts: true,
 	clean: true,
+	shims: true,
+	bundle: true,
 	sourcemap: true,
+	splitting: true,
+	skipNodeModulesBundle: true,
+	minify: 'terser',
+	treeshake: 'safest',
+	entry: ['src/mod.ts'],
 	format: ['cjs', 'esm'],
-	minify: option.watch ? false : 'terser',
-}));
+	outExtension: (o) => ({
+		'js': o.format === 'esm'
+			? '.mjs'
+			: '.cjs'
+	}),
+});
