@@ -12,8 +12,15 @@
 		"al-biruni",
 		"mikoloism"
 	],
-	"devDependencies": {},
+	"devDependencies": {
+		"zod": "3.22.0"
+	},
 	"peerDependencies": {
 		"zod": ">=3.22.0"
+	},
+	"peerDependenciesMeta": {
+		"zod": {
+			"optional": true
+		}
 	}
 }
