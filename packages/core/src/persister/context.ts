@@ -1,7 +1,6 @@
-import type { Context } from "../context";
 import type { Persister } from "./persister";
 
-export interface PersisterContext<Value extends object> extends Context<'persister'> {
-	$$type: 'persister';
+export interface PersisterContext<Value extends object> {
+	readonly $$type: 'persister';
 	$$instance: Persister<Value>
 }

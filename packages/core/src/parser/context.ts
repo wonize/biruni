@@ -1,7 +1,6 @@
-import type { Context } from "../context";
 import type { Parser } from "./parser";
 
-export interface ParserContext<Value extends object> extends Context<'parser'> {
+export interface ParserContext<Value extends object> {
 	readonly $$type: 'parser';
 	$$instance: Parser<Value>;
 }
