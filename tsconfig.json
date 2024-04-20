@@ -8,11 +8,10 @@
 		"isolatedModules": true,
 		"esModuleInterop": true,
 		"strict": true,
+		"declaration": true,
+		"declarationMap": true,
 		"lib": [
 			"ESNext"
-		],
-		"types": [
-			"node_modules/zx/build/globals.d.ts"
 		]
 	},
 }
