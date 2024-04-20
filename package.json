@@ -1,11 +1,11 @@
 {
 	"name": "@biruni/monorepo",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"private": true,
 	"packageManager": "pnpm@8.9.0",
 	"scripts": {
-		"prebuild": "node scripts/sync-version.mjs",
+		"version": "zx scripts/version.mjs",
 		"build": "tsup",
 		"dev": "turbo dev",
 		"lint": "turbo lint",
