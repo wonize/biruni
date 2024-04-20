@@ -36,6 +36,9 @@ importers:
         specifier: 4.5.2
         version: 4.5.2(@types/react@18.2.77)(react@18.2.0)
     devDependencies:
+      '@antfu/ni':
+        specifier: 0.21.12
+        version: 0.21.12
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
@@ -48,6 +51,9 @@ importers:
       '@types/react':
         specifier: 18.2.77
         version: 18.2.77
+      biruni:
+        specifier: workspace:*
+        version: link:packages/biruni
       glob:
         specifier: 10.3.12
         version: 10.3.12
@@ -266,6 +272,11 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
+    dev: true
+
+  /@antfu/ni@0.21.12:
+    resolution: {integrity: sha512-2aDL3WUv8hMJb2L3r/PIQWsTLyq7RQr3v9xD16fiz6O8ys1xEyLhhTOv8gxtZvJiTzjTF5pHoArvRdesGL1DMQ==}
+    hasBin: true
     dev: true
 
   /@babel/code-frame@7.24.2:
