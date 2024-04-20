@@ -1,70 +1,46 @@
 {
-    "name": "@biruni/react",
-    "type": "module",
-    "version": "0.0.3",
-    "description": "(Al-Biruni) unified by React",
-    "author": "mikoloism <mikoloism@gmail.com>",
-    "license": "GPL-3.0-only",
-    "homepage": "https://github.com/wonize/biruni/tree/main/packages/react#readme",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/wonize/biruni.git",
-        "directory": "packages/react"
-    },
-    "bugs": {
-        "url": "https://github.com/wonize/biruni/issues"
-    },
-    "keywords": [
-        "wonize",
-        "biruni",
-        "al-biruni",
-        "react"
-    ],
-    "sideEffects": false,
-    "exports": {
-        ".": {
-            "import": {
-                "types": "./dist/mod.d.ts",
-                "default": "./dist/mod.mjs"
-            },
-            "require": {
-                "types": "./dist/mod.d.cts",
-                "default": "./dist/mod.cjs"
-            },
-            "default": "./dist/mod.mjs",
-            "types": "./dist/mod.d.ts"
-        }
-    },
-    "main": "dist/mod.mjs",
-    "module": "dist/mod.mjs",
-    "types": "dist/mod.d.ts",
-    "files": [
-        "dist",
-        "LICENSE",
-        "README.md",
-        "package.json"
-    ],
-    "packageManager": "pnpm@8.9.0",
-    "scripts": {
-        "build": "tsup"
-    },
-    "devDependencies": {
-        "@types/react": "18.2.79",
-        "react": "^18.2.0",
-        "@biruni/core": "workspace:*"
-    },
-    "peerDependencies": {
-        "react": ">=18"
-    },
-    "peerDependenciesMeta": {
-        "react": {
-            "optional": false
-        },
-        "@biruni/core": {
-            "optional": true
-        }
-    },
-    "engines": {
-        "node": ">=18"
-    }
+	"name": "@biruni/react",
+	"type": "module",
+	"version": "0.0.3",
+	"description": "(Al-Biruni) unified by React",
+	"keywords": [
+		"wonize",
+		"biruni",
+		"al-biruni",
+		"react"
+	],
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/mod.d.ts",
+				"default": "./dist/mod.mjs"
+			},
+			"require": {
+				"types": "./dist/mod.d.cts",
+				"default": "./dist/mod.cjs"
+			},
+			"default": "./dist/mod.mjs",
+			"types": "./dist/mod.d.ts"
+		}
+	},
+	"main": "dist/mod.mjs",
+	"module": "dist/mod.mjs",
+	"types": "dist/mod.d.ts",
+	"scripts": {},
+	"devDependencies": {
+		"@types/react": "18.2.79",
+		"react": "^18.2.0",
+		"@biruni/core": "workspace:*"
+	},
+	"peerDependencies": {
+		"react": ">=18"
+	},
+	"peerDependenciesMeta": {
+		"react": {
+			"optional": false
+		},
+		"@biruni/core": {
+			"optional": true
+		}
+	}
 }

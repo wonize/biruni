@@ -6,7 +6,7 @@
 	"packageManager": "pnpm@8.9.0",
 	"scripts": {
 		"prebuild": "node scripts/sync-version.mjs",
-		"build": "turbo build",
+		"build": "tsup",
 		"dev": "turbo dev",
 		"lint": "turbo lint",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
