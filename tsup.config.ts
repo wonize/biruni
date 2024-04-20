@@ -2,8 +2,9 @@ import { defineConfig } from 'tsup';
 import { b } from './scripts/helper';
 
 export default defineConfig([
-	b('packages/biruni'),
-	b('packages/built-in'),
+	// keep-order
 	b('packages/core'),
 	b('packages/factory'),
-])
+	b('packages/built-in'),
+	b('packages/biruni'),
+]);
