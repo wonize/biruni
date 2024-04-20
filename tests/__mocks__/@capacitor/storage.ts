@@ -3,6 +3,6 @@ export const Storage = {
 		return { value: undefined };
 	},
 
-	async set(data: { key: string; value: string }): Promise<void> { },
-	async clear(): Promise<void> { },
+	async set(data: { key: string; value: string }): Promise<void> {},
+	async clear(): Promise<void> {},
 };

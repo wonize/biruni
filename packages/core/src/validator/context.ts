@@ -1,4 +1,4 @@
-import type { Validator } from "./validator";
+import type { Validator } from './validator';
 
 export interface ValidatorContext<Value extends object> {
 	$$type: 'validator';

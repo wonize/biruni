@@ -1,4 +1,4 @@
-import type { CoreContext, Parser, Plugin } from "@biruni/core";
+import type { CoreContext, Parser, Plugin } from '@biruni/core';
 
 export class NativeJsonParser<V extends object> implements Parser<V> {
 	public parse<TValue extends V>(value: string): TValue {
@@ -10,14 +10,14 @@ export class NativeJsonParser<V extends object> implements Parser<V> {
 	}
 }
 
-const json: Plugin = () => function <V extends object>(): CoreContext<V> {
-	const $$instance = new NativeJsonParser<V>;
+const json: Plugin = () =>
+	function <V extends object>(): CoreContext<V> {
+		const $$instance = new NativeJsonParser<V>();
 
-	return {
-		$$type: 'parser',
-		$$instance: $$instance,
-	}
-}
+		return {
+			$$type: 'parser',
+			$$instance: $$instance,
+		};
+	};
 
 export { json as NativeJsonPlugin, json };
-

@@ -1,5 +1,5 @@
 import { Core, type ExactPlugin, type PluginStruct } from '@biruni/core';
-import type { FactoryChain } from "./chain";
+import type { FactoryChain } from './chain';
 
 class CoreFactory<V extends object> implements FactoryChain<V> {
 	readonly #pluginStruct: PluginStruct<V> = {
@@ -14,7 +14,7 @@ class CoreFactory<V extends object> implements FactoryChain<V> {
 		if (typeof plugin !== 'function') return;
 		const pluginContext = plugin();
 		this.#pluginStruct = Object.assign({}, pluginStruct, {
-			[pluginContext.$$type]: pluginContext
+			[pluginContext.$$type]: pluginContext,
 		}) as PluginStruct<V>;
 	}
 
@@ -35,5 +35,5 @@ export {
 	CoreFactory as Biruni,
 	CoreFactory as BiruniFactory,
 	defineBiruni as biruni,
-	defineBiruni as defineKey
+	defineBiruni as defineKey,
 };

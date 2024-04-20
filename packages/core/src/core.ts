@@ -1,12 +1,13 @@
-import type { ParserContext } from "./parser/context";
-import type { PersisterContext } from "./persister/context";
-import type { PluginStruct } from "./plugin/struct";
-import type { SetterArg, ValueArg } from "./proxy";
+import type { ParserContext } from './parser/context';
+import type { PersisterContext } from './persister/context';
+import type { PluginStruct } from './plugin/struct';
+import type { SetterArg, ValueArg } from './proxy';
 
 export class Core<V extends object> {
 	public constructor(
 		private initializer: () => V,
-		private pluginStruct: PluginStruct<V>) {
+		private pluginStruct: PluginStruct<V>,
+	) {
 		this.setByValue(this.initializer());
 	}
 
@@ -24,7 +25,9 @@ export class Core<V extends object> {
 		return new Promise(async (resolve) => {
 			const parser = this.pluginStruct?.parser as ParserContext<V>;
 			if (typeof parser === 'undefined') throw 'should have least one parser';
-			const stringified = parser.$$instance.stringify(setter({} as unknown as V) as unknown as V);
+			const stringified = parser.$$instance.stringify(
+				setter({} as unknown as V) as unknown as V,
+			);
 
 			const persister = this.pluginStruct?.persister as PersisterContext<V>;
 			if (typeof persister === 'undefined') throw 'should have least one persister';
@@ -50,11 +53,9 @@ export class Core<V extends object> {
 
 	async get<K = undefined>(): Promise<V>;
 	async get<K extends keyof V, R = V[K]>(key: K): Promise<R>;
-	async get<
-		K extends keyof V,
-		P extends undefined | K = undefined,
-		R = P extends K ? V[P] : V,
-	>(prop?: P): Promise<R> {
+	async get<K extends keyof V, P extends undefined | K = undefined, R = P extends K ? V[P] : V>(
+		prop?: P,
+	): Promise<R> {
 		return new Promise(async (resolve) => {
 			const persister = this.pluginStruct?.persister as PersisterContext<V>;
 			if (typeof persister === 'undefined') throw 'should have least one persister';
@@ -64,10 +65,8 @@ export class Core<V extends object> {
 			if (typeof parser === 'undefined') throw 'should have least one parser';
 			const parsed = parser.$$instance.parse(raw_value.$$value);
 
-			if (typeof prop === 'undefined')
-				return resolve(parsed as unknown as never);
-			else
-				return resolve(parsed[prop] as unknown as never)
+			if (typeof prop === 'undefined') return resolve(parsed as unknown as never);
+			else return resolve(parsed[prop] as unknown as never);
 		});
 	}
 }
