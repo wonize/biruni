@@ -71,6 +71,7 @@ export class Core<S extends object> {
 
 	async get<K = undefined>(): Promise<S>;
 	async get<K extends keyof S, R = S[K]>(key: K): Promise<R>;
+	async get<K extends Array<keyof S>, R = { [P in K[number]]: S[P] }>(keys: K): Promise<R>;
 	async get<K extends keyof S, P extends undefined | K = undefined, R = P extends K ? S[P] : S>(
 		prop?: P,
 	): Promise<R> {
