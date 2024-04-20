@@ -1,3 +1,18 @@
 {
-	"extends": "@repo/typescript-config/base.json"
+	"extends": "@repo/typescript-config/base.json",
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleDetection": "auto",
+		"moduleResolution": "Bundler",
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"strict": true,
+		"lib": [
+			"ESNext"
+		],
+		"types": [
+			"node_modules/zx/build/globals.d.ts"
+		]
+	},
 }
