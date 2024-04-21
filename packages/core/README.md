@@ -1,7 +1,7 @@
 <div align="center">
 
-[![BANNER][BANNER_DARK#gh-dark-mode-only]][HOMEPAGE]
-[![BANNER][BANNER_LIGHT#gh-light-mode-only]][HOMEPAGE]
+[![BANNER][https://raw.githubusercontent.com/wonize/biruni/main/packages/core/assets/dark.png#gh-dark-mode-only]][HOMEPAGE]
+[![BANNER][https://raw.githubusercontent.com/wonize/biruni/main/packages/core/assets/light.png#gh-light-mode-only]][HOMEPAGE]
 
 <br/>
 
@@ -27,8 +27,6 @@ Under [GPLv3 LICENSE](./LICENSE.md)
 <!-- URL -->
 
 [BIRUNI_NPM]: https://npmjs.com/package/biruni
-[BANNER_DARK]: https://raw.githubusercontent.com/wonize/biruni/main/packages/core/assets/dark.png
-[BANNER_LIGHT]: https://raw.githubusercontent.com/wonize/biruni/main/packages/core/assets/light.png
 [HOMEPAGE]: https://github.com/wonize/biruni/tree/main/packages/core
 [INSTALLATION_NPM_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=npm&color=CB3837&logo=npm&logoColor=FFFFFF&label=
 [INSTALLATION_YARN_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=Yarn&color=2C8EBB&logo=Yarn&logoColor=FFFFFF&label=
