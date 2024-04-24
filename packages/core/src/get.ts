@@ -15,8 +15,8 @@ export type KeyRecord<S extends Record<string, unknown>> = Partial<Record<keyof 
 export type StoreGetByObjectResult<S extends Record<string, unknown>, O extends KeyRecord<S>> = Readonly<RemoveNever<{ [P in keyof O]: O[P] extends false ? never : S[string & P] }>>;
 export type StoreGetByObject<S extends Record<string, unknown>> = <K extends keyof S, O extends KeyRecord<S>>(o: O) => Promise<StoreGetByObjectResult<S, O>>;
 
-type FnWhole<S extends Record<string, unknown>> = (store: Readonly<S>) => unknown;
-type FnValue<S extends Record<string, unknown>, K extends keyof S> = (value: S[K]) => unknown;
+export type FnWhole<S extends Record<string, unknown>> = (store: Readonly<S>) => unknown;
+export type FnValue<S extends Record<string, unknown>, K extends keyof S> = (value: S[K]) => unknown;
 
 export interface StoreGet<S extends Record<string, unknown>> {
 	get<K = undefined>(): Promise<StoreGetByWholeResult<S>>;
@@ -27,21 +27,21 @@ export interface StoreGet<S extends Record<string, unknown>> {
 	get<K extends keyof S, F extends FnWhole<S>>(fn: F): Promise<ReturnType<F>>;
 	get<
 		K extends keyof S,
-		P extends KeyList<S> | KeyRecord<S> | FnValue<S, K> | FnWhole<S>,
+		P extends KeyList<S> | KeyRecord<S> | FnWhole<S>,
 		R extends
 		P extends KeyList<S>
 		? StoreGetByKeysResult<S, P>
 		: P extends KeyRecord<S>
 		? StoreGetByObjectResult<S, P>
-		: P extends FnValue<S, K>
+		: P extends FnWhole<S>
 		? ReturnType<P> :
 		never
 		= P extends KeyList<S>
 		? StoreGetByKeysResult<S, P>
 		: P extends KeyRecord<S>
 		? StoreGetByObjectResult<S, P>
-		: P extends FnValue<S, K>
-		? ReturnType<P>
-		: never
+		: P extends FnWhole<S>
+		? ReturnType<P> :
+		never
 	>(keyOrKeysOrObjOrFn?: P, Fn?: FnValue<S, K>): Promise<R>;
 }
