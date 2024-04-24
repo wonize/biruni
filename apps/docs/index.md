@@ -5,21 +5,20 @@ layout: home
 hero:
   name: "Al-Biruni Doc's"
   text: "Unified Storage"
-  tagline: My great project tagline
+  tagline: "all in one place utilities"
   actions:
     - theme: brand
-      text: Markdown Examples
+      text: Get Start
       link: /markdown-examples
     - theme: alt
       text: API Examples
       link: /api-examples
 
 features:
-  - title: Feature A
+  - title: Extra DX
+    details: by few steps do alot of jobs
+  - title: Plugin API
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
+  - title: Minimalistic
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-

@@ -2,7 +2,26 @@
 outline: deep
 ---
 
-# Runtime API Examples
+# Example Setup
+
+```tsx
+import { biruni } from "biruni";
+import { json } from "@biruni/built-in";
+import { localstorage } from "@biruni/built-in";
+import { z, zod } from "@biruni/zod";
+
+const CounterSchema = z.object({
+  count: z.number().min(1).max(10),
+});
+
+type CounterStore = z.infer<typeof CounterSchema>;
+
+const store = biruni<CounterStore>()
+  .plug(json())
+  .plug(zod(CounterSchema))
+  .plug(localstorage("key"))
+  .init(() => ({ count: 1 }));
+```
 
 This page demonstrates usage of some of the runtime APIs provided by VitePress.
 
@@ -18,12 +37,15 @@ const { theme, page, frontmatter } = useData()
 ## Results
 
 ### Theme Data
+
 <pre>{{ theme }}</pre>
 
 ### Page Data
+
 <pre>{{ page }}</pre>
 
 ### Page Frontmatter
+
 <pre>{{ frontmatter }}</pre>
 ```
 
@@ -36,12 +58,15 @@ const { site, theme, page, frontmatter } = useData()
 ## Results
 
 ### Theme Data
+
 <pre>{{ theme }}</pre>
 
 ### Page Data
+
 <pre>{{ page }}</pre>
 
 ### Page Frontmatter
+
 <pre>{{ frontmatter }}</pre>
 
 ## More
