@@ -8,4 +8,8 @@
 
 ---
 
-[`@biruni/react`](/references/built-in/react/) React.js Utilities
+[`@biruni/react`](/plugin/react/) React.js Utilities
+
+---
+
+[`@biruni/zod`](/plugin/zod/) Zod Utilities

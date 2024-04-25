@@ -6,6 +6,7 @@ hero:
   name: "Al-Biruni"
   text: "Unified Storage"
   tagline: "all in one place utilities"
+  image: /assets/logo.svg
   actions:
     - theme: brand
       text: Get Start
@@ -15,10 +16,14 @@ hero:
       link: /intro/index#example
 
 features:
-  - title: Simple DX
-    details: easy-to-use definition and manipulation storages
-  - title: Plugin API
+  - icon: 🛠️
+    title: Simple and minimal, always
+    details: Aims to provide a great Developer Experience (DX) by provide easy-to-use definition and manipulation of storages
+  - icon:
+      src: /assets/logo.png
+    title: Plugin API
     details: extensible by unlimited official plugins
+    link: /plugin/
   - title: Safe and Powerful
     details: powerd by `Typescript` API's to achieve type-safey
 ---

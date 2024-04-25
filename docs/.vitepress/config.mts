@@ -2,10 +2,13 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+	base: '/biruni/',
 	title: "Al-Biruni Doc's",
 	description: "Unified Storage",
 	appearance: 'dark',
 	themeConfig: {
+		logo: '/assets/logo.svg',
+
 		nav: [
 			{ text: 'Home', link: '/' },
 			{ text: 'References', link: '/references/' }
@@ -32,16 +35,18 @@ export default defineConfig({
 			},
 			{
 				"text": "Plugins",
+				"link": '/plugin/',
 				"items": [
-					{ text: "React Utilities", link: '/references/react/' },
-					{ text: "Zod Utilities", link: '/references/zod/' },
+					{ text: "React Utilities", link: '/plugin/react/' },
+					{ text: "Zod Utilities", link: '/plugin/zod/' },
+					{ text: "Extra Utilities", link: '/plugin/utility/' },
 					{
-						text: "Built-in Utilities", link: '/references/built-in/',
+						text: "Built-in Utilities", link: '/plugin/built-in/',
 						collapsed: true,
 						items: [
-							{ text: 'json plugin', link: '/references/built-in/json' },
-							{ text: 'localStorage plugin', link: '/references/built-in/localstorage' },
-							{ text: 'sessionStorage plugin', link: '/references/built-in/sessionstorage' },
+							{ text: 'json plugin', link: '/plugin/built-in/json' },
+							{ text: 'localStorage plugin', link: '/plugin/built-in/localstorage' },
+							{ text: 'sessionStorage plugin', link: '/plugin/built-in/sessionstorage' },
 						]
 					}
 				]

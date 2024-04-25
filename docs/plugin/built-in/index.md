@@ -20,6 +20,6 @@ $ pnpm add @biruni/built-in
 
 ## Include
 
-- [`json`](/references/built-in/json)
-- [`localstorage`](/references/built-in/localstorage)
-- [`sessionstorage`](/references/built-in/sessionstorage)
+- [`json`](/plugin/built-in/json)
+- [`localstorage`](/plugin/built-in/localstorage)
+- [`sessionstorage`](/plugin/built-in/sessionstorage)
