@@ -46,3 +46,5 @@ _ignored_
 www
 coverage
 .idea
+.vitepress
+!.vitepress/config.mts
