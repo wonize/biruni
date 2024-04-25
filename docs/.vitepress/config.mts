@@ -71,10 +71,45 @@ export default defineConfig({
 			text: 'Edit this page on GitHub'
 		},
 
+		footer: {
+			// @ts-ignore
+			license: {
+				text: 'GPLv3-only License',
+				link: 'https://opensource.org/licenses/GPLv3-only'
+			},
+			message: "Released under the GPLv3-only License",
+			copyright: `Copyright © 2024-${(() => {
+				const y = new Date().getFullYear();
+				return y === 2024 ? 'present' : y
+			})()} Wonize Group`
+		},
+
 		socialLinks: [
 			{
 				icon: 'github', link: 'https://github.com/wonize/biruni'
 			}
 		]
-	}
+	},
+
+	head: [
+		['meta', { name: 'theme-color', content: '#6B1D1D' }],
+		['meta', { property: 'og:url', content: 'https://wonize.github.io/biruni/' }],
+		['meta', { property: 'og:type', content: 'website' }],
+		['meta', { property: 'og:title', content: "Al-Biruni Doc's" }],
+		['meta',
+			{
+				property: 'og:description',
+				content: 'Al-Biruni | The Unified All-in-One Storage Utilties'
+			}
+		],
+		[
+			'meta',
+			{
+				property: 'og:image',
+				content: 'https://wonize.github.io/biruni/assets/light.png'
+			}
+		],
+		['meta', { name: 'twitter:site', content: '@wonize' }],
+		['meta', { name: 'twitter:card', content: 'summary' }],
+	]
 })
