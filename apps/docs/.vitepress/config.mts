@@ -4,28 +4,45 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
 	title: "Al-Biruni Doc's",
 	description: "Unified Storage",
+	appearance: 'dark',
 	themeConfig: {
-		// https://vitepress.dev/reference/default-theme-config
 		nav: [
 			{ text: 'Home', link: '/' },
-			{ text: 'Examples', link: '/markdown-examples' }
+			{ text: 'References', link: '/references/' }
 		],
 
 		sidebar: [
 			{
-				text: 'Examples',
+				text: 'Introduction',
 				items: [
-					{ text: 'Markdown Examples', link: '/markdown-examples' },
-					{ text: 'Runtime API Examples', link: '/api-examples' },
-					{ text: '<.set> API', link: '/guides/set' },
-					{ text: '<.get> API', link: '/guides/get' },
-					{ text: '<.sync> API', link: '/guides/sync' }
+					{ text: 'Installing', link: '/intro/install' },
+					{ text: 'Why Biruni', link: '/intro/why-biruni' }
+				],
+			},
+			{
+				text: 'Usage',
+				items: [
+					{ text: 'Store Data', link: '/references/set' },
+					{ text: 'Restore Data', link: '/references/get' }
 				]
 			}
 		],
 
+		editLink: {
+			pattern: ({ filePath }) => {
+				if (filePath.startsWith('packages/')) {
+					return `https://github.com/wonize/biruni/edit/main/packages/${filePath}`
+				} else {
+					return `https://github.com/wonize/biruni/edit/main/apps/docs/${filePath}`
+				}
+			},
+			text: 'Edit this page on GitHub'
+		},
+
 		socialLinks: [
-			{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+			{
+				icon: 'github', link: 'https://github.com/wonize/biruni'
+			}
 		]
 	}
 })
