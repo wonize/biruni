@@ -14,4 +14,7 @@
 			"ESNext"
 		]
 	},
+	"include": [
+		"rollup.config.ts"
+	]
 }
