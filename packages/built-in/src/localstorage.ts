@@ -1,11 +1,11 @@
-import type { Persister, Plugin } from '@biruni/core';
+import type { Persister, Plugin, StoreData } from '@biruni/core';
 
-export class LocalStoragePersister<V extends object> implements Persister<V> {
-	public constructor(private $$key: string) {}
+class LocalStoragePersister<S extends StoreData> implements Persister<S> {
+	public constructor(private $$key: string) { }
 
-	public async set<TValue extends string, TKey extends string>(tag: {
-		$$value: TValue;
-		$$key?: TKey;
+	public async set<T extends string, K extends string>(tag: {
+		$$value: T;
+		$$key?: K;
 	}): Promise<void> {
 		return new Promise((resolve) => {
 			const $$key = tag.$$key ?? this.$$key;
@@ -14,19 +14,19 @@ export class LocalStoragePersister<V extends object> implements Persister<V> {
 		});
 	}
 
-	public async get<TValue extends string, TKey extends string>(tag: {
-		$$key?: TKey;
-	}): Promise<{ $$value: TValue }> {
+	public async get<T extends string, K extends string>(tag: {
+		$$key?: K;
+	}): Promise<{ $$value: T }> {
 		return new Promise((resolve) => {
 			const $$key = tag.$$key ?? this.$$key;
-			const $$value = localStorage.getItem($$key) as TValue;
+			const $$value = localStorage.getItem($$key) as T;
 			return resolve({ $$value });
 		});
 	}
 }
 
-const localPersist: Plugin<[key: string]> = (key: string) =>
-	function <TValue extends object>() {
+const localstorage: Plugin<[key: string]> = (key: string) => {
+	return function <TValue extends object>() {
 		const $$instance = new LocalStoragePersister<TValue>(key);
 
 		return {
@@ -34,10 +34,10 @@ const localPersist: Plugin<[key: string]> = (key: string) =>
 			$$instance: $$instance,
 		};
 	};
+}
 
+export default localstorage;
 export {
-	localPersist as LocalStoragePlugin,
-	localPersist,
-	localPersist as localPersistTo,
-	localPersist as localstorage,
+	localstorage as LocalStoragePlugin,
+	localstorage
 };
