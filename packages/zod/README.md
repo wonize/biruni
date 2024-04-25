@@ -1,15 +1,78 @@
-## FEATURES
+<div align="center">
 
-WIP
+![DARK_BANNER](https://raw.githubusercontent.com/wonize/biruni/main/packages/zod/assets/dark.png#gh-dark-mode-only)
+![LIGHT_BANNER](https://raw.githubusercontent.com/wonize/biruni/main/packages/zod/assets/light.png#gh-light-mode-only)
 
-## USAGE
+<br/>
 
-WIP
+Unified All-In-One Storage Utilities
 
-## NAME
+![version][VERSION_BADGE]
+[![MIT License][LICENSE_BADGE]][LICENSE]
 
-Abu Rayhan Muhammad ibn Ahmad **al-Biruni** /ælbɪˈruːni/ (Persian: ابوریحان بیرونی; Arabic: أبو الريحان البيروني) (973 – after 1050), known as al-Biruni, was a Khwarazmian Iranian scholar and polymath during the Islamic Golden Age. He has been called variously the "founder of Indology", "Father of Comparative Religion", "Father of modern geodesy", and the first anthropologist. [from WIKIPEDIA](https://en.wikipedia.org/wiki/Al-Biruni)
+</div>
+
+## Features
+
+- Simple API's
+- Easy-to-Use API's
+- Plugin API's for extensibility
+- Type Safety powerd by Typescript
+
+## Installation
+
+[![npm][INSTALLATION_NPM_BADGE]][INSTALLATION_NPM]
+[![Yarn][INSTALLATION_YARN_BADGE]][INSTALLATION_YARN]
+[![pnpm][INSTALLATION_PNPM_BADGE]][INSTALLATION_PNPM]
+[![bun][INSTALLATION_BUN_BADGE]][INSTALLATION_BUN]
+[![deno][INSTALLATION_DENO_BADGE]][INSTALLATION_DENO]
+
+### npm :
+
+```sh
+$ npm install --save @biruni/zod zod
+```
+
+### yarn :
+
+```sh
+$ yarn add @biruni/zod zod
+```
+
+### pnpm :
+
+```sh
+$ pnpm add --save @biruni/zod zod
+```
+
+### Bun :
+
+```sh
+$ bun add @biruni/zod zod
+```
+
+## Documentation
+
+see in [Al-Biruni Doc's][HOMEPAGE]
 
 ## LICENSE
 
 Under [GPLv3 LICENSE](./LICENSE.md)
+
+<!-- URL -->
+
+[REPO]: https://github.com/wonize/biruni/tree/main/packages/zod
+[HOMEPAGE]: https://wonize.github.io/biruni/plugin/zod/
+[INSTALLATION_NPM_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=npm&color=CB3837&logo=npm&logoColor=FFFFFF&label=
+[INSTALLATION_YARN_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=Yarn&color=2C8EBB&logo=Yarn&logoColor=FFFFFF&label=
+[INSTALLATION_PNPM_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=pnpm&color=FF6C37&logo=pnpm&logoColor=FFFFFF&label=
+[INSTALLATION_BUN_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=bun&color=E2BD8C&logo=bun&logoColor=FFFFFF&label=
+[INSTALLATION_DENO_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=deno&color=323232&logo=deno&logoColor=FFFFFF&label=
+[INSTALLATION_NPM]: #npm-
+[INSTALLATION_YARN]: #yarn-
+[INSTALLATION_PNPM]: #pnpm-
+[INSTALLATION_BUN]: #bun-
+[INSTALLATION_DENO]: https://deno.land/manual@v1.36.4/examples/manage_dependencies
+[VERSION_BADGE]: https://img.shields.io/npm/v/biruni?color=6B1D1D&label=VERSION&style=flat-square
+[LICENSE_BADGE]: https://img.shields.io/npm/l/biruni?color=6B1D1D&label=LICENSE&style=flat-square
+[LICENSE]: https://github.com/wonize/biruni/blob/main/LICENSE

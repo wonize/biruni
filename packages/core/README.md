@@ -1,24 +1,59 @@
 <div align="center">
 
-![CORE_DARK](https://raw.githubusercontent.com/wonize/biruni/main/packages/core/assets/dark.png#gh-dark-mode-only)
-![CORE_LIGHT](https://raw.githubusercontent.com/wonize/biruni/main/packages/core/assets/light.png#gh-light-mode-only)
+![DARK_BANNER](https://raw.githubusercontent.com/wonize/biruni/main/packages/core/assets/dark.png#gh-dark-mode-only)
+![LIGHT_BANNER](https://raw.githubusercontent.com/wonize/biruni/main/packages/core/assets/light.png#gh-light-mode-only)
 
 <br/>
 
+Unified All-In-One Storage Utilities
+
 ![version][VERSION_BADGE]
-![MIT License][LICENSE_BADGE]
+[![MIT License][LICENSE_BADGE]][LICENSE]
 
 </div>
 
-All-In-One and Unified Tools to manage Stores OR Storages
+## Features
 
-## Can you
+- Simple API's
+- Easy-to-Use API's
+- Plugin API's for extensibility
+- Type Safety powerd by Typescript
 
-read more in [`npm:biruni`][BIRUNI_NPM] or in [GitHub][HOMEPAGE]
+## Installation
 
-## Name
+[![npm][INSTALLATION_NPM_BADGE]][INSTALLATION_NPM]
+[![Yarn][INSTALLATION_YARN_BADGE]][INSTALLATION_YARN]
+[![pnpm][INSTALLATION_PNPM_BADGE]][INSTALLATION_PNPM]
+[![bun][INSTALLATION_BUN_BADGE]][INSTALLATION_BUN]
+[![deno][INSTALLATION_DENO_BADGE]][INSTALLATION_DENO]
 
-Abu Rayhan Muhammad ibn Ahmad **al-Biruni** /ælbɪˈruːni/ (Persian: ابوریحان بیرونی; Arabic: أبو الريحان البيروني) (973 – after 1050), known as al-Biruni, was a Khwarazmian Iranian scholar and polymath during the Islamic Golden Age. He has been called variously the "founder of Indology", "Father of Comparative Religion", "Father of modern geodesy", and the first anthropologist. [from WIKIPEDIA](https://en.wikipedia.org/wiki/Al-Biruni)
+### npm :
+
+```sh
+$ npm install --save @biruni/core
+```
+
+### yarn :
+
+```sh
+$ yarn add @biruni/core
+```
+
+### pnpm :
+
+```sh
+$ pnpm add --save @biruni/core
+```
+
+### Bun :
+
+```sh
+$ bun add @biruni/core
+```
+
+## Documentation
+
+see in [Al-Biruni Doc's][HOMEPAGE]
 
 ## LICENSE
 
@@ -26,8 +61,8 @@ Under [GPLv3 LICENSE](./LICENSE.md)
 
 <!-- URL -->
 
-[BIRUNI_NPM]: https://npmjs.com/package/biruni
-[HOMEPAGE]: https://github.com/wonize/biruni/tree/main/packages/core
+[REPO]: https://github.com/wonize/biruni/tree/main/packages/core
+[HOMEPAGE]: https://wonize.github.io/biruni
 [INSTALLATION_NPM_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=npm&color=CB3837&logo=npm&logoColor=FFFFFF&label=
 [INSTALLATION_YARN_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=Yarn&color=2C8EBB&logo=Yarn&logoColor=FFFFFF&label=
 [INSTALLATION_PNPM_BADGE]: https://img.shields.io/static/v1?style=for-the-badge&message=pnpm&color=FF6C37&logo=pnpm&logoColor=FFFFFF&label=
@@ -38,5 +73,6 @@ Under [GPLv3 LICENSE](./LICENSE.md)
 [INSTALLATION_PNPM]: #pnpm-
 [INSTALLATION_BUN]: #bun-
 [INSTALLATION_DENO]: https://deno.land/manual@v1.36.4/examples/manage_dependencies
-[VERSION_BADGE]: https://img.shields.io/npm/v/@biruni/core?color=00273F&label=VERSION&style=flat-square
-[LICENSE_BADGE]: https://img.shields.io/npm/l/@biruni/core?color=00273F&label=LICENSE&style=flat-square
+[VERSION_BADGE]: https://img.shields.io/npm/v/biruni?color=6B1D1D&label=VERSION&style=flat-square
+[LICENSE_BADGE]: https://img.shields.io/npm/l/biruni?color=6B1D1D&label=LICENSE&style=flat-square
+[LICENSE]: https://github.com/wonize/biruni/blob/main/LICENSE
