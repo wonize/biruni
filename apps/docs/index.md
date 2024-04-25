@@ -3,16 +3,16 @@
 layout: home
 
 hero:
-  name: "Al-Biruni Doc's"
+  name: "Al-Biruni"
   text: "Unified Storage"
   tagline: "all in one place utilities"
   actions:
     - theme: brand
       text: Get Start
-      link: /markdown-examples
+      link: /intro/
     - theme: alt
       text: API Examples
-      link: /api-examples
+      link: /intro/index#example
 
 features:
   - title: Extra DX
