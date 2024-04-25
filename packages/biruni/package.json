@@ -2,13 +2,12 @@
 	"name": "biruni",
 	"type": "module",
 	"version": "0.0.3",
-	"description": "(Al-Biruni) unified store/storage management tool",
+	"description": "(Al-Biruni) unified all-in-one storage utilities",
 	"keywords": [
 		"wonize",
 		"biruni",
 		"al-biruni",
-		"localstorage",
-		"persist"
+		"storage"
 	],
 	"exports": {
 		".": {
