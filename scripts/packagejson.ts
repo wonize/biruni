@@ -35,7 +35,7 @@ export default (workspace: string, pkgjson?: PackageJson): PackageJson => {
 	return Object.assign({}, pkgjson, {
 		author: 'mikoloism <mikoloism@gmail.com>',
 		license: 'GPL-3.0-only',
-		homepage: `https://github.com/wonize/biruni/tree/main/${workspace}#readme`,
+		homepage: `https://wonize.github.io/biruni/`,
 		repository: {
 			type: 'git',
 			url: 'git+https://github.com/wonize/biruni.git',
