@@ -33,6 +33,7 @@ type PackageJson = Partial<
 
 export default (workspace: string, pkgjson?: PackageJson): PackageJson => {
 	return Object.assign({}, pkgjson, {
+		type: "commonjs",
 		author: 'mikoloism <mikoloism@gmail.com>',
 		license: 'GPL-3.0-only',
 		homepage: `https://wonize.github.io/biruni/`,
@@ -48,9 +49,10 @@ export default (workspace: string, pkgjson?: PackageJson): PackageJson => {
 			access: 'public',
 		},
 		sideEffects: false,
-		exports: JSON.parse(JSON.stringify(pkgjson?.exports ?? {}).replaceAll('/dist', '')),
+		exports: JSON.parse(JSON.stringify(pkgjson?.exports ?? {}).replace(/\/dist/gm, '')),
 		main: ((pkgjson?.main ?? '') as string).replace('dist', '.'),
 		module: ((pkgjson?.module ?? '') as string).replace('dist', '.'),
+		browser: ((pkgjson?.browser ?? '') as string).replace('dist', '.'),
 		types: ((pkgjson?.types ?? '') as string).replace('dist', '.'),
 		files: ['./*', 'LICENSE', 'README.md', 'package.json'],
 		packageManager: 'pnpm@8.9.0',
