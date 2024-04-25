@@ -1,6 +1,6 @@
-import type { Core, ExactPlugin } from '@biruni/core';
+import type { ExactPlugin, Store, StoreData } from '@biruni/core';
 
-export interface FactoryChain<T extends object> {
-	plug(plugin: ExactPlugin): FactoryChain<T>;
-	init<TValue extends T>(initializer: () => TValue): Core<TValue>;
+export interface StoreFactoryChain<S extends StoreData> {
+	plug(plugin: ExactPlugin): StoreFactoryChain<S>;
+	init(initializer: () => NoInfer<S>): Store<S>;
 }

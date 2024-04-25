@@ -1,39 +1,39 @@
-import { Core, type ExactPlugin, type PluginStruct } from '@biruni/core';
-import type { FactoryChain } from './chain';
+import { StoreImpl, type ExactPlugin, type PluginStruct, type Store } from '@biruni/core';
+import type { StoreFactoryChain } from './chain';
 
-class CoreFactory<V extends object> implements FactoryChain<V> {
-	readonly #pluginStruct: PluginStruct<V> = {
+class StoreFactory<S extends StoreData> implements StoreFactoryChain<S> {
+	readonly #pluginStruct: PluginStruct<S> = {
 		validator: {},
 		parser: {},
 		persister: {},
-	} as PluginStruct<V>;
+	} as PluginStruct<S>;
 
-	public constructor(plugin?: ExactPlugin, comingPluginStruct?: PluginStruct<V>) {
+	public constructor(plugin?: ExactPlugin, comingPluginStruct?: PluginStruct<S>) {
 		const pluginStruct = comingPluginStruct;
 
 		if (typeof plugin !== 'function') return;
 		const pluginContext = plugin();
 		this.#pluginStruct = Object.assign({}, pluginStruct, {
 			[pluginContext.$$type]: pluginContext,
-		}) as PluginStruct<V>;
+		}) as PluginStruct<S>;
 	}
 
-	public plug(plugin: ExactPlugin): FactoryChain<V> {
-		return new CoreFactory<V>(plugin, this.#pluginStruct);
+	public plug(plugin: ExactPlugin): StoreFactoryChain<S> {
+		return new StoreFactory<S>(plugin, this.#pluginStruct);
 	}
 
-	public init<TValue extends V>(initializer: () => TValue): Core<TValue> {
-		return new Core<TValue>(initializer, this.#pluginStruct);
+	public init(initializer: () => NoInfer<S>): Store<S> {
+		return new StoreImpl<S>(initializer, this.#pluginStruct);
 	}
 }
 
-function defineBiruni<TValue extends object>(): FactoryChain<TValue> {
-	return new CoreFactory<TValue>();
+function defineBiruni<S extends StoreData>(): StoreFactoryChain<S> {
+	return new StoreFactory<S>();
 }
 
 export {
-	CoreFactory as Biruni,
-	CoreFactory as BiruniFactory,
+	StoreFactory as Biruni,
+	StoreFactory,
 	defineBiruni as biruni,
-	defineBiruni as defineKey,
+	defineBiruni,
 };
