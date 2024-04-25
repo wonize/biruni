@@ -1,6 +1,7 @@
+import type { StoreData } from '../globals';
 import type { Parser } from './parser';
 
-export interface ParserContext<Value extends object> {
+export interface ParserContext<S extends StoreData> {
 	readonly $$type: 'parser';
-	$$instance: Parser<Value>;
+	$$instance: Parser<S>;
 }

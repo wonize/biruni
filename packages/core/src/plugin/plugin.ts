@@ -1,6 +1,7 @@
 import type { CoreContext } from '../context';
+import type { StoreData } from '../globals';
 
-export type ExactPlugin = <T extends object>() => CoreContext<T>;
+export type ExactPlugin = <S extends StoreData>() => CoreContext<S>;
 
 export type Plugin<TArguments extends ReadonlyArray<unknown> = [void]> = (
 	...args: TArguments

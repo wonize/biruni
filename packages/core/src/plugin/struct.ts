@@ -1,10 +1,8 @@
-import { CoreContext } from '../context';
-import type { ExactPlugin } from './plugin';
+import type { CoreContext } from '../context';
+import type { StoreData } from '../globals';
 
-export type PluginStruct<TValue extends object> = {
-	validator: CoreContext<TValue>;
-	parser: CoreContext<TValue>;
-	persister: CoreContext<TValue>;
-};
-
-// Record<'validator' | 'parser' | 'persister', Array<ExactPlugin>>;
+export type PluginStruct<S extends StoreData> = {
+	validator: CoreContext<S>;
+	parser: CoreContext<S>;
+	persister: CoreContext<S>;
+}
