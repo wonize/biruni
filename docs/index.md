@@ -4,8 +4,7 @@ layout: home
 
 hero:
   name: "Al-Biruni"
-  text: "Unified Storage"
-  tagline: "all in one place utilities"
+  text: "Unified All-in-One Storage Utilities"
   image: /assets/logo.svg
   actions:
     - theme: brand

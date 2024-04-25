@@ -4,9 +4,8 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
 	base: '/biruni/',
 	title: "Al-Biruni Doc's",
-	description: "Unified Storage",
+	description: "Unified All-in-One Storage Utilities",
 	appearance: 'dark',
-	assetsDir: '/assets/',
 	themeConfig: {
 		logo: '/assets/logo.svg',
 
