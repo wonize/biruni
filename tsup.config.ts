@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup';
-import { b } from './scripts/helper';
+import { b } from './scripts/release';
 
 export default defineConfig([
 	// keep-order
