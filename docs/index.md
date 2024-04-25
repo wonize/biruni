@@ -16,14 +16,14 @@ hero:
       link: /intro/index#example
 
 features:
-  - icon: 🛠️
+  - icon: 💅
     title: Simple and minimal, always
     details: Aims to provide a great Developer Experience (DX) by provide easy-to-use definition and manipulation of storages
-  - icon:
-      src: /assets/logo.png
+  - icon: ⚡
+    title: Safe and Powerful
+    details: Powerd by `Typescript` Auto-Infer API's to achieve type-safey
+  - icon: 🔥
     title: Plugin API
-    details: extensible by unlimited official plugins
+    details: Extensible by unlimited official plugins
     link: /plugin/
-  - title: Safe and Powerful
-    details: powerd by `Typescript` API's to achieve type-safey
 ---
