@@ -1,4 +1,4 @@
-import 'zx/globals';
+import { $, fs, echo } from 'zx';
 import { dirname } from 'node:path';
 import { fileURLToPath, format } from 'node:url';
 import { default as process } from 'node:process';
@@ -57,7 +57,7 @@ function b(workspace: string, config?: Config): Options {
 		clean: true,
 		bundle: true,
 		sourcemap: true,
-		splitting: true,
+		splitting: false,
 		skipNodeModulesBundle: true,
 		minify: 'terser',
 		treeshake: 'safest',
