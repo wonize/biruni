@@ -12,7 +12,10 @@
 		"test:update": "vitest -u",
 		"dev": "turbo dev",
 		"lint": "turbo lint",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\""
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"docs:dev": "vitepress dev",
+		"docs:build": "vitepress build",
+		"docs:preview": "vitepress preview"
 	},
 	"devDependencies": {
 		"@antfu/ni": "0.21.12",
