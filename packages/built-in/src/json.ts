@@ -1,23 +1,25 @@
-import type { CoreContext, Parser, Plugin } from '@biruni/core';
+import type { Parser, ParserContext, Plugin, StoreData } from '@biruni/core';
 
-export class NativeJsonParser<V extends object> implements Parser<V> {
-	public parse<TValue extends V>(value: string): TValue {
+class JsonParser<S extends StoreData> implements Parser<S> {
+	public parse<T extends S>(value: string): T {
 		return JSON.parse(value);
 	}
 
-	public stringify<TValue extends V>(value: TValue): string {
+	public stringify<T extends S>(value: T): string {
 		return JSON.stringify(value);
 	}
 }
 
-const json: Plugin = () =>
-	function <V extends object>(): CoreContext<V> {
-		const $$instance = new NativeJsonParser<V>();
+const json: Plugin = () => {
+	return function <S extends StoreData>(): ParserContext<S> {
+		const $$instance = new JsonParser<S>();
 
 		return {
 			$$type: 'parser',
 			$$instance: $$instance,
 		};
 	};
+}
 
-export { json as NativeJsonPlugin, json };
+export default json;
+export { json as JsonPlugin, json };
