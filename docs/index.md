@@ -15,10 +15,10 @@ hero:
       link: /intro/index#example
 
 features:
-  - title: Extra DX
-    details: by few steps do alot of jobs
+  - title: Simple DX
+    details: easy-to-use definition and manipulation storages
   - title: Plugin API
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Minimalistic
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    details: extensible by unlimited official plugins
+  - title: Safe and Powerful
+    details: powerd by `Typescript` API's to achieve type-safey
 ---
