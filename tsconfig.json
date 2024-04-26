@@ -19,8 +19,9 @@
 	},
 	"exclude": [
 		"**/node_modules",
-		"**/dist",
-		"**/.turbo",
+		"**/*.d.ts",
+		"**/dist/*",
+		"**/.turbo/*",
 		"**/tsup.config.ts"
 	]
 }
