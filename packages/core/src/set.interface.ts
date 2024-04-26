@@ -16,3 +16,9 @@ export interface StoreSet<S extends StoreData> {
 		G extends StoreSetByKeyFn<S, K> | StoreSetByKeyValue<S, K> | never = P extends K ? (StoreSetByKeyValue<S, K> | StoreSetByKeyFn<S, K>) : never
 	>(KeyOrFnOrObj: P, FnOrObj?: G): Promise<void>;
 }
+
+export type StoreSetGeneric<S extends StoreData> = <
+	K extends keyof S,
+	P extends StoreSetByObject<S> | StoreSetByFn<S> | K,
+	G extends StoreSetByKeyFn<S, K> | StoreSetByKeyValue<S, K> | never = P extends K ? (StoreSetByKeyValue<S, K> | StoreSetByKeyFn<S, K>) : never
+>(KeyOrFnOrObj: P, FnOrObj?: G) => Promise<void>;
