@@ -123,6 +123,40 @@ function umd(workspace: string, config?: Config): Options {
 }
 
 /** @param workspace {string} 'packages/core' */
+function dts(workspace: string, config?: Config): Options {
+	const cwd = process.cwd();
+	const base = r(workspace, cwd);
+	const outDir = r('dist/types', base);
+	const tsconfig = r('tsconfig.json', base);
+
+	const entry = (() => {
+		if (typeof config?.entry === 'undefined' || config.entry === null) {
+			return [r('src/mod.ts', base)];
+		} else if (typeof config.entry === 'string') {
+			return [r(config.entry, base)];
+		} else if (typeof config.entry === 'object' && config.entry instanceof Array) {
+			return config.entry.map((e) => r(e, base));
+		} else {
+			return [r('src/mod.ts', base)];
+		}
+	})()
+
+	delete config?.entry;
+
+	return Object.assign({}, TSUP_COMMON_OPTIONS, {
+		name: workspace,
+		outDir: outDir,
+		entry: entry,
+		tsconfig: tsconfig,
+		outExtension: () => ({ dts: '.d.ts' }),
+
+		// specifice dts
+		bundle: true,
+		dts: { only: true }
+	}, config ?? {}) as Options;
+}
+
+/** @param workspace {string} 'packages/core' */
 function b(workspace: string, config?: Config): Options {
 	const cwd = process.cwd();
 	const base = r(workspace, cwd);
@@ -152,5 +186,5 @@ function b(workspace: string, config?: Config): Options {
 	}, config ?? {}) as Options;
 }
 
-export { b, cjs, esm, umd };
+export { b, cjs, dts, esm, umd };
 export default b;
