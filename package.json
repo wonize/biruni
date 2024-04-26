@@ -19,6 +19,7 @@
 	},
 	"devDependencies": {
 		"@antfu/ni": "0.21.12",
+		"@changesets/cli": "2.27.1",
 		"@repo/eslint-config": "workspace:*",
 		"@repo/typescript-config": "workspace:*",
 		"@rollup/browser": "4.16.4",
@@ -33,6 +34,7 @@
 		"biruni": "workspace:*",
 		"glob": "10.3.12",
 		"jsdom": "24.0.0",
+		"plop": "4.0.1",
 		"prettier": "3.2.5",
 		"rollup": "4.16.4",
 		"terser": "5.30.3",
