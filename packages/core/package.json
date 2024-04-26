@@ -24,22 +24,40 @@
 	"sideEffects": false,
 	"exports": {
 		".": {
-			"import": {
-				"types": "./dist/mod.d.ts",
-				"default": "./dist/mod.mjs"
-			},
-			"require": {
-				"types": "./dist/mod.d.cts",
-				"default": "./dist/mod.cjs"
-			},
-			"default": "./dist/mod.mjs",
-			"types": "./dist/mod.d.ts"
+			"require": "./dist/cjs/mod.js",
+			"import": "./dist/esm/mod.js",
+			"types": "./dist/types/mod.d.ts"
 		},
-		"./*": "./*"
+		"./mod": {
+			"require": "./dist/cjs/mod.js",
+			"import": "./dist/esm/mod.js",
+			"types": "./dist/types/mod.d.ts"
+		},
+		"./store": {
+			"require": "./dist/cjs/store.js",
+			"import": "./dist/esm/store.js",
+			"types": "./dist/types/store.d.ts"
+		},
+		"./set": {
+			"require": "./dist/cjs/set.js",
+			"import": "./dist/esm/set.js",
+			"types": "./dist/types/set.d.ts"
+		},
+		"./get": {
+			"require": "./dist/cjs/get.js",
+			"import": "./dist/esm/get.js",
+			"types": "./dist/types/get.d.ts"
+		},
+		"./*": {
+			"require": "./dist/cjs/*.js",
+			"import": "./dist/esm/*.js",
+			"types": "./dist/types/*.d.ts"
+		}
 	},
-	"main": "dist/mod.cjs",
-	"module": "dist/mod.mjs",
-	"types": "dist/mod.d.ts",
+	"main": "dist/cjs/mod.js",
+	"module": "dist/esm/mod.js",
+	"browser": "dist/umd/mod.global.js",
+	"types": "dist/types/mod.d.ts",
 	"files": [
 		"dist",
 		"LICENSE",
