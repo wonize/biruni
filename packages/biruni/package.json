@@ -1,14 +1,27 @@
 {
+	"$schema": "https://json.schemastore.org/package",
 	"name": "biruni",
 	"type": "module",
 	"version": "0.0.3",
-	"description": "(Al-Biruni) unified all-in-one storage utilities",
+	"description": "(Al-Biruni) Unified All-in-One Storage Utilities",
 	"keywords": [
 		"wonize",
 		"biruni",
-		"al-biruni",
-		"storage"
+		"al-biruni"
 	],
+	"author": "mikoloism <mikoloism@gmail.com>",
+	"license": "GPL-3.0-only",
+	"homepage": "https://wonize.github.io/biruni/",
+	"bugs": "https://github.com/wonize/biruni/issues",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wonize/biruni.git",
+		"directory": "packages/biruni"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"sideEffects": false,
 	"exports": {
 		".": {
 			"import": {
@@ -33,15 +46,29 @@
 			},
 			"default": "./dist/built-in.mjs",
 			"types": "./dist/built-in.d.ts"
-		}
+		},
+		"./*": "./*"
 	},
-	"main": "dist/mod.mjs",
+	"main": "dist/mod.cjs",
 	"module": "dist/mod.mjs",
 	"types": "dist/mod.d.ts",
+	"files": [
+		"dist",
+		"LICENSE",
+		"README.md",
+		"package.json"
+	],
+	"packageManager": "pnpm@8.9.0",
+	"engines": {
+		"node": ">=18"
+	},
 	"scripts": {},
 	"dependencies": {
 		"@biruni/core": "workspace:*",
 		"@biruni/factory": "workspace:*",
 		"@biruni/built-in": "workspace:*"
-	}
+	},
+	"devDependencies": {},
+	"peerDependencies": {},
+	"peerDependenciesMeta": {}
 }

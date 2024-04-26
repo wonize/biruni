@@ -1,26 +1,67 @@
 {
-    "name": "@biruni/zod",
-    "version": "0.0.3",
-    "type": "commonjs",
-    "description": "Al-Biruni (zod) Manipulator",
-    "main": "main.js",
-    "author": "mikoloism <mikoloism@gmail.com>",
-    "license": "GPL-3.0-only",
-    "keywords": [
-        "biruni",
-        "zod",
-        "al-biruni",
-        "mikoloism"
-    ],
-    "devDependencies": {
-        "zod": "3.22.0"
-    },
-    "peerDependencies": {
-        "zod": ">=3.22.0"
-    },
-    "peerDependenciesMeta": {
-        "zod": {
-            "optional": true
-        }
-    }
+	"$schema": "https://json.schemastore.org/package",
+	"name": "@biruni/zod",
+	"type": "module",
+	"version": "0.0.3",
+	"description": "(Al-Biruni) Zod Integeration Utilities",
+	"keywords": [
+		"wonize",
+		"biruni",
+		"al-biruni",
+		"zod"
+	],
+	"author": "mikoloism <mikoloism@gmail.com>",
+	"license": "GPL-3.0-only",
+	"homepage": "https://wonize.github.io/biruni/",
+	"bugs": "https://github.com/wonize/biruni/issues",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wonize/biruni.git",
+		"directory": "packages/zod"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/mod.d.ts",
+				"default": "./dist/mod.mjs"
+			},
+			"require": {
+				"types": "./dist/mod.d.cts",
+				"default": "./dist/mod.cjs"
+			},
+			"default": "./dist/mod.mjs",
+			"types": "./dist/mod.d.ts"
+		},
+		"./*": "./*"
+	},
+	"main": "dist/mod.cjs",
+	"module": "dist/mod.mjs",
+	"types": "dist/mod.d.ts",
+	"files": [
+		"dist",
+		"LICENSE",
+		"README.md",
+		"package.json"
+	],
+	"packageManager": "pnpm@8.9.0",
+	"engines": {
+		"node": ">=18"
+	},
+	"scripts": {},
+	"dependencies": {},
+	"devDependencies": {
+		"zod": "3.22.0"
+	},
+	"peerDependencies": {
+		"zod": ">=3.22.0"
+	},
+	"peerDependenciesMeta": {
+		"zod": {
+			"optional": true
+		}
+	}
 }
