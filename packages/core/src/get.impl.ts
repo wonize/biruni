@@ -1,6 +1,6 @@
 import type { StoreData } from "./globals";
-import type { ParserContext } from "./parser/mod";
-import type { PersisterContext } from "./persister/mod";
+import type { ParserContext } from "./parser/context";
+import type { PersisterContext } from "./persister/context";
 import { StoreSetImpl } from "./set.impl";
 import type { FnValue, FnWhole, KeyList, KeyRecord, StoreGet, StoreGetByKeyResult, StoreGetByKeysResult, StoreGetByObjectResult, StoreGetByWholeResult } from "./get.interface";
 

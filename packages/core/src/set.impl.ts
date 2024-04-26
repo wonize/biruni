@@ -1,7 +1,7 @@
 import { StoreCore } from './core';
 import type { StoreData } from "./globals";
-import type { ParserContext } from "./parser/mod";
-import type { PersisterContext } from "./persister/mod";
+import type { ParserContext } from "./parser/context";
+import type { PersisterContext } from "./persister/context";
 import type { StoreSet, StoreSetByFn, StoreSetByKeyFn, StoreSetByKeyValue, StoreSetByObject } from "./set.interface";
 
 export class StoreSetImpl<S extends StoreData> extends StoreCore<S> implements StoreSet<S> {
