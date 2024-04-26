@@ -1,11 +1,18 @@
-import { $, fs, echo } from 'zx';
-import { dirname } from 'node:path';
-import { fileURLToPath, format } from 'node:url';
 import { default as process } from 'node:process';
+import { fileURLToPath, format } from 'node:url';
 import type { Options } from 'tsup';
-import { default as mergePackageJson } from './packagejson';
 
-$.verbose = false;
+const TSUP_COMMON_OPTIONS: Options = {
+	dts: true,
+	shims: true,
+	clean: false,
+	sourcemap: true,
+	bundle: false,
+	splitting: false,
+	skipNodeModulesBundle: true,
+	minify: 'terser',
+	treeshake: 'safest',
+}
 
 const r = (path: string, base?: string) => {
 	return fileURLToPath(
@@ -20,65 +27,130 @@ const r = (path: string, base?: string) => {
 type Config = Partial<Omit<Options, 'entryPoints' | 'outDir' | 'clean'>>;
 
 /** @param workspace {string} 'packages/core' */
+function cjs(workspace: string, config?: Config): Options {
+	const cwd = process.cwd();
+	const base = r(workspace, cwd);
+	const outDir = r('dist/cjs', base);
+	const tsconfig = r('tsconfig.json', base);
+
+	const entry = (() => {
+		if (typeof config?.entry === 'undefined' || config.entry === null) {
+			return [r('src/mod.ts', base)];
+		} else if (typeof config.entry === 'string') {
+			return [r(config.entry, base)];
+		} else if (typeof config.entry === 'object' && config.entry instanceof Array) {
+			return config.entry.map((e) => r(e, base));
+		} else {
+			return [r('src/mod.ts', base)];
+		}
+	})()
+
+	delete config?.entry;
+
+	return Object.assign({}, TSUP_COMMON_OPTIONS, {
+		name: workspace,
+		outDir: outDir,
+		entry: entry,
+		format: ['cjs'],
+		tsconfig: tsconfig,
+		outExtension: () => ({ js: '.cjs', dts: '.d.cts' })
+	}, config ?? {}) as Options;
+}
+
+/** @param workspace {string} 'packages/core' */
+function esm(workspace: string, config?: Config): Options {
+	const cwd = process.cwd();
+	const base = r(workspace, cwd);
+	const outDir = r('dist/esm', base);
+	const tsconfig = r('tsconfig.json', base);
+
+	const entry = (() => {
+		if (typeof config?.entry === 'undefined' || config.entry === null) {
+			return [r('src/mod.ts', base)];
+		} else if (typeof config.entry === 'string') {
+			return [r(config.entry, base)];
+		} else if (typeof config.entry === 'object' && config.entry instanceof Array) {
+			return config.entry.map((e) => r(e, base));
+		} else {
+			return [r('src/mod.ts', base)];
+		}
+	})()
+
+	delete config?.entry;
+
+	return Object.assign({}, TSUP_COMMON_OPTIONS, {
+		name: workspace,
+		outDir: outDir,
+		entry: entry,
+		format: ['esm'],
+		tsconfig: tsconfig,
+		outExtension: () => ({ js: '.mjs', dts: '.d.mts' })
+	}, config ?? {}) as Options;
+}
+
+/** @param workspace {string} 'packages/core' */
+function umd(workspace: string, config?: Config): Options {
+	const cwd = process.cwd();
+	const base = r(workspace, cwd);
+	const outDir = r('dist/umd', base);
+	const tsconfig = r('tsconfig.json', base);
+
+	const entry = (() => {
+		if (typeof config?.entry === 'undefined' || config.entry === null) {
+			return [r('src/mod.ts', base)];
+		} else if (typeof config.entry === 'string') {
+			return [r(config.entry, base)];
+		} else if (typeof config.entry === 'object' && config.entry instanceof Array) {
+			return config.entry.map((e) => r(e, base));
+		} else {
+			return [r('src/mod.ts', base)];
+		}
+	})()
+
+	delete config?.entry;
+
+	return Object.assign({}, TSUP_COMMON_OPTIONS, {
+		name: workspace,
+		outDir: outDir,
+		entry: entry,
+		format: ['iife'],
+		tsconfig: tsconfig,
+		outExtension: () => ({ js: '.umd.js', dts: '.umd.d.ts' }),
+
+		// specifice iife
+		bundle: true,
+	}, config ?? {}) as Options;
+}
+
+/** @param workspace {string} 'packages/core' */
 function b(workspace: string, config?: Config): Options {
 	const cwd = process.cwd();
 	const base = r(workspace, cwd);
-	const entry = r('src/mod.ts', base);
 	const outDir = r('dist', base);
 	const tsconfig = r('tsconfig.json', base);
 
-	const onSuccess = async () => {
-		const path_packagejson = r('package.json', base);
-		await $`cp ${path_packagejson} ${outDir.concat('/')}`;
+	const entry = (() => {
+		if (typeof config?.entry === 'undefined' || config.entry === null) {
+			return [r('src/mod.ts', base)];
+		} else if (typeof config.entry === 'string') {
+			return [r(config.entry, base)];
+		} else if (typeof config.entry === 'object' && config.entry instanceof Array) {
+			return config.entry.map((e) => r(e, base));
+		} else {
+			return [r('src/mod.ts', base)];
+		}
+	})()
 
-		const path_license = r('LICENSE', base);
-		await $`cp ${path_license} ${outDir.concat('/')}`;
+	delete config?.entry;
 
-		const path_readme = r('README.md', base);
-		await $`cp ${path_readme} ${outDir.concat('/')}`;
-
-		const raw_packagejson = await $`cat ${path_packagejson}`;
-		const packagejson = JSON.parse(raw_packagejson.stdout);
-		const merged_packagejson = mergePackageJson(workspace, packagejson);
-		const out_packagejson = r('./package.json', outDir);
-		await fs.promises.writeFile(
-			out_packagejson,
-			JSON.stringify(merged_packagejson, null, 2),
-			'utf-8',
-		);
-
-		echo(`  PREPARE :: ${base}`);
-	};
-
-	const option: Options = {
+	return Object.assign({}, TSUP_COMMON_OPTIONS, {
 		name: workspace,
-		dts: true,
-		shims: true,
-		clean: true,
-		bundle: true,
-		sourcemap: true,
-		splitting: false,
-		skipNodeModulesBundle: true,
-		minify: 'terser',
-		treeshake: 'safest',
 		outDir: outDir,
-		entry: [entry],
-		format: ['cjs', 'esm'],
+		entry: entry,
+		format: ['esm', 'cjs', 'iife'],
 		tsconfig: tsconfig,
-		outExtension: (o) => ({
-			js: o.format === 'esm' ? '.mjs' : '.cjs',
-		}),
-	};
-
-	const pkgSuccess = (config?.onSuccess ?? (async () => { })) as () => Promise<void>;
-	delete config?.onSuccess;
-	return Object.assign({}, option, config, {
-		onSuccess: async () => {
-			await onSuccess();
-			await pkgSuccess();
-		},
-	});
+	}, config ?? {}) as Options;
 }
 
-export { b };
+export { b, cjs, esm, umd };
 export default b;
