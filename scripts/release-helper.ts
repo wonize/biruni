@@ -1,9 +1,11 @@
 import { default as process } from 'node:process';
 import { fileURLToPath, format } from 'node:url';
 import type { Options } from 'tsup';
+import { $ } from 'zx';
 
+/** @param workspace {string} 'packages/core' */
 const TSUP_COMMON_OPTIONS: Options = {
-	dts: true,
+	dts: false,
 	shims: true,
 	clean: false,
 	sourcemap: true,
@@ -26,7 +28,7 @@ const r = (path: string, base?: string) => {
 
 type Config = Partial<Omit<Options, 'entryPoints' | 'outDir' | 'clean'>>;
 
-/** @param workspace {string} 'packages/core' */
+
 function cjs(workspace: string, config?: Config): Options {
 	const cwd = process.cwd();
 	const base = r(workspace, cwd);
@@ -53,11 +55,10 @@ function cjs(workspace: string, config?: Config): Options {
 		entry: entry,
 		format: ['cjs'],
 		tsconfig: tsconfig,
-		outExtension: () => ({ js: '.cjs', dts: '.d.cts' })
+		outExtension: () => ({ js: '.js' })
 	}, config ?? {}) as Options;
 }
 
-/** @param workspace {string} 'packages/core' */
 function esm(workspace: string, config?: Config): Options {
 	const cwd = process.cwd();
 	const base = r(workspace, cwd);
@@ -84,11 +85,10 @@ function esm(workspace: string, config?: Config): Options {
 		entry: entry,
 		format: ['esm'],
 		tsconfig: tsconfig,
-		outExtension: () => ({ js: '.mjs', dts: '.d.mts' })
+		outExtension: () => ({ js: '.js' })
 	}, config ?? {}) as Options;
 }
 
-/** @param workspace {string} 'packages/core' */
 function umd(workspace: string, config?: Config): Options {
 	const cwd = process.cwd();
 	const base = r(workspace, cwd);
@@ -115,48 +115,20 @@ function umd(workspace: string, config?: Config): Options {
 		entry: entry,
 		format: ['iife'],
 		tsconfig: tsconfig,
-		outExtension: () => ({ js: '.umd.js', dts: '.umd.d.ts' }),
+		outExtension: () => ({ js: '.global.js' }),
 
 		// specifice iife
-		bundle: true,
+		bundle: true
 	}, config ?? {}) as Options;
 }
 
-/** @param workspace {string} 'packages/core' */
-function dts(workspace: string, config?: Config): Options {
+async function dts(workspace: string): Promise<void> {
 	const cwd = process.cwd();
 	const base = r(workspace, cwd);
 	const outDir = r('dist/types', base);
-	const tsconfig = r('tsconfig.json', base);
-
-	const entry = (() => {
-		if (typeof config?.entry === 'undefined' || config.entry === null) {
-			return [r('src/mod.ts', base)];
-		} else if (typeof config.entry === 'string') {
-			return [r(config.entry, base)];
-		} else if (typeof config.entry === 'object' && config.entry instanceof Array) {
-			return config.entry.map((e) => r(e, base));
-		} else {
-			return [r('src/mod.ts', base)];
-		}
-	})()
-
-	delete config?.entry;
-
-	return Object.assign({}, TSUP_COMMON_OPTIONS, {
-		name: workspace,
-		outDir: outDir,
-		entry: entry,
-		tsconfig: tsconfig,
-		outExtension: () => ({ dts: '.d.ts' }),
-
-		// specifice dts
-		bundle: true,
-		dts: { only: true }
-	}, config ?? {}) as Options;
+	await $`cd ${base} && npx tsc --declarationDir ${outDir} --emitDeclarationOnly --declaration --noEmit false`
 }
 
-/** @param workspace {string} 'packages/core' */
 function b(workspace: string, config?: Config): Options {
 	const cwd = process.cwd();
 	const base = r(workspace, cwd);
