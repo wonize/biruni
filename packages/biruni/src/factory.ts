@@ -1,1 +1,1 @@
-export * from '@biruni/factory';
+export * from '@biruni/factory/mod';

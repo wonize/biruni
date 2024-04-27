@@ -1,1 +1,1 @@
-export * from '@biruni/built-in';
+export * from '@biruni/built-in/mod';
