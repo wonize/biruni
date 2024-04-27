@@ -1,2 +1,2 @@
-export * from './json';
-export * from './localstorage';
+export { JsonPlugin, json } from './json';
+export { LocalStoragePlugin, localstorage } from './localstorage';
