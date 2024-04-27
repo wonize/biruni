@@ -23,8 +23,8 @@ class StoreFactory<TData extends StoreData> implements StoreFactoryChain<TData> 
 		return new StoreFactory<TData>(plugin, this.#pluginStruct);
 	}
 
-	public init<D extends TData>(initializer: () => D): Store<D> {
-		return new Store<D>(initializer, this.#pluginStruct);
+	public init<T extends StoreData>(initializer: () => T): Store<T> {
+		return new Store<T>(initializer, this.#pluginStruct);
 	}
 }
 
