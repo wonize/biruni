@@ -1,27 +1,37 @@
-import type { Core } from '@biruni/core';
-import React, { Attributes, useMemo } from 'react';
+import type { Store, StoreData } from '@biruni/core';
+import React from 'react';
 import { useStore } from './useStore';
 
 function withStore<
-	D extends object,
-	P extends object,
-	S extends Core<D>,
-	V = S extends Core<infer T> ? T : object,
-	O = Omit<P, keyof V>,
-	G = O & V,
->(Store: S, Component: React.ComponentType<P & Partial<G>>) {
-	return function EnhancedBiruni<Props extends object & O & Partial<V>>(props: Props) {
+	TStore extends Store<StoreData>,
+	TProps extends StoreData,
+	TData extends StoreData = TStore extends Store<infer Data> ? Data : StoreData,
+	TCleanProps = Omit<TProps, keyof TData>,
+	TNewProps = TCleanProps & Partial<TData>,
+>(Store: TStore, Component: React.ComponentType<TProps & Partial<TNewProps>>) {
+	return function EnhancedBiruni<
+		Props extends Record<string, unknown>
+		& TNewProps
+	>(props: Props) {
 		const store = useStore(Store);
-		const storeProps = useMemo(() => store.get(), [store]);
+		const [$$storeData, setData] = React.useState<TData>();
+
+		React.useEffect(() => {
+			store.get().then(($$data) => {
+				setData(() => $$data as unknown as TData);
+			})
+		}, []);
 
 		return React.createElement(
 			Component,
-			Object.assign({}, props, storeProps) as Props & P & G,
+			Object.assign({}, props, $$storeData) as Props & TProps & TNewProps,
 		);
 	};
 }
 
 export { withStore as withBiruni, withStore };
 
-export type WithStore<S extends Core<object>, P extends object = object> =
-	S extends Core<infer T> ? Omit<P, keyof T> & Partial<T> : P;
+export type WithStore<
+	S extends Store<StoreData>,
+	P extends Record<string, unknown> = Record<string, unknown>> =
+	S extends Store<infer Data> ? Omit<P, keyof Data> & Partial<Data> : P;
