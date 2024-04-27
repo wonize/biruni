@@ -5,7 +5,10 @@
 	"private": true,
 	"packageManager": "pnpm@8.9.0",
 	"scripts": {
+		"ci": "turbo build",
 		"build": "tsx scripts/build.ts",
+		"release": "turbo run publish",
+		"publish": "changeset publish",
 		"test": "vitest run",
 		"test:update": "vitest -u",
 		"dev": "turbo dev",

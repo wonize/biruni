@@ -4,13 +4,20 @@
     "**/.env.*local"
   ],
   "pipeline": {
+    "publish": {
+      "dependsOn": [
+        "build"
+      ],
+      "cache": false
+    },
     "build": {
       "dependsOn": [
         "^build"
       ],
       "outputs": [
         ".next/**",
-        "!.next/cache/**"
+        "!.next/cache/**",
+        "dist"
       ]
     },
     "lint": {
