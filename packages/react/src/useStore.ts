@@ -1,35 +1,30 @@
-import type { Core } from '@biruni/core';
+import type { Store, StoreData } from '@biruni/core';
 import React from 'react';
 
-function useStore<V extends object>(store: Core<V>) {
-	const [value, setValue] = React.useState<V>();
+function useStore<
+	TStore extends Store<StoreData>,
+	TData extends StoreData = TStore extends Store<infer D> ? D : StoreData
+>(store: TStore) {
+	const [data, setData] = React.useState<TData>();
 
 	React.useEffect(() => {
-		store.get().then((value) => {
-			setValue(() => value);
+		// TODO: some magic of pub/sub in here!
+		store.get().then(($$data) => {
+			setData(() => {
+				return ($$data as unknown as TData)
+			});
 		});
-	}, [store.get]);
+	}, [store]);
 
 	const $$store = React.useMemo(
 		() => ({
-			set: function (setter: V | ((d?: V) => V)) {
-				store.set(setter as any);
-			},
-			get: function <
-				K extends keyof V,
-				P extends undefined | K = undefined,
-				R = P extends K ? V[P] : V,
-			>(property?: P): R {
-				if (typeof value === 'undefined') return {} as unknown as never;
-
-				if (typeof property === 'undefined') {
-					return value as unknown as never;
-				} else {
-					return value[property] as unknown as never;
-				}
-			},
+			// TODO: resolve promises out-of-box
+			/// getSync: NoPromise<StoreGetGeneric<S>>
+			/// getSync: () => value;
+			set: store.set,
+			get: store.get,
 		}),
-		[value],
+		[data],
 	);
 
 	return $$store;
