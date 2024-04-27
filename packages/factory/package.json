@@ -33,6 +33,11 @@
 			"import": "./dist/esm/mod.js",
 			"types": "./dist/types/mod.d.ts"
 		},
+		"./factory": {
+			"require": "./dist/cjs/factory.js",
+			"import": "./dist/esm/factory.js",
+			"types": "./dist/types/factory.d.ts"
+		},
 		"./*": {
 			"require": "./dist/cjs/*.js",
 			"import": "./dist/esm/*.js",
