@@ -1,4 +1,6 @@
-export interface Parser<Value extends object> {
-	parse<TValue extends Value>(value: string): TValue;
-	stringify<TValue extends Value>(value: TValue): string;
+import type { StoreData } from "../globals";
+
+export interface Parser<TData extends StoreData> {
+	parse<D extends TData>(value: string): D;
+	stringify<D extends TData>(value: D): string;
 }

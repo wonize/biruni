@@ -14,46 +14,46 @@ import type { ParserContext } from "./parser/context";
 import type { PersisterContext } from "./persister/context";
 import { StoreSet } from "./set";
 
-class StoreGetImpl<S extends StoreData> extends StoreSet<S> implements StoreGet<S> {
-	get<K = undefined>(): Promise<StoreGetByWholeResult<S>>;
-	get<K extends keyof S>(key: K): Promise<StoreGetByKeyResult<S, K>>;
-	get<K extends keyof S, L extends KeyList<S>>(keys: L): Promise<StoreGetByKeysResult<S, L>>;
-	get<K extends keyof S, O extends KeyRecord<S>>(o: O): Promise<StoreGetByObjectResult<S, O>>;
-	get<K extends keyof S, F extends FnValue<S, K> = FnValue<S, K>>(key: K, fn: F): Promise<ReturnType<F>>;
-	get<K extends keyof S, F extends FnWhole<S>>(fn: F): Promise<ReturnType<F>>;
+class StoreGetImpl<TData extends StoreData> extends StoreSet<TData> implements StoreGet<TData> {
+	get<K = undefined>(): Promise<StoreGetByWholeResult<TData>>;
+	get<K extends keyof TData>(key: K): Promise<StoreGetByKeyResult<TData, K>>;
+	get<K extends keyof TData, L extends KeyList<TData>>(keys: L): Promise<StoreGetByKeysResult<TData, L>>;
+	get<K extends keyof TData, O extends KeyRecord<TData>>(o: O): Promise<StoreGetByObjectResult<TData, O>>;
+	get<K extends keyof TData, F extends FnValue<TData, K> = FnValue<TData, K>>(key: K, fn: F): Promise<ReturnType<F>>;
+	get<K extends keyof TData, F extends FnWhole<TData>>(fn: F): Promise<ReturnType<F>>;
 	get<
-		K extends keyof S,
-		P extends KeyList<S> | KeyRecord<S> | FnWhole<S>,
+		K extends keyof TData,
+		P extends KeyList<TData> | KeyRecord<TData> | FnWhole<TData>,
 		R extends
-		P extends KeyList<S>
-		? StoreGetByKeysResult<S, P>
-		: P extends KeyRecord<S>
-		? StoreGetByObjectResult<S, P>
-		: P extends FnWhole<S>
+		P extends KeyList<TData>
+		? StoreGetByKeysResult<TData, P>
+		: P extends KeyRecord<TData>
+		? StoreGetByObjectResult<TData, P>
+		: P extends FnWhole<TData>
 		? ReturnType<P> :
 		never
-		= P extends KeyList<S>
-		? StoreGetByKeysResult<S, P>
-		: P extends KeyRecord<S>
-		? StoreGetByObjectResult<S, P>
-		: P extends FnWhole<S>
+		= P extends KeyList<TData>
+		? StoreGetByKeysResult<TData, P>
+		: P extends KeyRecord<TData>
+		? StoreGetByObjectResult<TData, P>
+		: P extends FnWhole<TData>
 		? ReturnType<P> :
 		never
-	>(keyOrKeysOrObjOrFn?: P | undefined, fn?: FnValue<S, K> | undefined): Promise<R> {
+	>(keyOrKeysOrObjOrFn?: P | undefined, fn?: FnValue<TData, K> | undefined): Promise<R> {
 		return new Promise(async (resolve, reject) => {
-			const persister = this.pluginStruct?.persister as PersisterContext<S>;
+			const persister = this.pluginStruct?.persister as PersisterContext<TData>;
 			if (typeof persister === 'undefined') {
 				return reject('should have least one persister');
 			}
 
 			const raw_value = await persister.$$instance.get({});
 
-			const parser = this.pluginStruct?.parser as ParserContext<S>;
+			const parser = this.pluginStruct?.parser as ParserContext<TData>;
 			if (typeof parser === 'undefined') {
 				return reject('should have least one parser');
 			}
 
-			const value = parser.$$instance.parse(raw_value.$$value) as Readonly<S>;
+			const value = parser.$$instance.parse(raw_value.$$value) as Readonly<TData>;
 
 			if (typeof keyOrKeysOrObjOrFn === 'string') {
 				const key = keyOrKeysOrObjOrFn as K;

@@ -1,8 +1,8 @@
 import type { StoreData } from "./globals";
 import type { PluginStruct } from "./plugin/mod";
 
-export class StoreCore<S extends StoreData> {
+export class StoreCore<TData extends StoreData> {
 	public constructor(
-		protected pluginStruct: PluginStruct<S>,
+		protected pluginStruct: PluginStruct<TData>,
 	) { }
 }

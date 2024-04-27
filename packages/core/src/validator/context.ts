@@ -1,7 +1,7 @@
 import type { StoreData } from '../globals';
 import type { Validator } from './validator';
 
-export interface ValidatorContext<S extends StoreData> {
+export interface ValidatorContext<TData extends StoreData> {
 	$$type: 'validator';
-	$$instance: Validator<S>;
+	$$instance: Validator<TData>;
 }
