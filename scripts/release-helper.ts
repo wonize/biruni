@@ -68,9 +68,12 @@ type Config = Partial<Omit<Options, 'entryPoints' | 'clean'>>;
 async function checkType(workspace: string): Promise<void> {
 	const o = resolveConfigs(workspace, {
 		outDir: 'dist'
-	})
-	await $`cd ${o.base} && npx tsc --noEmit`
-	echo(`CHK [${workspace}] ${o.outDir}`)
+	});
+	const output = await $`cd ${o.base} && npx tsc --noEmit`;
+	if (output.exitCode !== 0) {
+		echo(output.stdout);
+	}
+	echo(`CHK [${workspace}] ${o.outDir}`);
 }
 
 async function clr(workspace: string, config?: Config): Promise<void> {
