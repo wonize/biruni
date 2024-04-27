@@ -65,6 +65,20 @@
 		"@biruni/built-in": "workspace:*"
 	},
 	"devDependencies": {},
-	"peerDependencies": {},
-	"peerDependenciesMeta": {}
+	"peerDependencies": {
+		"@biruni/core": "<=1.0.0",
+		"@biruni/factory": "<=1.0.0",
+		"@biruni/built-in": "<=1.0.0"
+	},
+	"peerDependenciesMeta": {
+		"@biruni/core": {
+			"optional": false
+		},
+		"@biruni/factory": {
+			"optional": false
+		},
+		"@biruni/built-in": {
+			"optional": false
+		}
+	}
 }
