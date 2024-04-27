@@ -11,8 +11,8 @@ class JsonParser<S extends StoreData> implements Parser<S> {
 }
 
 const json: Plugin = () => {
-	return function <S extends StoreData>(): ParserContext<S> {
-		const $$instance = new JsonParser<S>();
+	return function <TData extends StoreData>(): ParserContext<TData> {
+		const $$instance = new JsonParser<TData>();
 
 		return {
 			$$type: 'parser',
