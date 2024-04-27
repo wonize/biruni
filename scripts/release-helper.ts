@@ -1,7 +1,10 @@
 import { default as process } from 'node:process';
 import { fileURLToPath, format } from 'node:url';
+import { default as task } from 'tasuku';
 import { build as tsup, type Options } from 'tsup';
 import { $, echo, fs } from 'zx';
+
+$.verbose = false;
 
 async function prepublish(workspace: string) {
 	await checkType(workspace);
@@ -11,6 +14,7 @@ async function prepublish(workspace: string) {
 // ========== Builders ==========
 
 const TSUP_COMMON_OPTIONS: Options = {
+	silent: true,
 	dts: false,
 	shims: true,
 	clean: false,
@@ -20,31 +24,51 @@ const TSUP_COMMON_OPTIONS: Options = {
 	skipNodeModulesBundle: true,
 	minify: 'terser',
 	treeshake: 'safest',
+	env: { NODE_ENV: 'production' },
 }
 
-async function build(workspace: string, config?: Config): Promise<void> {
-	await clr(workspace);
-	await esm(workspace, { entry: ['src/'], ...config });
-	await cjs(workspace, { entry: ['src/'], ...config });
-	await umd(workspace, { entry: ['src/mod.ts'], ...config });
-	await dts(workspace);
+let index: number = 0;
+async function build(workspace: string, config?: Config) {
+	await task(`${++index} START [${workspace}]`, async ({ setTitle, setError, setStatus }) => {
+		try {
+			await clr(workspace)
+			setTitle(`(DIR) CLEARED  [${workspace}]`)
+
+			await esm(workspace, { entry: ['src/'], ...config });
+			setTitle(`(ESM) BUILDED  [${workspace}]`)
+
+			await cjs(workspace, { entry: ['src/'], ...config });
+			setTitle(`(CJS) BUILDED  [${workspace}]`)
+
+			await umd(workspace, { entry: ['src/mod.ts'], ...config });
+			setTitle(`(UMD) BUILDED  [${workspace}]`)
+
+			await dts(workspace);
+			setTitle(`(DTS) BUILDED  [${workspace}]`)
+
+			setTitle(`( ${index} ) COMPLETED [${workspace}]`)
+		} catch (error: any) {
+			setStatus('error');
+			setError(error);
+		}
+	})
 }
 
-async function esm(workspace: string, config?: Config): Promise<void> {
+async function esm(workspace: string, config?: Config) {
 	await tsup(resolveTsupOptions(workspace, Object.assign({}, {
 		format: ['esm'],
 		outDir: 'dist/esm',
 	}, config)));
 }
 
-async function cjs(workspace: string, config?: Config): Promise<void> {
+async function cjs(workspace: string, config?: Config) {
 	await tsup(resolveTsupOptions(workspace, Object.assign({}, {
 		format: ['cjs'],
 		outDir: 'dist/cjs',
 	}, config)));
 }
 
-async function umd(workspace: string, config?: Config): Promise<void> {
+async function umd(workspace: string, config?: Config) {
 	await tsup(resolveTsupOptions(workspace, Object.assign({}, {
 		format: ['iife'],
 		outDir: 'dist/umd',
@@ -55,17 +79,16 @@ async function umd(workspace: string, config?: Config): Promise<void> {
 	}, config)));
 }
 
-async function dts(workspace: string): Promise<void> {
+async function dts(workspace: string) {
 	const o = resolveConfigs(workspace, { outDir: 'dist/types' });
-	await $`cd ${o.base} && npx tsc --declarationDir ${o.outDir} --emitDeclarationOnly --declaration --noEmit false`
-	echo(`DTS [${workspace}] ${o.outDir}`)
+	await $`cd ${o.base} && npx tsc --declarationDir ${o.outDir} --emitDeclarationOnly --declarationMap --declaration --noEmit false`
 }
 
 type Config = Partial<Omit<Options, 'entryPoints' | 'clean'>>;
 
 // ========== Commands ==========
 
-async function checkType(workspace: string): Promise<void> {
+async function checkType(workspace: string) {
 	const o = resolveConfigs(workspace, {
 		outDir: 'dist'
 	});
@@ -73,15 +96,13 @@ async function checkType(workspace: string): Promise<void> {
 	if (output.exitCode !== 0) {
 		echo(output.stdout);
 	}
-	echo(`CHK [${workspace}] ${o.outDir}`);
 }
 
-async function clr(workspace: string, config?: Config): Promise<void> {
+async function clr(workspace: string, config?: Config) {
 	const o = resolveConfigs(workspace, {
 		outDir: config?.outDir ?? 'dist'
 	})
 	await $`cd ${o.base} && rm -rf ${o.outDir}`
-	echo(`CLR [${workspace}] ${o.outDir}`)
 }
 
 // ========== Resolvers ==========
