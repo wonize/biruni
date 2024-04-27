@@ -1,4 +1,5 @@
-import { StoreImpl, type ExactPlugin, type PluginStruct, type Store } from '@biruni/core';
+import type { ExactPlugin, PluginStruct, StoreData } from '@biruni/core';
+import Store from '@biruni/core';
 import type { StoreFactoryChain } from './chain';
 
 class StoreFactory<S extends StoreData> implements StoreFactoryChain<S> {
@@ -23,7 +24,7 @@ class StoreFactory<S extends StoreData> implements StoreFactoryChain<S> {
 	}
 
 	public init(initializer: () => NoInfer<S>): Store<S> {
-		return new StoreImpl<S>(initializer, this.#pluginStruct);
+		return new Store<S>(initializer, this.#pluginStruct);
 	}
 }
 
