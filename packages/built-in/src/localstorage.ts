@@ -26,8 +26,8 @@ class LocalStoragePersister<S extends StoreData> implements Persister<S> {
 }
 
 const localstorage: Plugin<[key: string]> = (key: string) => {
-	return function <TValue extends object>() {
-		const $$instance = new LocalStoragePersister<TValue>(key);
+	return function <S extends StoreData>() {
+		const $$instance = new LocalStoragePersister<S>(key);
 
 		return {
 			$$type: 'persister',
