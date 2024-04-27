@@ -62,7 +62,7 @@
 	},
 	"peerDependencies": {
 		"zod": ">=3.22.0",
-		"@biruni/core": "<=1"
+		"@biruni/core": "<=1.0.0"
 	},
 	"peerDependenciesMeta": {
 		"@biruni/core": {

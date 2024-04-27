@@ -69,7 +69,7 @@
 		"@biruni/core": "workspace:*"
 	},
 	"peerDependencies": {
-		"@biruni/core": "<=1"
+		"@biruni/core": "<=1.0.0"
 	},
 	"peerDependenciesMeta": {
 		"@biruni/core": {
