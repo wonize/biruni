@@ -2,16 +2,16 @@ import type { Store, StoreData } from '@biruni/core';
 import React from 'react';
 
 function useStore<
-	TStore extends Store<StoreData>,
-	TData extends StoreData = TStore extends Store<infer D> ? D : StoreData
->(store: TStore) {
-	const [data, setData] = React.useState<TData>();
+	TData extends StoreData,
+	TStore extends Store<TData>
+>(store: TStore): UseStore<TStore> {
+	const [data, setData] = React.useState<NoInfer<TData>>();
 
 	React.useEffect(() => {
 		// TODO: some magic of pub/sub in here!
 		store.get().then(($$data) => {
 			setData(() => {
-				return ($$data as unknown as TData)
+				return ($$data as any)
 			});
 		});
 	}, [store]);
@@ -28,6 +28,11 @@ function useStore<
 	);
 
 	return $$store;
+}
+
+type UseStore<TStore extends Store<StoreData>> = {
+	get: TStore['get'],
+	set: TStore['set']
 }
 
 export { useStore as useBiruni, useStore };
