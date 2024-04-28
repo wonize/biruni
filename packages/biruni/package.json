@@ -2,7 +2,7 @@
 	"$schema": "https://json.schemastore.org/package",
 	"name": "biruni",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "(Al-Biruni) Unified All-in-One Storage Utilities",
 	"keywords": [
 		"wonize",
@@ -96,9 +96,9 @@
 	},
 	"devDependencies": {},
 	"peerDependencies": {
-		"@biruni/core": "<=1.0.0",
-		"@biruni/factory": "<=1.0.0",
-		"@biruni/built-in": "<=1.0.0"
+		"@biruni/core": "<=0.0.4",
+		"@biruni/factory": "<=0.0.4",
+		"@biruni/built-in": "<=0.0.4"
 	},
 	"peerDependenciesMeta": {
 		"@biruni/core": {

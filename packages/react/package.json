@@ -2,7 +2,7 @@
 	"$schema": "https://json.schemastore.org/package",
 	"name": "@biruni/react",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "(Al-Biruni) React Integeration Utilities",
 	"keywords": [
 		"wonize",
@@ -63,7 +63,7 @@
 	},
 	"peerDependencies": {
 		"react": ">=18",
-		"@biruni/core": "<=1.0.0"
+		"@biruni/core": "<=0.0.4"
 	},
 	"peerDependenciesMeta": {
 		"@biruni/core": {
