@@ -9,10 +9,10 @@ interface KeyValue<Data extends StoreData> {
 }
 
 interface KeyMapper<Data extends StoreData> {
-	<Key extends keyof Data, Value extends Data[Key]>(key: Key, mapper: KeyMapperFunction<Value>): Promise<void>;
+	<Key extends keyof Data, Value extends Data[Key]>(key: Key, mapper: KeyMapperFunction<Value, Data>): Promise<void>;
 }
 
-interface KeyMapperFunction<Value extends unknown> {
+interface KeyMapperFunction<Value extends Data[keyof Data], Data extends StoreData> {
 	(value: Readonly<Value> | never): Value;
 }
 
@@ -42,7 +42,7 @@ const isKeyValue = <Data extends StoreData>(input: unknown): input is Data[keyof
 	return true;
 }
 
-const isKeyMapper = <Data extends StoreData>(input: unknown): input is KeyMapperFunction<Data[keyof Data]> => {
+const isKeyMapper = <Data extends StoreData>(input: unknown): input is KeyMapperFunction<Data[keyof Data], Data> => {
 	return typeof input === 'function';
 }
 
