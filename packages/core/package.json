@@ -48,6 +48,11 @@
 			"import": "./dist/esm/get.js",
 			"types": "./dist/types/get.d.ts"
 		},
+		"./helpers": {
+			"require": "./dist/cjs/helpers.js",
+			"import": "./dist/esm/helpers.js",
+			"types": "./dist/types/helpers.d.ts"
+		},
 		"./*": {
 			"require": "./dist/cjs/*.js",
 			"import": "./dist/esm/*.js",
