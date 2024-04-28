@@ -38,6 +38,10 @@ const isKeyOfData = <Data extends StoreData>(input: unknown): input is keyof Dat
 	return typeof input === 'string';
 }
 
+const isKeyValue = <Data extends StoreData>(input: unknown): input is Data[keyof Data] => {
+	return true;
+}
+
 const isKeyMapper = <Data extends StoreData>(input: unknown): input is KeyMapperFunction<Data> => {
 	return typeof input === 'function';
 }
@@ -49,6 +53,7 @@ const isMapper = <Data extends StoreData>(input: unknown): input is MapperFuncti
 export {
 	isKeyMapper,
 	isKeyOfData,
+	isKeyValue,
 	isMapper,
 	isPartialData
 };
