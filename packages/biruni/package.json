@@ -34,9 +34,39 @@
 			"types": "./dist/types/mod.d.ts"
 		},
 		"./built-in": {
-			"require": "./dist/cjs/built-in.js",
-			"import": "./dist/esm/built-in.js",
-			"types": "./dist/types/built-in.d.ts"
+			"require": "./dist/cjs/built-in/mod.js",
+			"import": "./dist/esm/built-in/mod.js",
+			"types": "./dist/types/built-in/mod.d.ts"
+		},
+		"./built-in/localstorage": {
+			"require": "./dist/cjs/built-in/localstorage.js",
+			"import": "./dist/esm/built-in/localstorage.js",
+			"types": "./dist/types/built-in/localstorage.d.ts"
+		},
+		"./built-in/json": {
+			"require": "./dist/cjs/built-in/json.js",
+			"import": "./dist/esm/built-in/json.js",
+			"types": "./dist/types/built-in/json.d.ts"
+		},
+		"./core": {
+			"require": "./dist/cjs/core/mod.js",
+			"import": "./dist/esm/core/mod.js",
+			"types": "./dist/types/core/mod.d.ts"
+		},
+		"./core/set": {
+			"require": "./dist/cjs/core/set.js",
+			"import": "./dist/esm/core/set.js",
+			"types": "./dist/types/core/set.d.ts"
+		},
+		"./core/get": {
+			"require": "./dist/cjs/core/get.js",
+			"import": "./dist/esm/core/get.js",
+			"types": "./dist/types/core/get.d.ts"
+		},
+		"./factory": {
+			"require": "./dist/cjs/factory.js",
+			"import": "./dist/esm/factory.js",
+			"types": "./dist/types/factory.d.ts"
 		},
 		"./*": {
 			"require": "./dist/cjs/*.js",
