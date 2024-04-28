@@ -1,4 +1,4 @@
-import type { StoreData } from '../globals';
+import type { StoreData } from '../helpers';
 import type { Persister } from './persister';
 
 export interface PersisterContext<TData extends StoreData> {

@@ -1,4 +1,4 @@
-import type { StoreData } from './globals';
+import type { StoreData } from './helpers';
 import type { ParserContext } from './parser/context';
 import type { PersisterContext } from './persister/context';
 import type { ValidatorContext } from './validator/context';
