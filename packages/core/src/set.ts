@@ -29,3 +29,34 @@ interface Overloads<Data extends StoreData> extends
 	KeyValue<Data>,
 	KeyMapper<Data>,
 	Mapper<Data> { }
+
+const isPartialData = <Data extends StoreData>(input: unknown): input is Partial<Data> => {
+	return typeof input === 'object' && input !== null;
+}
+
+const isKeyOfData = <Data extends StoreData>(input: unknown): input is keyof Data => {
+	return typeof input === 'string';
+}
+
+const isKeyMapper = <Data extends StoreData>(input: unknown): input is KeyMapperFunction<Data> => {
+	return typeof input === 'function';
+}
+
+const isMapper = <Data extends StoreData>(input: unknown): input is MapperFunction<Data> => {
+	return typeof input === 'function';
+}
+
+export {
+	isKeyMapper,
+	isKeyOfData,
+	isMapper,
+	isPartialData
+};
+
+export type {
+	KeyMapper,
+	KeyValue,
+	Mapper,
+	Overloads,
+	PartialData
+};
