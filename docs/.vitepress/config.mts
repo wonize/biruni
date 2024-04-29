@@ -6,6 +6,8 @@ export default defineConfig({
 	title: "Al-Biruni Doc's",
 	description: "Unified All-in-One Storage Utilities",
 	appearance: 'dark',
+
+	srcDir: './src',
 	themeConfig: {
 		logo: '/assets/logo.svg',
 
