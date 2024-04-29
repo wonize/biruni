@@ -14,13 +14,13 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 	public readonly set: Setter.Overloads<Data> = async (a: unknown, b?: unknown) => {
 		if (Setter.isKeyOfData<Data>(a)) {
-			if (Setter.isKeyMapper<Data>(b)) {
-				await this.setByKeyAndMapper(a, b);
+			if (Setter.isKeySetter<Data>(b)) {
+				await this.setByKeySetter(a, b);
 			} else if (Setter.isKeyValue<Data>(b)) {
 				await this.setByKeyValue(a, b);
 			}
-		} else if (Setter.isMapper<Data>(a)) {
-			await this.setByMapper(a);
+		} else if (Setter.isSetter<Data>(a)) {
+			await this.setBySetter(a);
 		} else if (Setter.isPartialData<Data>(a)) {
 			await this.setByPartialData(a);
 		} else {
@@ -28,7 +28,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		}
 	};
 
-	private setByKeyAndMapper: Setter.KeyMapper<Data> = async (key, mapper) => {
+	private setByKeySetter: Setter.KeySetter<Data> = async (key, mapper) => {
 		const old_value = this.get(key);
 		const new_value = mapper(old_value as unknown as Readonly<Parameters<typeof mapper>[number]>);
 		const new_data = { [key]: new_value } as unknown as Partial<Data>;
@@ -44,7 +44,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		await this._set(data);
 	};
 
-	private setByMapper: Setter.Mapper<Data> = async (mapper) => {
+	private setBySetter: Setter.Setter<Data> = async (mapper) => {
 		const old_data = await this.get();
 		const new_data = mapper(old_data);
 		await this._set(new_data);

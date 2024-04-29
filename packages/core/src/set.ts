@@ -8,27 +8,27 @@ interface KeyValue<Data extends StoreData> {
 	<Key extends keyof Data, Value extends Data[Key]>(key: Key, value: Value): Promise<void>;
 }
 
-interface KeyMapper<Data extends StoreData> {
-	<Key extends keyof Data, Value extends Data[Key]>(key: Key, mapper: KeyMapperFunction<Value, Data>): Promise<void>;
+interface KeySetter<Data extends StoreData> {
+	<Key extends keyof Data, Value extends Data[Key]>(key: Key, setter: KeySetterFunction<Value, Data>): Promise<void>;
 }
 
-interface KeyMapperFunction<Value extends Data[keyof Data], Data extends StoreData> {
+interface KeySetterFunction<Value extends Data[keyof Data], Data extends StoreData> {
 	(value: Readonly<Value> | never): Value;
 }
 
-interface Mapper<Data extends StoreData> {
-	(mapper: MapperFunction<Data>): Promise<void>;
+interface Setter<Data extends StoreData> {
+	(setter: SetterFunction<Data>): Promise<void>;
 }
 
-interface MapperFunction<Data extends StoreData> {
+interface SetterFunction<Data extends StoreData> {
 	(data: Readonly<Data> | never): Partial<Data>;
 }
 
 interface Overloads<Data extends StoreData> extends
 	PartialData<Data>,
 	KeyValue<Data>,
-	KeyMapper<Data>,
-	Mapper<Data> { }
+	KeySetter<Data>,
+	Setter<Data> { }
 
 const isPartialData = <Data extends StoreData>(input: unknown): input is Partial<Data> => {
 	return typeof input === 'object' && input !== null;
@@ -42,26 +42,26 @@ const isKeyValue = <Data extends StoreData>(input: unknown): input is Data[keyof
 	return true;
 }
 
-const isKeyMapper = <Data extends StoreData>(input: unknown): input is KeyMapperFunction<Data[keyof Data], Data> => {
+const isKeySetter = <Data extends StoreData>(input: unknown): input is KeySetterFunction<Data[keyof Data], Data> => {
 	return typeof input === 'function';
 }
 
-const isMapper = <Data extends StoreData>(input: unknown): input is MapperFunction<Data> => {
+const isSetter = <Data extends StoreData>(input: unknown): input is SetterFunction<Data> => {
 	return typeof input === 'function';
 }
 
 export {
-	isKeyMapper,
 	isKeyOfData,
+	isKeySetter,
 	isKeyValue,
-	isMapper,
-	isPartialData
+	isPartialData,
+	isSetter
 };
 
 export type {
-	KeyMapper,
+	KeySetter,
 	KeyValue,
-	Mapper,
 	Overloads,
-	PartialData
+	PartialData,
+	Setter
 };
