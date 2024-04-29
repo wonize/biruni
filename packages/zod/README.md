@@ -1,7 +1,7 @@
 <div align="center">
 
-![DARK_BANNER](https://raw.githubusercontent.com/wonize/biruni/main/packages/zod/assets/dark.png#gh-dark-mode-only)
-![LIGHT_BANNER](https://raw.githubusercontent.com/wonize/biruni/main/packages/zod/assets/light.png#gh-light-mode-only)
+![DARK_BANNER](https://raw.githubusercontent.com/wonize/biruni/main/docs/public/assets/dark.png#gh-dark-mode-only)
+![LIGHT_BANNER](https://raw.githubusercontent.com/wonize/biruni/main/docs/public/assets/light.png#gh-light-mode-only)
 
 <br/>
 
