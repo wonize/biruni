@@ -1,4 +1,4 @@
-# `React` Utilities
+# React Utility
 
 > [GitHub](https://github.com/wonize/biruni/tree/main/packages/react/)
 > | [NPM](https://www.npmjs.com/package/@biruni/react)

@@ -1,4 +1,4 @@
-# `Zod` Utilities
+# Zod Utility
 
 > [GitHub](https://github.com/wonize/biruni/tree/main/packages/zod/)
 > | [NPM](https://www.npmjs.com/package/@biruni/zod)
