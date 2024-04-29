@@ -4,28 +4,7 @@ There is 5 type of plugins avaialble:
 
 ## Persister's
 
-To perssist data.
-
-::: details Interface
-
-::: code-group
-
-```ts [context]
-interface PersisterContext<DataStore> {
-  $$type: "persister";
-  $$instance: Persister;
-}
-```
-
-```ts [interface]
-interface Persister<DataStore> {
-  new (key: string): Persister<DataStore>;
-  set: PersisterSet<DataStore>;
-  get: PersisterGet<DataStore>;
-}
-```
-
-:::
+To perssist and cache data.
 
 ::: details Examples
 
