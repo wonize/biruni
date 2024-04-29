@@ -2,7 +2,7 @@
 
 > [GitHub](https://github.com/wonize/biruni/tree/main/packages/zod/)
 > | [NPM](https://www.npmjs.com/package/@biruni/zod)
-> | [Doc's](https://wonize.github.io/biruni/references/zod/)
+> | [Doc's](https://wonize.github.io/biruni/plugin/zod/)
 
 ## Installation
 

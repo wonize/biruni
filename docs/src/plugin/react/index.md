@@ -2,7 +2,7 @@
 
 > [GitHub](https://github.com/wonize/biruni/tree/main/packages/react/)
 > | [NPM](https://www.npmjs.com/package/@biruni/react)
-> | [Doc's](https://wonize.github.io/biruni/references/react/)
+> | [Doc's](https://wonize.github.io/biruni/plugin/react/)
 
 ## Installation
 

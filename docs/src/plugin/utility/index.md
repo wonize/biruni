@@ -2,7 +2,7 @@
 
 > [GitHub](https://github.com/wonize/biruni/tree/main/packages/utility/)
 > | [NPM](https://www.npmjs.com/package/@biruni/utility)
-> | [Doc's](https://wonize.github.io/biruni/references/utility/)
+> | [Doc's](https://wonize.github.io/biruni/plugin/utility/)
 
 ## Installation
 
