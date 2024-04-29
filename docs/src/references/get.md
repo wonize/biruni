@@ -2,177 +2,188 @@
 outline: deep
 ---
 
-# `.get` Store
+# `.get` Method
 
-Retrun value's from Storage Key.
-
-> There is 6 way to Get/Reterieve/Restore Data's from `Store`.
+The `.get` method is used to retrieve values from the Storage Key. There are six different ways to get, retrieve, or restore data from the Store.
 
 > [!IMPORTANT]
-> First, should `import { StoreName } from 'path/store-name.ts'`
+> Before using the `.get` method, make sure to import the Store using `import { StoreName } from 'path/store-name.ts'`.
 
-## Total Data
+> [!NOTE]
+> All returned data is wrapped in a Promise and follows the async/await function signature.
 
-### Signature
+## Retrieve All Data
 
-```typescript
-.get(): Promise<DataStore>
-```
-
-### Example
+This method returns all the data stored in the Store.
 
 ```typescript
-counter.get();
+const data = await userSettings.get();
 ```
 
-```console
+The returned data will look like this:
+
+```json
 {
-  "loggedin": "NO",
-  "count": 1
+  "theme": "dark",
+  "language": "en-US",
+  "primaryColor": "blue"
 }
 ```
 
-## Select By Key
-
-There is option to return only key
-
-### Signature
+::: details signature
 
 ```typescript
-// without remap data's
-.get<Key extends keyof DataStore>(key: Key): Promise<DataStore[Key]>
-
-// with remap data's
-.get<
-  Key extends keyof DataStore,
-  MapFn extends (value: DataStore[Key]) => unknown
->(key: Key, map: MapFn): Promise<ReturnType<MapFn>>
+.get(): Promise<Readonly<Data>>;
 ```
 
-> it's auto-infer to generic `Key`, no more need to pass generic
+:::
 
-### Example
+## Get Single Key/Value
 
-**W/O Remap Data's**
+You can retrieve a specific key's value using the .get method.
 
 ```typescript
-counter.get("count");
+userSettings.get("theme");
 ```
 
-```console
-1
+The returned value will be:
+
+```json
+"dark"
 ```
 
-**W/ Remap Data's**
+You can also map the value to a custom output format using a function:
 
 ```typescript
-counter.get("count", (count) => {
+userSettings.get("theme", (theme) => {
   return {
-    value: count,
-    message: `we count ${count} times`,
+    value: theme,
+    message: `the current theme is: ${theme}`,
   };
 });
 ```
 
-```console
+The output will be:
+
+```json
 {
-  value: 1,
-  message: "we count 1 times",
+  "value": "dar",
+  "message": "we current theme is: dark"
 }
 ```
 
-## Select By Key List
+::: details signature
 
-Return Data's by selected Keys
-
-### Signature
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
 
 ```typescript
-.get<
-  Key extends keyof DataStore,
-  Keys extends Array<Key>,
->(key: Keys): Promise<{
-   [K in Keys[number]]: DataStore[K]
-}>
+.get<Key extends keyof Data>(key: Key): Promise<Data[Key]>;
 ```
 
-> it's auto-infer to generic `Key`, no more need to pass generic
-
-### Example
+In case you want to map the value to a custom output format, you can use:
 
 ```typescript
-counter.get(["count"]);
+.get<Key extends keyof Data, Mapper extends (data: Data[Key] | never) => (Data[Key] | unknown)>(key: Key, mapper: Mapper): Promise<ReturnType<Mapper> | Data[Key] | unknown>;
 ```
 
-```console
+:::
+
+## Filter By Key List
+
+This method allows you to retrieve data for a list of selected keys.
+
+```typescript
+userSettings.get(["theme", "primaryColor"]);
+```
+
+The returned data will be:
+
+```json
 {
-  "count": 1,
+  "theme": "dark",
+  "primaryColor": "blue"
 }
 ```
 
-## Select By Key Object
+::: details signature
 
-Return Data's by selected Keys by `boolean`-like value
-
-### Signature
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
 
 ```typescript
-.get<
-  Key extends keyof DataStore,
-  Keys extends Record<Key, boolean>,
->(key: Keys): Promise<{
-  [K in keyof Keys]:
-    Keys[K] extends true
-    ? DataStore[K]
-    : never
-}>
+.get<KeyList extends Array<keyof Data>>(keys: Partial<KeyList>): Promise<Readonly<{ [SelectedKey in KeyList extends Partial<Array<infer Key>> ? Key : never]: Data[SelectedKey] }>>;
 ```
 
-> it's auto-infer to generic `Key`, no more need to pass generic
+:::
 
-### Example
+## Filter By Key Object
+
+This method allows you to retrieve data for selected keys based on a `boolean`-like value.
 
 ```typescript
-counter.get({ count: true, loggedin: false });
+userSettings.get({ theme: true, primaryColor: false });
 ```
 
-```console
+```json
 {
-  "count": 1,
+  "theme": "dark"
 }
 ```
 
-## Remap Data's
+::: details signature
 
-Return Data's by custom output
-
-### Signature
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
 
 ```typescript
-.get<MapFn extends (store: DataStore) => unknown>(map: MapFn): Promise<ReturnType<MapFn>>
+.get<KeyObject extends Record<keyof Data, boolean>>(keys: Partial<KeyObject>): Promise<TruthyKeysReturnType<Data, KeyObject>>;
 ```
 
-> it's auto-infer to generic, no more need to pass generic
+:::
 
-### Example
+## Custom Data Mapping
+
+This method allows you to transform the input data into a custom output format.
 
 ```typescript
-counter.get((store) => {
+userSettings.get((store) => {
   return {
-    value: store.count,
-    message: `we counted ${count} times`,
+    value: store.theme,
+    message: `the current theme is: ${store.theme}`,
   };
 });
 ```
 
-```console
+The returned data will be:
+
+```json
 {
-  value: 1,
-  message: "we counted 1 times",
+  "value": "dark",
+  "message": "the current theme is: dark"
 }
 ```
 
-### Using Utilities
+You can also use this method as a _Selector_ option:
+
+```typescript
+userSettings.get((store) => store.theme);
+```
+
+The returned data will be:
+
+```json
+"dark"
+```
+
+::: details signature
+
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
+
+```typescript
+.get<Mapper extends (data: Readonly<Data> | never) => (Data | unknown)>(mapper: Mapper): Promise<ReturnType<Mapper> | Data | unknown>;
+```
+
+:::
+
+## Using Utilities
 
 There is also `@biruni/utility` library to contain some magical modules to be helper for more DX!
 
@@ -185,10 +196,10 @@ import { get } from "@biruni/utility";
 2. **Use**
 
 ```typescript
-get(counter);
-get(counter, ["count"]);
-get(counter, "count");
-get(counter, "count", (count) => `${count} times`);
-get(counter, { count: true });
-get(counter, (store) => store.count);
+get(userSettings);
+get(userSettings, ["theme"]);
+get(userSettings, "theme");
+get(userSettings, "theme", (theme) => `${theme} mode`);
+get(userSettings, { theme: true });
+get(userSettings, (store) => store.theme);
 ```

@@ -2,118 +2,134 @@
 outline: deep
 ---
 
-# `.set` Store
+# `.set` Method
 
-Store value's to Storage Key.
-
-> There is 4 way to Set/Save/Store Data's to `Store`.
+The `.set` method allows you to store, save, or update data in a Storage Key. There are four ways to use the `.set` method to manage your data.
 
 > [!IMPORTANT]
+> The `.set` Always:
 >
-> 1. The `.set` is always **`Immutable`**
-> 2. The `.set` return always `Promise<void>`
+> 1. return `Promise<void>`
+> 2. is **`Immutable`**.\
+>    meaning it won't modify the existing data but create a new version with merged updates.
 
-## Object Data
-
-### Signature
-
-```typescript
-.set(store: Partial<DataStore>): Promise<void>
-```
-
-### Example
+## Set Data with Key-Value Pair
 
 ```typescript
-counter.set({ count: 3 });
+userSettings.set({ theme: "dark" });
 ```
 
-```console
+```json
 {
-  "count": 3,
-  "anotherKey": "some value"
+  "theme": "light", // [!code --]
+  "theme": "dark", // [!code ++]
+
+  // unchanged and merged ->
+  "language": "en-US",
+  "primaryColor": "blue"
 }
 ```
 
-## By Key
-
-### Signature
+::: details signature
 
 ```typescript
-// without remap data's
-.set<
-  Key extends keyof DataStore
-  Value extends DataStore[Key]
->(key: Key, value: Value): Promise<void>
-
-// with remap data's
-.set<
-  Key extends keyof DataStore,
-  Value extends DataStore[Key],
-  MapFn extends (value: Value) => Value
->(key: Key, map: MapFn): Promise<void>
+.set(data: Partial<Data>): Promise<void>;
 ```
 
-> it's auto-infer to generic `Key`, no more need to pass generic
+:::
 
-### Example
-
-**W/O Remap Data's**
+## Set Data with Key and Value
 
 ```typescript
-counter.set("count", 3);
+userSettings.set("theme", "dark");
 ```
 
-```console
+```json
 {
-  "count": 3,
-  "anotherKey": "some value"
+  "theme": "light", // [!code --]
+  "theme": "dark", // [!code ++]
+
+  // unchanged and merged ->
+  "language": "en-US",
+  "primaryColor": "blue"
 }
 ```
 
-**W/ Remap Data's**
+::: details signature
+
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
 
 ```typescript
-counter.set("count", (count) => {
-  // count was 1, then plus 2 equal to 3
-  return count + 2;
+.set<Key extends keyof Data, Value extends Data[Key]>(key: Key, value: Value): Promise<void>;
+```
+
+:::
+
+## Set Data with Key-Setter Function
+
+> also can be used to conditional changes
+
+```typescript
+userSettings.set("theme", (theme) => {
+  return theme === "light" ? "dark" : "light";
 });
 ```
 
-```console
+```json
 {
-  "count": 3,
-  "anotherKey": "some value"
+  "theme": "light", // [!code --]
+  "theme": "dark", // [!code ++]
+
+  // unchanged and merged ->
+  "language": "en-US",
+  "primaryColor": "blue"
 }
 ```
 
-## By Setter Function
+::: details signature
 
-### Signature
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
 
 ```typescript
-.set<Setter extends (draft: DataStore) => Partial<DataStore>>(setter: Setter): Promise<void>
+.set<Key extends keyof Data, Value extends Data[Key], Setter extends (value: Value) => Value>(key: Key, setter: Setter): Promise<void>;
 ```
 
-> it's auto-infer to generic and no more need to pass generic
+:::
 
-### Example
+## Set Data with Setter Function
 
 ```typescript
-counter.set((draft) => {
-  return {
-    count: draft.count + 2,
-  };
+userSettings.set((oldData) => {
+  if (oldData.theme === "light") {
+    return { theme: "dark" };
+  } else {
+    return { theme: "light" };
+  }
 });
 ```
 
-```console
+```json
 {
-  "count": 3,
-  "anotherKey": "some value"
+  "theme": "light", // [!code --]
+  "theme": "dark", // [!code ++]
+
+  // unchanged and merged ->
+  "language": "en-US",
+  "primaryColor": "blue"
 }
 ```
 
-### Using Utilities
+::: details signature
+
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
+
+```typescript
+.set<Setter extends (oldData: Data) => (Partial<Data>)>(setter: Setter): Promise<void>
+```
+
+:::
+
+## Using Utilities
 
 There is also `@biruni/utility` library to contain some magical modules to be helper for more DX!
 
@@ -126,9 +142,9 @@ import { set } from "@biruni/utility";
 2. **Use**
 
 ```typescript
-set(counter);
-set(counter, { count: 3 });
-set(counter, "count", 3);
-set(counter, "count", (count) => count + 2);
-set(counter, (store) => store.count + 2);
+set(userSettings);
+set(userSettings, { theme: "dark" });
+set(userSettings, "theme", "dark");
+set(userSettings, "theme", (theme) => (theme === "light" ? "dark" : "light"));
+set(userSettings, (oldData) => (oldData.theme === "light" ? "dark" : "light"));
 ```
