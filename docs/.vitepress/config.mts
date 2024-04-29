@@ -8,6 +8,7 @@ export default defineConfig({
 	appearance: 'dark',
 
 	srcDir: 'src',
+	cleanUrls: true,
 	themeConfig: {
 		logo: {
 			src: '/assets/logo.svg',
