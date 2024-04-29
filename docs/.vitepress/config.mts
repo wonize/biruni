@@ -31,7 +31,7 @@ export default defineConfig({
 					{ text: 'Overview', link: '/intro/#overview' },
 					{ text: 'Installing', link: '/intro/#installation' },
 					{ text: 'Example', link: '/intro/#example' },
-					{ text: 'Why Biruni', link: '/intro/#why-biruni' }
+					{ text: 'Features', link: '/intro/#features' }
 				],
 			},
 			{

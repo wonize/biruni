@@ -95,32 +95,33 @@ setTimeout(() => {
 
 ### Simple
 
-> The `Biruni` is easy-to-use by only **3 Step** from definition to manipulation
+> Experience the simplicity of **Biruni** with its **3-Step** process from definition to manipulation, making it incredibly easy to use.
 
 ### Extensible
 
-> The `Biruni` is Extensible By **Plugin API**, that mean, we can extend behavior by unlimited available plugins.
+> Expand the capabilities of **Biruni** with our Plugin API. Unlock unlimited possibilities by integrating various plugins to suit your needs.
 
 ### Battery-Included
 
 > The `Biruni` Unified All-in-One Utilities around Storages and Stores
 
+### Interchangiblity
 
-## Why `Al-Biruni`?
+> Leverage Biruni's powerful Plugin API to effortlessly interchange components without worrying about API calls. Its abstracted methods and plugin-based approach make it a versatile solution.
 
-### 1. Interchangiblity
+### Cross-Use, Write Once, Run Everywhere
 
-`biruni` provide **Plugin API's** and it's make power of interchange everything with anything else without making worry about API Calls, because it's provide abstracted methods and usage over plugins.
+> Biruni ensures your experience remains smooth and consistent across different platforms. It comes equipped with built-in polyfills and API availability checking, allowing it to function even in unsupported environments.
 
-### 2. Write Once, Run Everywhere
+### Safe
 
-`biruni` also provide polyfill and api-avialbility-checking in built-in. it's work also in unsupported place.
+> Biruni powerd by Typescript programming language.
 
 ## Al-Biruni
 
 > **Persian scholar and scientist**
 
-**Al-Bīrūnī** /ælbɪˈruːni/ (Persian: ابوریحان بیرونی; Arabic: أبو الريحان البيروني)  (born Sept. 4, 973 CE, Khwārezm, Khorāsān [now in Uzbekistan]—died c. 1052, Ghazna [now Ghaznī, Afg.) was a Iranian Muslim astronomer, mathematician, ethnographist, anthropologist, historian, and geographer during the Islamic Golden Age. Al-Bīrūnī managed to become the most original polymath the Islamic world had ever known.<sup>[ [1] ]</sup>
+**Al-Bīrūnī** /ælbɪˈruːni/ (Persian: ابوریحان بیرونی; Arabic: أبو الريحان البيروني) (born Sept. 4, 973 CE, Khwārezm, Khorāsān [now in Uzbekistan]—died c. 1052, Ghazna [now Ghaznī, Afg.) was a Iranian Muslim astronomer, mathematician, ethnographist, anthropologist, historian, and geographer during the Islamic Golden Age. Al-Bīrūnī managed to become the most original polymath the Islamic world had ever known.<sup>[ [1] ]</sup>
 Al-Biruni was well versed in physics, mathematics, astronomy, and natural sciences, and also distinguished himself as a historian, chronologist, and linguist. He has been called variously the "Father of modern geodesy", and the first anthropologist.<sup>[ [2] ]</sup>
 
 [1]: https://www.britannica.com/biography/al-Biruni
