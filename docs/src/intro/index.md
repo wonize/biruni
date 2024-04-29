@@ -2,7 +2,11 @@
 
 ## Overview
 
-Abu Rayhan Muhammad ibn Ahmad **al-Biruni** /ælbɪˈruːni/ (Persian: ابوریحان بیرونی; Arabic: أبو الريحان البيروني) (973 – after 1050), known as al-Biruni, was a Khwarazmian Iranian scholar and polymath during the Islamic Golden Age. He has been called variously the "founder of Indology", "Father of Comparative Religion", "Father of modern geodesy", and the first anthropologist. [from WIKIPEDIA](https://en.wikipedia.org/wiki/Al-Biruni)
+The `biruni` is a versatile all-in-one storage utility that offers seamless interchangeability between various storage options such as `localStorage`, `sessionStorage`, `ionic/secure-storage`, `react-native/sqlite`, `capacitor/preferences` and also in-memory cache storage. It also includes a built-in synchronizer feature and supports integration with `Broadcast Channel API` and `Storage Event API`.
+
+With a powerful plugin API, `biruni` provides flexibility for developers to tailor their storage solutions to fit their specific needs. It is designed to seamlessly integrate with popular front-end libraries and frameworks such as React.js, as well as store management libraries like `zustand`, `pullstate`, and `redux`.
+
+Named after the renowned scientist Al-Biruni, the `biruni` project aims to streamline the storage process and enhance the overall efficiency of data management for developers. Whether you are looking for a reliable storage solution or seeking to optimize your data storage capabilities, `biruni` offers a comprehensive and adaptable solution for all your storage needs.
 
 ## Installation
 
@@ -87,7 +91,7 @@ setTimeout(() => {
 
 :::
 
-## Why `Biruni`?
+## Features
 
 ### Simple
 
@@ -100,3 +104,24 @@ setTimeout(() => {
 ### Battery-Included
 
 > The `Biruni` Unified All-in-One Utilities around Storages and Stores
+
+
+## Why `Al-Biruni`?
+
+### 1. Interchangiblity
+
+`biruni` provide **Plugin API's** and it's make power of interchange everything with anything else without making worry about API Calls, because it's provide abstracted methods and usage over plugins.
+
+### 2. Write Once, Run Everywhere
+
+`biruni` also provide polyfill and api-avialbility-checking in built-in. it's work also in unsupported place.
+
+## Al-Biruni
+
+> **Persian scholar and scientist**
+
+**Al-Bīrūnī** /ælbɪˈruːni/ (Persian: ابوریحان بیرونی; Arabic: أبو الريحان البيروني)  (born Sept. 4, 973 CE, Khwārezm, Khorāsān [now in Uzbekistan]—died c. 1052, Ghazna [now Ghaznī, Afg.) was a Iranian Muslim astronomer, mathematician, ethnographist, anthropologist, historian, and geographer during the Islamic Golden Age. Al-Bīrūnī managed to become the most original polymath the Islamic world had ever known.<sup>[ [1] ]</sup>
+Al-Biruni was well versed in physics, mathematics, astronomy, and natural sciences, and also distinguished himself as a historian, chronologist, and linguist. He has been called variously the "Father of modern geodesy", and the first anthropologist.<sup>[ [2] ]</sup>
+
+[1]: https://www.britannica.com/biography/al-Biruni
+[2]: https://wikipedia.com/en/al-biruni
