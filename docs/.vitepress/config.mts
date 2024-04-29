@@ -7,12 +7,17 @@ export default defineConfig({
 	description: "Unified All-in-One Storage Utilities",
 	appearance: 'dark',
 
-	srcDir: './src',
+	srcDir: 'src',
 	themeConfig: {
-		logo: '/assets/logo.svg',
+		logo: {
+			src: '/assets/logo.svg',
+			dark: '/assets/logo-light.svg',
+			light: '/assets/logo-dark.svg',
+		},
 
 		nav: [
 			{ text: 'Home', link: '/' },
+			{ text: 'Plugins', link: '/plugin/' },
 			{ text: 'References', link: '/references/' }
 		],
 
@@ -94,6 +99,7 @@ export default defineConfig({
 	},
 
 	head: [
+		['link', { rel: 'icon', href: '/biruni/assets/logo.svg' }],
 		['meta', { name: 'theme-color', content: '#6B1D1D' }],
 		['meta', { property: 'og:url', content: 'https://wonize.github.io/biruni/' }],
 		['meta', { property: 'og:type', content: 'website' }],
@@ -108,7 +114,7 @@ export default defineConfig({
 			'meta',
 			{
 				property: 'og:image',
-				content: 'https://wonize.github.io/biruni/assets/light.png'
+				content: 'https://wonize.github.io/biruni/assets/og-image/light.png'
 			}
 		],
 		['meta', { name: 'twitter:site', content: '@wonize' }],
