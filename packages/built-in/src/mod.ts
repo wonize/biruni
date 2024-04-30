@@ -1,2 +1,2 @@
-export { JsonPlugin, json } from './json';
-export { LocalStoragePlugin, localstorage } from './localstorage';
+export { JsonPlugin, json } from './json/mod';
+export { LocalStoragePlugin, localstorage } from './localstorage/mod';
