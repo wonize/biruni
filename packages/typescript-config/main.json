@@ -16,13 +16,7 @@
 			"ESNext",
 			"DOM",
 			"DOM.Iterable"
-		],
-		"paths": {
-			"@/*": [
-				"src/*",
-				"src/*/mod"
-			]
-		}
+		]
 	},
 	"exclude": [
 		"**/node_modules",
