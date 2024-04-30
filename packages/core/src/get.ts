@@ -1,4 +1,4 @@
-import type { RemoveNever, StoreData } from './helpers';
+import type { RemoveNever, StoreData } from '@/helpers';
 
 interface WholeData<Data extends StoreData> {
 	(): Promise<
