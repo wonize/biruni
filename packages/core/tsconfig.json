@@ -1,8 +1,5 @@
 {
 	"extends": "@repo/tsconfig/main.json",
-	"compilerOptions": {
-		"baseUrl": "./"
-	},
 	"include": [
 		"src"
 	]

@@ -1,7 +1,6 @@
 {
 	"extends": "@repo/tsconfig/main.json",
 	"compilerOptions": {
-		"baseUrl": "./",
 		"jsx": "react-jsx"
 	},
 	"include": [
