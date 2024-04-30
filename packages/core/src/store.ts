@@ -1,9 +1,9 @@
-import type * as Plugin from "@/plugin";
-import type { DataDiff, KeyDiff, StoreData } from "@/helpers";
+import type { DataDiff, KeyDiff, StoreData } from "./helpers";
+import type * as Plugin from "./plugin/mod";
 
-import * as Getter from "@/get";
-import * as On from '@/on';
-import * as Setter from "@/set";
+import * as Getter from "./get";
+import * as On from './on';
+import * as Setter from "./set";
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
 	public constructor(

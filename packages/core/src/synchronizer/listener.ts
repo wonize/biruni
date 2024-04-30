@@ -1,4 +1,4 @@
-import type { DataDiff, KeyDiff, StoreData } from "@/helpers";
+import type { DataDiff, KeyDiff, StoreData } from "../helpers";
 import type { EventName } from "./event";
 import type { Payload } from "./payload";
 

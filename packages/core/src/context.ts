@@ -1,8 +1,8 @@
-import type { StoreData } from '@/helpers';
-import type { Parser as ParserInterface } from '@/parser';
-import type { Persister as PersisterInterface } from '@/persister';
-import type { Synchronizer as SynchronizerInterface } from '@/synchronizer';
-import type { Validator as ValidatorInterface } from '@/validator';
+import type { StoreData } from './helpers';
+import type { Parser as ParserInterface } from './parser/mod';
+import type { Persister as PersisterInterface } from './persister/mod';
+import type { Synchronizer as SynchronizerInterface } from './synchronizer/mod';
+import type { Validator as ValidatorInterface } from './validator/mod';
 
 export type ContextType =
 	| 'parser'

@@ -1,4 +1,4 @@
-import type { StoreData } from "@/helpers";
+import type { StoreData } from "../helpers";
 
 export interface Persister<Data extends StoreData> {
 	set<

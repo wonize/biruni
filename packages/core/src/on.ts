@@ -1,6 +1,6 @@
-import type { DataDiff, KeyDiff, StoreData } from "@/helpers";
-import type { EventName } from "@/synchronizer/event";
-import type { Payload } from "@/synchronizer/payload";
+import type { DataDiff, KeyDiff, StoreData } from "./helpers";
+import type { EventName } from "./synchronizer/event";
+import type { Payload } from "./synchronizer/payload";
 
 interface AddEventListener<Data extends StoreData> {
 	(event: EventName, listener: ListenerFunction<Data>): void;
