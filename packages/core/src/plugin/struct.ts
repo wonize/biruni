@@ -1,11 +1,11 @@
-import type { CoreContext } from '@/context';
-import type { StoreData } from '@/helpers';
-import type * as Synchronizer from '@/synchronizer';
-import type * as Validator from '@/validator';
+import type { CoreContext, Parser, Persister, Synchronizer, Validator } from '@/context';
+import type { StoreData } from "@/helpers";
 
-export type PluginStruct<Data extends StoreData> = {
-	synchronizer: Synchronizer.Context<Data>;
-	validator: Validator.Context<Data>;
-	persister: CoreContext<Data>;
-	parser: CoreContext<Data>;
+export interface Struct<Data extends StoreData> {
+	synchronizer: Synchronizer<Data>;
+	validator: Validator<Data>;
+	persister: Persister<Data>;
+	parser: Parser<Data>;
+
+	[K: string]: CoreContext<Data>;
 }

@@ -1,8 +1,2 @@
-import type { ExactPlugin, Plugin } from './plugin';
-import type { PluginStruct } from './struct';
-
-export * from './plugin';
-export * from './struct';
-export type {
-	ExactPlugin as Executor, Plugin as Function, PluginStruct as Struct
-};
+export type { PluginFunction as Function } from './function';
+export type { Struct } from './struct';
