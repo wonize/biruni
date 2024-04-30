@@ -1,5 +1,6 @@
 export type * as Context from './context';
 export type * as Plugin from './plugin/mod';
+export type * as Event from './synchronizer/event';
 
 export * as Getter from './get';
 export * as GetterSync from './get-sync';
