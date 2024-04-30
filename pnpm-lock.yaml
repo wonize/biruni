@@ -45,7 +45,7 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
-      '@repo/typescript-config':
+      '@repo/tsconfig':
         specifier: workspace:*
         version: link:packages/typescript-config
       '@types/node':
@@ -169,7 +169,7 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/typescript-config':
+      '@repo/tsconfig':
         specifier: workspace:*
         version: link:../typescript-config
       '@turbo/gen':
