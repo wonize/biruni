@@ -1,15 +1,18 @@
-import type { StoreData } from './helpers';
-import type { ParserContext } from './parser/context';
-import type { PersisterContext } from './persister/context';
-import type { ValidatorContext } from './validator/context';
+import type { StoreData } from '@/helpers';
+import type { Context as Parser } from '@/parser/context';
+import type { Context as Persister } from '@/persister/context';
+import type { Context as Synchronizer } from '@/synchronizer/context';
+import type { Context as Validator } from '@/validator/context';
 
-export type CoreContext<TData extends StoreData> =
-	| ParserContext<TData>
-	| PersisterContext<TData>
-	| ValidatorContext<TData>;
+export type CoreContext<Data extends StoreData> =
+	| Parser<Data>
+	| Persister<Data>
+	| Validator<Data>
+	| Synchronizer<Data>;
 
 export type {
-	ParserContext,
-	PersisterContext,
-	ValidatorContext
+	Parser,
+	Persister,
+	Synchronizer,
+	Validator
 };
