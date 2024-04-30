@@ -1,31 +1,34 @@
 import type { DataDiff, KeyDiff, StoreData } from "@/helpers";
-import type * as Synchronizer from "@/synchronizer";
+import type { EventName } from "@/synchronizer/event";
+import type { Payload } from "@/synchronizer/payload";
 
-interface AddListener<Data extends StoreData> {
-	(event: Synchronizer.Event, listener: ListenerFunction<Data>): void;
+interface AddEventListener<Data extends StoreData> {
+	(event: EventName, listener: ListenerFunction<Data>): void;
 }
 
 interface ListenerFunction<Data extends StoreData> {
 	<
-		Event extends Synchronizer.Event,
+		Event extends EventName,
 		Keys extends KeyDiff<Data>,
-		Diffs extends DataDiff<Data, Keys>
-	>(payload: Synchronizer.Payload<Data, Event, Keys, Diffs>): void;
+		Diffs extends DataDiff<Data, Keys>,
+	>(payload: Payload<Data, Event, Keys, Diffs>): void;
 }
-
-interface Overloads<Data extends StoreData> extends AddListener<Data> { }
-
-export type {
-	AddListener, Overloads, Emit
-};
 
 interface Emit<Data extends StoreData> {
 	<
-		Event extends Synchronizer.Event,
+		Event extends EventName,
 		Keys extends KeyDiff<Data>,
 		Diffs extends DataDiff<Data, Keys>
 	>(
 		event: Event,
-		payload: Synchronizer.Payload<Data, NoInfer<Event>, Keys, Diffs>,
+		payload: Payload<Data, NoInfer<Event>, Keys, Diffs>,
 	): void;
 }
+
+interface Overloads<Data extends StoreData> extends AddEventListener<Data> { }
+
+export type {
+	AddEventListener,
+	Emit,
+	Overloads
+};
