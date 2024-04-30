@@ -1,5 +1,3 @@
-import type * as Parser from '@/parser';
-import type * as Persister from '@/persister';
 import type * as Plugin from "@/plugin";
 import type { DataDiff, KeyDiff, StoreData } from "./helpers";
 
@@ -60,10 +58,10 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 		this.emitPreChange(diffs);
 
-		const $$parser = this.pluginStruct?.parser as Parser.Context<Data>;
+		const $$parser = this.pluginStruct?.parser;
 		const stringified_data = $$parser.$$instance.stringify(new_data);
 
-		const $$persister = this.pluginStruct?.persister as Persister.Context<Data>;
+		const $$persister = this.pluginStruct?.persister;
 		await $$persister.$$instance.set({ $$value: stringified_data });
 
 		this.emitPostChange(diffs);
@@ -133,10 +131,10 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	}
 
 	private _get = async (): Promise<Data> => {
-		const $$persister = this.pluginStruct?.persister as Persister.Context<Data>;
+		const $$persister = this.pluginStruct?.persister;
 		const $$data = await $$persister.$$instance.get({});
 
-		const $$parser = this.pluginStruct?.parser as Parser.Context<Data>;
+		const $$parser = this.pluginStruct?.parser;
 		const parsed_data = $$parser.$$instance.parse($$data.$$value);
 
 		return parsed_data;
@@ -164,7 +162,6 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 			newData: diffs.mergedData,
 			keyDiff: diffs.keys as KeyDiff<Data>,
 			diff: diffs.data as DataDiff<Data, KeyDiff<Data>>,
-			url: '',
 			event: 'preChange'
 		});
 	}
@@ -184,7 +181,6 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 			newData: diffs.mergedData,
 			keyDiff: diffs.keys as KeyDiff<Data>,
 			diff: diffs.data as DataDiff<Data, KeyDiff<Data>>,
-			url: '',
 			event: 'preChange'
 		});
 	}
@@ -192,7 +188,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	private emit: On.Emit<Data> = (event, payload) => {
 		this.pluginStruct.synchronizer.$$instance.emit({
 			$$event: event,
-			$$details: payload
+			$$payload: payload
 		})
 	}
 
