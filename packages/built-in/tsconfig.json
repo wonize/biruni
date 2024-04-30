@@ -1,5 +1,5 @@
 {
-	"extends": "../../tsconfig.json",
+	"extends": "@repo/tsconfig/main.json",
 	"compilerOptions": {
 		"baseUrl": "./"
 	},
