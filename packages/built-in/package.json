@@ -64,15 +64,21 @@
 		"node": ">=18"
 	},
 	"scripts": {},
-	"dependencies": {},
+	"dependencies": {
+		"events": "3.3.0"
+	},
 	"devDependencies": {
 		"@biruni/core": "workspace:*"
 	},
 	"peerDependencies": {
-		"@biruni/core": "<=0.0.4"
+		"@biruni/core": "<=0.0.4",
+		"events": "^3.3.0"
 	},
 	"peerDependenciesMeta": {
 		"@biruni/core": {
+			"optional": false
+		},
+		"events": {
 			"optional": false
 		}
 	}
