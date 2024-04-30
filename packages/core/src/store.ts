@@ -112,7 +112,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 	private getByKeyList: Getter.KeyList<Data> = async (keys) => {
 		const data = await this._get();
-		const filtered_data = (keys as Array<keyof Data>).reduce((filtered_pairs, key) => {
+		const filtered_data = (keys as unknown as Array<keyof Data>).reduce((filtered_pairs, key) => {
 			return Object.assign({}, filtered_pairs, { [key]: data[key] });
 		}, {});
 		type Result = Getter.KeyListReturnType<Data, typeof keys>;
