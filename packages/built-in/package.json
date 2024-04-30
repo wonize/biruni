@@ -43,6 +43,11 @@
 			"import": "./dist/esm/json/mod.js",
 			"types": "./dist/types/json/mod.d.ts"
 		},
+		"./event": {
+			"require": "./dist/cjs/event/mod.js",
+			"import": "./dist/esm/event/mod.js",
+			"types": "./dist/types/event/mod.d.ts"
+		},
 		"./*": {
 			"require": "./dist/cjs/*.js",
 			"import": "./dist/esm/*.js",
