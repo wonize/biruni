@@ -6,20 +6,24 @@
 
 ## Installation
 
-```shell
+::: code-group
+
+```shell [npm]
 $ npm install @biruni/built-in
 ```
 
-```shell
+```shell [yarn]
 $ yarn add @biruni/built-in
 ```
 
-```shell
+```shell [pnpm]
 $ pnpm add @biruni/built-in
 ```
+
+:::
 
 ## Include
 
 - [`json`](/plugin/built-in/json)
+- [`event`](/plugin/built-in/event)
 - [`localstorage`](/plugin/built-in/localstorage)
-- [`sessionstorage`](/plugin/built-in/sessionstorage)

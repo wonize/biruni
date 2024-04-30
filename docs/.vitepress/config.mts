@@ -53,8 +53,8 @@ export default defineConfig({
 						collapsed: true,
 						items: [
 							{ text: 'json plugin', link: '/plugin/built-in/json' },
+							{ text: 'event plugin', link: '/plugin/built-in/event' },
 							{ text: 'localStorage plugin', link: '/plugin/built-in/localstorage' },
-							{ text: 'sessionStorage plugin', link: '/plugin/built-in/sessionstorage' },
 						]
 					}
 				]

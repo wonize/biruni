@@ -13,15 +13,15 @@ Named after the renowned scientist Al-Biruni, the `biruni` project aims to strea
 ::: code-group
 
 ```shell [pnpm]
-$ pnpm add biruni
+$ pnpm add --save biruni
 ```
 
 ```shell [npm]
-$ npm install biruni
+$ npm install --save biruni
 ```
 
 ```shell [yarn]
-$ yarn add biruni
+$ yarn add --save biruni
 ```
 
 :::
@@ -30,7 +30,7 @@ $ yarn add biruni
 
 ::: code-group
 
-```tsx [basic]
+```tsx [initialize]
 import { biruni } from "biruni";
 import json from "@biruni/built-in/json";
 import localstorage from "@biruni/built-in/localstorage";
@@ -45,11 +45,11 @@ export default biruni<CounterStore>()
   .init(() => ({ count: 1 }));
 ```
 
-```tsx [sync between tabs]
+```tsx [add observer/events]
 import { biruni } from "biruni";
 import json from "@biruni/built-in/json";
 import localstorage from "@biruni/built-in/localstorage";
-import broadcast from "@biruni/built-in/broadcast"; // [!code ++]
+import event from "@biruni/built-in/event"; // [!code ++]
 
 type CounterStore = {
   count: number;
@@ -57,12 +57,12 @@ type CounterStore = {
 
 export default biruni<CounterStore>()
   .plug(json())
-  .plug(broadcast()) // [!code ++]
+  .plug(event()) // [!code ++]
   .plug(localstorage("counter-storage-key"))
   .init(() => ({ count: 1 }));
 ```
 
-```tsx [zod validation]
+```tsx [add zod validation]
 import { biruni } from "biruni";
 import json from "@biruni/built-in/json";
 import localstorage from "@biruni/built-in/localstorage";
@@ -79,10 +79,14 @@ export default biruni<CounterStore>()
   .init(() => ({ count: 1 }));
 ```
 
-```tsx [set/get]
+```tsx [manipulate with set/get]
 import CounterStore from "./store.ts";
 
 const count = await CoutnerStore.get("count");
+CounterStore.on("preChange", function (payload) {
+  console.log("[ ", payload.oldData, " ] >--CHANGED--> [ ", payload.newData, " ]");
+  // [ { count: 1 } ] >--CHANGED--> [ { count: 5 } ]
+});
 
 setTimeout(() => {
   CounterStore.set("count", 5);
