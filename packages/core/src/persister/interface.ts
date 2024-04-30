@@ -1,4 +1,4 @@
-import type { StoreData } from "../helpers";
+import type { StoreData } from "@/helpers";
 
 export interface Persister<TData extends StoreData> {
 	set<D extends string, TKey extends string>(tag: {

@@ -1,7 +1,7 @@
-import type { StoreData } from '../helpers';
-import type { Validator } from './validator';
+import type { StoreData } from '@/helpers';
+import type { Validator } from './interface';
 
-export interface ValidatorContext<TData extends StoreData> {
+export interface Context<TData extends StoreData> {
 	$$type: 'validator';
 	$$instance: Validator<TData>;
 }

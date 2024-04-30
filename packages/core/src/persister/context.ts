@@ -1,5 +1,5 @@
-import type { StoreData } from '../helpers';
-import type { Persister } from './persister';
+import type { StoreData } from '@/helpers';
+import type { Persister } from './interface';
 
 export interface PersisterContext<TData extends StoreData> {
 	readonly $$type: 'persister';
