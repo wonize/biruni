@@ -1,41 +1,37 @@
-import type { StoreData } from "@/helpers";
+import type { DataDiff, KeyDiff, StoreData } from "@/helpers";
 
 export interface Synchronizer<Data extends StoreData> {
-	emit<
-		Namespace extends string,
-		Event extends SynchronizerEvent,
-		KeyDiff extends Partial<keyof Data>,
-		DataDiff extends Partial<Data>
-	>(payload: {
-		$$event: SynchronizerEvent,
-		$$details: SynchronizerPayload<Data, Namespace, Event, KeyDiff, DataDiff>,
-	}): Promise<void>;
-
 	on<
-		Namespace extends string,
 		Event extends SynchronizerEvent,
-		KeyDiff extends Partial<keyof Data>,
-		DataDiff extends Partial<Data>
+		Keys extends KeyDiff<Data>,
+		Diffs extends DataDiff<Data, Keys>
 	>(payload: {
-		$$event: SynchronizerEvent,
-		$$listener: SynchronizerListenerFunction<Data, Namespace, Event, KeyDiff, DataDiff>
-	}): Promise<void>
+		$$event: Event,
+		$$listener: SynchronizerListenerFunction<Data, NoInfer<Event>, Keys, Diffs>
+	}): void;
+
+	emit<
+		Event extends SynchronizerEvent,
+		Keys extends KeyDiff<Data>,
+		Diffs extends DataDiff<Data, Keys>
+	>(payload: {
+		$$event: Event,
+		$$details: SynchronizerPayload<Data, NoInfer<Event>, Keys, Diffs>,
+	}): void;
 }
 
 export interface SynchronizerPayload<
 	Data extends StoreData,
-	Namespace extends string,
 	Event extends SynchronizerEvent,
-	KeyDiff extends Partial<keyof Data>,
-	DataDiff extends Partial<Data>,
+	Keys extends KeyDiff<Data>,
+	Diffs extends DataDiff<Data, Keys>
 > {
-	namespace: Namespace;
 	oldData: Data;
 	newData: Data;
-	diff: DataDiff;
-	keyDiff: KeyDiff;
+	diff: Diffs;
+	keyDiff: Keys;
 	event: Event;
-	// persister: typeof Persister<Data>['name'];
+	// TODO: persister: typeof Persister<Data>['name'];
 	url: URL | string;
 }
 
@@ -46,8 +42,7 @@ export type SynchronizerEventAsMethod = `on${Capitalize<SynchronizerEvent>}`;
 
 export type SynchronizerListenerFunction<
 	Data extends StoreData,
-	Namespace extends string,
 	Event extends SynchronizerEvent,
-	KeyDiff extends Partial<keyof Data>,
-	DataDiff extends Partial<Data>
-> = (payload: SynchronizerPayload<Data, Namespace, Event, KeyDiff, DataDiff>) => void;
+	Keys extends KeyDiff<Data>,
+	Diffs extends DataDiff<Data, Keys>
+> = (payload: SynchronizerPayload<Data, NoInfer<Event>, Keys, Diffs>) => void;
