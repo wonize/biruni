@@ -1,7 +1,7 @@
 import type { StoreData } from '@/helpers';
 import type { Parser } from './interface';
 
-export interface ParserContext<TData extends StoreData> {
+export interface Context<Data extends StoreData> {
 	readonly $$type: 'parser';
-	$$instance: Parser<TData>;
+	$$instance: Parser<Data>;
 }
