@@ -33,7 +33,7 @@ export type Parser<Data extends StoreData> = CreateContext<Data, 'parser'>;
 export type Persister<Data extends StoreData> = CreateContext<Data, 'persister'>;
 export type Validator<Data extends StoreData> = CreateContext<Data, 'validator'>;
 export type Synchronizer<Data extends StoreData> = CreateContext<Data, 'synchronizer'>;
-export type Context<Data extends StoreData> =
+export type Core<Data extends StoreData> =
 	| Parser<Data>
 	| Persister<Data>
 	| Validator<Data>
