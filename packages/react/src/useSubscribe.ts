@@ -1,8 +1,9 @@
-import type { Store, StoreData } from '@biruni/core';
+import type { Store } from '@biruni/core';
+import type { ExtractStoreData, StoreData } from '@biruni/core/helpers';
 
 export function useSubscribe<
-	S extends Store<StoreData>,
-	D extends StoreData = S extends Store<infer Data> ? Data : StoreData
->(store: S) {
+	TStore extends Store<StoreData>,
+	TData extends StoreData = ExtractStoreData<TStore>
+>(store: TStore) {
 	throw new Error('[BIRUNI] <useSubscribe> not implemented and in WIP');
 }
