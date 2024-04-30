@@ -1,4 +1,6 @@
-import type { Parser, ParserContext, Plugin, StoreData } from '@biruni/core';
+import type { Plugin } from '@biruni/core';
+import type { StoreData } from '@biruni/core/helpers';
+import type { Parser } from '@biruni/core/parser';
 
 class JsonParser<S extends StoreData> implements Parser<S> {
 	public parse<T extends S>(value: string): T {
@@ -10,10 +12,9 @@ class JsonParser<S extends StoreData> implements Parser<S> {
 	}
 }
 
-const json: Plugin = () => {
-	return function <TData extends StoreData>(): ParserContext<TData> {
-		const $$instance = new JsonParser<TData>();
-
+const json = (): Plugin.Function => {
+	return function <Data extends StoreData>() {
+		const $$instance = new JsonParser<Data>();
 		return {
 			$$type: 'parser',
 			$$instance: $$instance,

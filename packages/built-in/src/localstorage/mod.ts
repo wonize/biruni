@@ -1,6 +1,8 @@
-import type { Persister, Plugin, StoreData } from '@biruni/core';
+import type { Plugin } from '@biruni/core';
+import type { StoreData } from '@biruni/core/helpers';
+import type { Persister } from '@biruni/core/persister';
 
-class LocalStoragePersister<S extends StoreData> implements Persister<S> {
+class LocalStoragePersister<Data extends StoreData> implements Persister<Data> {
 	public constructor(private $$key: string) { }
 
 	public async set<T extends string, K extends string>(tag: {
@@ -25,9 +27,9 @@ class LocalStoragePersister<S extends StoreData> implements Persister<S> {
 	}
 }
 
-const localstorage: Plugin<[key: string]> = (key: string) => {
-	return function <TData extends StoreData>() {
-		const $$instance = new LocalStoragePersister<TData>(key);
+const localstorage = (key: string): Plugin.Function => {
+	return function <Data extends StoreData>() {
+		const $$instance = new LocalStoragePersister<Data>(key);
 
 		return {
 			$$type: 'persister',
