@@ -1,5 +1,33 @@
 # @biruni/zod
 
+## 0.0.5
+
+### Patch Changes
+
+- - Add `Synchronizer` Plugin Infstructure
+  - Add `event` built-in plugin
+    - based on `Synchronizer` infstructure
+    - based on `Node.js EventEmitter API`
+  - Add `on` Method API
+  - Support observability for `useStore` hook
+  - Support non-promise and sync data access from `useStore`
+  - Fix `README`'s broken image links
+  - Refactor Barrel `mod.ts` exports and `exports` filed in `package.json`
+  - Refactor `@biruni/core` Base Structure
+- - Add `Synchronizer` Plugin Infstructure
+  - Add `event` built-in plugin
+    - based on `Synchronizer` infstructure
+    - based on `Node.js EventEmitter API`
+  - Add `on` Method API
+  - Support observability for `useStore` hook
+  - Support non-promise and sync data access from `useStore`
+  - Fix `README`'s broken image links
+  - Refactor Barrel `mod.ts` exports and `exports` filed in `package.json`
+  - Refactor `@biruni/core` Base Structure
+- Updated dependencies
+- Updated dependencies
+  - @biruni/core@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes
