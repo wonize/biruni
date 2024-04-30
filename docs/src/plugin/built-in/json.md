@@ -1,8 +1,4 @@
-# `json` built-in plugin
-
-| Name          | Type     |
-| ------------- | -------- |
-| `json` plugin | `Parser` |
+# JSON built-in plugin
 
 ## Import
 
@@ -56,14 +52,12 @@ import { json } from "biruni/json";
 import json from "biruni/json";
 ```
 
-:::
-
 > [!tip]
 > The `json` plugin also aliased to `JsonPlugin` named export
 
-## Usage
+:::
 
-To plug to Store Factory:
+## Plug and Use
 
 ```typescript
 .plug(json())
@@ -74,3 +68,23 @@ Or also can be use aliased name, by:
 ```typescript
 .plug(JsonPlugin())
 ```
+
+::: details Signature
+
+```typescript
+const json = () => () => Context.Parser;
+```
+
+:::
+
+::: details Information
+
+|                   |                                       |
+| ----------------- | ------------------------------------- |
+| Type              | :jigsaw: [`Parser`](#)                |
+| Polyfill-inlcuded | :green_circle: `RUNTIMES BUILTED-IN ` |
+| SSR Supportation  | :green_circle: `RUNTIMES BUILTED-IN ` |
+| Cross-Runtime     | :green_circle: `RUNTIMES BUILTED-IN ` |
+| Implemented Of    | :green_circle: `JSON API`             |
+
+:::
