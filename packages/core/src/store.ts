@@ -1,13 +1,16 @@
-import type { ParserContext, PersisterContext } from "./context";
+import type * as Parser from '@/parser';
+import type * as Persister from '@/persister';
+import type * as Plugin from "@/plugin";
+import type { DataDiff, KeyDiff, StoreData } from "./helpers";
+
 import * as Getter from "./get";
-import type { StoreData } from "./helpers";
-import type { PluginStruct } from "./plugin/struct";
+import * as On from './on';
 import * as Setter from "./set";
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
 	public constructor(
 		protected initializer: () => Data,
-		protected pluginStruct: PluginStruct<Data>,
+		protected pluginStruct: Plugin.Struct<Data>,
 	) {
 		this.set(initializer);
 	}
@@ -53,12 +56,17 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	private _set = async (newData: Partial<Data>) => {
 		const old_data = await this.get();
 		const new_data = Object.assign({}, old_data, newData) as unknown as Readonly<Data>;
+		const diffs = this._diff(newData, old_data, new_data);
 
-		const $$parser = this.pluginStruct?.parser as ParserContext<Data>;
+		this.emitPreChange(diffs);
+
+		const $$parser = this.pluginStruct?.parser as Parser.Context<Data>;
 		const stringified_data = $$parser.$$instance.stringify(new_data);
 
-		const $$persister = this.pluginStruct?.persister as PersisterContext<Data>;
+		const $$persister = this.pluginStruct?.persister as Persister.Context<Data>;
 		await $$persister.$$instance.set({ $$value: stringified_data });
+
+		this.emitPostChange(diffs);
 	}
 
 	// @ts-expect-error 'the unknown is include in mapper types'
@@ -125,19 +133,91 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	}
 
 	private _get = async (): Promise<Data> => {
-		const $$persister = this.pluginStruct?.persister as PersisterContext<Data>;
+		const $$persister = this.pluginStruct?.persister as Persister.Context<Data>;
 		const $$data = await $$persister.$$instance.get({});
 
-		const $$parser = this.pluginStruct?.parser as ParserContext<Data>;
+		const $$parser = this.pluginStruct?.parser as Parser.Context<Data>;
 		const parsed_data = $$parser.$$instance.parse($$data.$$value);
 
 		return parsed_data;
+	}
+
+	public on: On.Overloads<Data> = (event, listener): void => {
+		this.pluginStruct.synchronizer.$$instance.on({
+			$$event: event,
+			$$listener: listener
+		});
+	}
+
+	private emitPreChange = <
+		NewData extends Partial<Data>,
+		Keys extends KeyDiff<NewData> = Array<keyof NewData>
+	>(diffs: {
+		oldData: Data;
+		newData: NewData;
+		mergedData: Data;
+		keys: Keys;
+		data: DataDiff<NewData, Keys>
+	}) => {
+		this.emit('preChange', {
+			oldData: diffs.oldData,
+			newData: diffs.mergedData,
+			keyDiff: diffs.keys as KeyDiff<Data>,
+			diff: diffs.data as DataDiff<Data, KeyDiff<Data>>,
+			url: '',
+			event: 'preChange'
+		});
+	}
+
+	private emitPostChange = <
+		NewData extends Partial<Data>,
+		Keys extends KeyDiff<NewData> = Array<keyof NewData>
+	>(diffs: {
+		oldData: Data;
+		newData: NewData;
+		mergedData: Data;
+		keys: Keys;
+		data: DataDiff<NewData, Keys>
+	}) => {
+		this.emit('preChange', {
+			oldData: diffs.oldData,
+			newData: diffs.mergedData,
+			keyDiff: diffs.keys as KeyDiff<Data>,
+			diff: diffs.data as DataDiff<Data, KeyDiff<Data>>,
+			url: '',
+			event: 'preChange'
+		});
+	}
+
+	private emit: On.Emit<Data> = (event, payload) => {
+		this.pluginStruct.synchronizer.$$instance.emit({
+			$$event: event,
+			$$details: payload
+		})
+	}
+
+	private _diff = (newData: Partial<Data>, oldData: Data, merged: Data) => {
+		return {
+			newData,
+			oldData,
+			mergedData: merged,
+			keys: Object.keys(newData) as Array<keyof typeof newData>,
+			data: Object.keys(newData).reduce((diff_data, key) => {
+				return Object.assign({}, diff_data, {
+					[key]: {
+						oldValue: oldData[key as keyof Data],
+						newValue: merged[key as keyof Data],
+					}
+				});
+			}, {})
+		}
 	}
 }
 
 interface StoreInterface<Data extends StoreData> {
 	readonly set: Setter.Overloads<Data>
 	readonly get: Getter.Overloads<Data>
+	readonly on: On.Overloads<Data>
 }
 
 export { Store, type StoreInterface };
