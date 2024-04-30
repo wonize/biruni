@@ -1,6 +1,7 @@
-import type { ExactPlugin, Store, StoreData } from '@biruni/core';
+import type { Plugin, Store } from '@biruni/core';
+import type { StoreData } from '@biruni/core/helpers';
 
-export interface StoreFactoryChain<TData extends StoreData> {
-	plug(plugin: ExactPlugin): StoreFactoryChain<TData>;
-	init<T extends TData>(initializer: () => T): Store<T>;
+export interface StoreFactoryChain<Data extends StoreData> {
+	plug(plugin: Plugin.Function): StoreFactoryChain<Data>;
+	init<T extends Data>(initializer: () => T): Store<T>;
 }

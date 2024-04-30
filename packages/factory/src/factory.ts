@@ -1,29 +1,31 @@
-import type { ExactPlugin, PluginStruct, StoreData } from '@biruni/core';
+import type { Plugin } from '@biruni/core';
 import Store from '@biruni/core';
+import type { StoreData } from '@biruni/core/helpers';
 import type { StoreFactoryChain } from './chain';
 
-class StoreFactory<TData extends StoreData> implements StoreFactoryChain<TData> {
-	readonly #pluginStruct: PluginStruct<TData> = {
+class StoreFactory<Data extends StoreData> implements StoreFactoryChain<Data> {
+	readonly #pluginStruct: Plugin.Struct<Data> = {
 		validator: {},
 		parser: {},
 		persister: {},
-	} as PluginStruct<TData>;
+		synchronizer: {},
+	} as Plugin.Struct<Data>;
 
-	public constructor(plugin?: ExactPlugin, comingPluginStruct?: PluginStruct<TData>) {
+	public constructor(plugin?: Plugin.Function, comingPluginStruct?: Plugin.Struct<Data>) {
 		const pluginStruct = comingPluginStruct;
 
 		if (typeof plugin !== 'function') return;
 		const pluginContext = plugin();
 		this.#pluginStruct = Object.assign({}, pluginStruct, {
 			[pluginContext.$$type]: pluginContext,
-		}) as PluginStruct<TData>;
+		}) as Plugin.Struct<Data>;
 	}
 
-	public plug(plugin: ExactPlugin): StoreFactoryChain<TData> {
-		return new StoreFactory<TData>(plugin, this.#pluginStruct);
+	public plug(plugin: Plugin.Function): StoreFactoryChain<Data> {
+		return new StoreFactory<Data>(plugin, this.#pluginStruct);
 	}
 
-	public init<T extends StoreData>(initializer: () => T): Store<T> {
+	public init<T extends Data>(initializer: () => T): Store<T> {
 		return new Store<T>(initializer, this.#pluginStruct);
 	}
 }
