@@ -1,2 +1,6 @@
-export type { ParserContext as Context } from './context';
-export type { Parser as Parser } from './interface';
+import type { StoreData } from "@/helpers";
+
+export interface Parser<TData extends StoreData> {
+	parse<D extends TData>(value: string): D;
+	stringify<D extends TData>(value: D): string;
+}
