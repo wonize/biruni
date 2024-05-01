@@ -127,6 +127,7 @@ setTimeout(() => {
 
 **Al-Bīrūnī** /ælbɪˈruːni/ (Persian: ابوریحان بیرونی; Arabic: أبو الريحان البيروني) (born Sept. 4, 973 CE, Khwārezm, Khorāsān [now in Uzbekistan]—died c. 1052, Ghazna [now Ghaznī, Afg.) was a Iranian Muslim astronomer, mathematician, ethnographist, anthropologist, historian, and geographer during the Islamic Golden Age. Al-Bīrūnī managed to become the most original polymath the Islamic world had ever known.<sup>[ [1] ]</sup>
 Al-Biruni was well versed in physics, mathematics, astronomy, and natural sciences, and also distinguished himself as a historian, chronologist, and linguist. He has been called variously the "Father of modern geodesy", and the first anthropologist.<sup>[ [2] ]</sup>
+He found the diameter of the earth very close to today's value. He argued that trigonometry, which he learned in India, should be seen as a separate science from astronomy. He advised radius to be used as a unit in trigonometric functions in astronomy and geography. Moreover, he thought possible the Earth to revolve around the Sun and developed the idea the geological eras succeed one another.
 
 [1]: https://www.britannica.com/biography/al-Biruni
 [2]: https://wikipedia.com/en/al-biruni
