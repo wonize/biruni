@@ -7,19 +7,24 @@ import * as Setter from "./set";
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
 	public constructor(
-		protected initializer: () => Data,
+		initializer: () => Data,
 		protected pluginStruct: Plugin.Struct<Data>,
 	) {
-		const initialData = initializer();
-		this.#initialData = initialData;
-		this.set(initialData);
+		this._get().then((oldData) => {
+			const comeInitialData = initializer();
+			this.#initialData = oldData;
+
+			if (typeof oldData === 'undefined' || oldData === null) {
+				this._set(comeInitialData);
+				this.#initialData = comeInitialData;
+			}
+		})
 	}
 
-	readonly #initialData: Data;
-	get initialData(): Data {
+	#initialData!: Readonly<Data>;
+	get initialData(): Readonly<Data> {
 		return this.#initialData;
 	};
-
 
 	public readonly set: Setter.Overloads<Data> = async (a: unknown, b?: unknown) => {
 		if (Setter.isKeyOfData<Data>(a)) {
