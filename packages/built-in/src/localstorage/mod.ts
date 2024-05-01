@@ -3,7 +3,7 @@ import type { StoreData } from '@biruni/core/helpers';
 import type { Persister } from '@biruni/core/persister';
 
 class LocalStoragePersister<Data extends StoreData> implements Persister<Data> {
-	private readonly _storage: false | Storage;
+	private readonly _storage: Storage;
 	public constructor(private $$key: string) {
 		this._storage = this._whichLocalStorage();
 	}
@@ -12,25 +12,16 @@ class LocalStoragePersister<Data extends StoreData> implements Persister<Data> {
 		$$value: T;
 		$$key?: K;
 	}): Promise<void> {
-		return new Promise((resolve) => {
-			if (this._storage === false) { return void 0; }
-
-			const $$key = tag.$$key ?? this.$$key;
-			this._storage.setItem($$key, tag.$$value);
-			return resolve();
-		});
+		const $$key = tag.$$key ?? this.$$key;
+		this._storage.setItem($$key, tag.$$value);
 	}
 
 	public async get<T extends string, K extends string>(tag: {
 		$$key?: K;
 	}): Promise<{ $$value: T }> {
-		return new Promise((resolve) => {
-			if (this._storage === false) { return void 0 }
-
-			const $$key = tag.$$key ?? this.$$key;
-			const $$value = this._storage.getItem($$key) as T;
-			return resolve({ $$value });
-		});
+		const $$key = tag.$$key ?? this.$$key;
+		const $$value = this._storage.getItem($$key) as T;
+		return { $$value };
 	}
 
 	private _whichLocalStorage = () => {
@@ -40,9 +31,9 @@ class LocalStoragePersister<Data extends StoreData> implements Persister<Data> {
 			storage.setItem(stamp, stamp);
 			const fail = storage.getItem(stamp) != stamp;
 			storage.removeItem(stamp);
-			return fail && storage;
+			return storage;
 		} catch (err: unknown) {
-			return false;
+			return localStorage;
 		}
 	}
 }
