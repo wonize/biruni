@@ -1,4 +1,4 @@
-import type { DataDiff, KeyDiff, StoreData } from "./helpers";
+import type { StoreData } from "./helpers";
 import type * as Plugin from "./plugin/mod";
 
 import * as Getter from "./get";
@@ -61,18 +61,17 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 	private _set = async (newData: Partial<Data>) => {
 		const old_data = await this.get();
-		const new_data = Object.assign({}, old_data, newData) as unknown as Readonly<Data>;
-		const diffs = this._diff(newData, old_data, new_data);
+		const merged_new_data = Object.assign({}, old_data, newData) as unknown as Readonly<Data>;
 
-		this.emitPreChange(diffs);
+		this.emitPreChange(newData, old_data, merged_new_data);
 
 		const $$parser = this.pluginStruct?.parser;
-		const stringified_data = $$parser.$$instance.stringify(new_data);
+		const stringified_data = $$parser.$$instance.stringify(merged_new_data);
 
 		const $$persister = this.pluginStruct?.persister;
 		await $$persister.$$instance.set({ $$value: stringified_data });
 
-		this.emitPostChange(diffs);
+		this.emitPostChange(newData, old_data, merged_new_data);
 	}
 
 	// @ts-expect-error 'the unknown is include in mapper types'
@@ -156,39 +155,27 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	}
 
 	private emitPreChange = <
-		NewData extends Partial<Data>,
-		Keys extends KeyDiff<NewData> = Array<keyof NewData>
-	>(diffs: {
-		oldData: Data;
-		newData: NewData;
-		mergedData: Data;
-		keys: Keys;
-		data: DataDiff<NewData, Keys>
-	}) => {
+		NewData extends Partial<Data>
+	>(comeData: NewData, oldData: Data, mergedData: Data) => {
+		const diffs = this._diff(comeData, oldData, mergedData);
 		this.emit('preChange', {
 			oldData: diffs.oldData,
-			newData: diffs.mergedData,
-			keyDiff: diffs.keys as KeyDiff<Data>,
-			diff: diffs.data as DataDiff<Data, KeyDiff<Data>>,
+			newData: diffs.newData,
+			keyDiff: diffs.keyDiff,
+			diff: diffs.diff,
 			event: 'preChange'
 		});
 	}
 
 	private emitPostChange = <
-		NewData extends Partial<Data>,
-		Keys extends KeyDiff<NewData> = Array<keyof NewData>
-	>(diffs: {
-		oldData: Data;
-		newData: NewData;
-		mergedData: Data;
-		keys: Keys;
-		data: DataDiff<NewData, Keys>
-	}) => {
+		NewData extends Partial<Data>
+	>(comeData: NewData, oldData: Data, mergedData: Data) => {
+		const diffs = this._diff(comeData, oldData, mergedData);
 		this.emit('postChange', {
 			oldData: diffs.oldData,
-			newData: diffs.mergedData,
-			keyDiff: diffs.keys as KeyDiff<Data>,
-			diff: diffs.data as DataDiff<Data, KeyDiff<Data>>,
+			newData: diffs.newData,
+			keyDiff: diffs.keyDiff,
+			diff: diffs.diff,
 			event: 'postChange'
 		});
 	}
@@ -200,17 +187,16 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		})
 	}
 
-	private _diff = (newData: Partial<Data>, oldData: Data, merged: Data) => {
+	private _diff = (comeData: Partial<Data>, oldData: Data, mergedData: Data) => {
 		return {
-			newData,
-			oldData,
-			mergedData: merged,
-			keys: Object.keys(newData) as Array<keyof typeof newData>,
-			data: Object.keys(newData).reduce((diff_data, key) => {
+			oldData: oldData,
+			newData: mergedData,
+			keyDiff: Object.keys(comeData) as Array<keyof typeof comeData>,
+			diff: Object.keys(comeData).reduce((diff_data, key) => {
 				return Object.assign({}, diff_data, {
 					[key]: {
-						oldValue: oldData[key as keyof Data],
-						newValue: merged[key as keyof Data],
+						oldValue: Object.hasOwn(oldData, key) ? oldData[key as keyof Data] : null,
+						newValue: Object.hasOwn(mergedData, key) ? mergedData[key as keyof Data] : null,
 					}
 				});
 			}, {})
