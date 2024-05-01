@@ -38,7 +38,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	};
 
 	private setByKeySetter: Setter.KeySetter<Data> = async (key, mapper) => {
-		const old_value = this.get(key);
+		const old_value = await this.get(key);
 		const new_value = mapper(old_value as unknown as Readonly<Parameters<typeof mapper>[number]>);
 		const new_data = { [key]: new_value } as unknown as Partial<Data>;
 		await this._set(new_data);
