@@ -99,6 +99,9 @@ importers:
 
   examples/react-example:
     dependencies:
+      '@biruni/react':
+        specifier: workspace:*
+        version: link:../../packages/react
       biruni:
         specifier: workspace:*
         version: link:../../packages/biruni
