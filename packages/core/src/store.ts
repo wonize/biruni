@@ -10,8 +10,16 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		protected initializer: () => Data,
 		protected pluginStruct: Plugin.Struct<Data>,
 	) {
-		this.set(initializer);
+		const initialData = initializer();
+		this.#initialData = initialData;
+		this.set(initialData);
 	}
+
+	readonly #initialData: Data;
+	get initialData(): Data {
+		return this.#initialData;
+	};
+
 
 	public readonly set: Setter.Overloads<Data> = async (a: unknown, b?: unknown) => {
 		if (Setter.isKeyOfData<Data>(a)) {
