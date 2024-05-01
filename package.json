@@ -20,11 +20,10 @@
 	},
 	"devDependencies": {
 		"@antfu/ni": "0.21.12",
-		"@repo/tsconfig": "workspace:*",
 		"@changesets/cli": "2.27.1",
 		"@repo/eslint-config": "workspace:*",
+		"@repo/tsconfig": "workspace:*",
 		"@types/node": "20.12.7",
-		"@types/react": "18.2.77",
 		"biruni": "workspace:*",
 		"jsdom": "24.0.0",
 		"plop": "4.0.1",

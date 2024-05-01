@@ -55,15 +55,14 @@
 		"node": ">=18"
 	},
 	"scripts": {},
-	"dependencies": {},
 	"devDependencies": {
-		"@types/react": "18.2.79",
-		"react": "^18.2.0",
-		"@biruni/core": "workspace:*"
+		"@biruni/core": "workspace:*",
+		"@types/react": "18.3.1",
+		"react": "^18.3.1"
 	},
 	"peerDependencies": {
-		"react": ">=18",
-		"@biruni/core": "<=0.0.5"
+		"@biruni/core": "<=0.0.5",
+		"react": ">=18"
 	},
 	"peerDependenciesMeta": {
 		"@biruni/core": {
