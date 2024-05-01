@@ -1,4 +1,4 @@
-import type { DataDiff, KeyDiff, StoreData } from "./helpers";
+import type { DataDiff, KeyDiff, StoreData } from "./helpers/mod";
 import type { EventName } from "./synchronizer/event";
 import type { Payload } from "./synchronizer/payload";
 

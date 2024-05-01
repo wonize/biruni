@@ -1,4 +1,4 @@
-import type { StoreData } from "./helpers";
+import type { StoreData } from "./helpers/mod";
 import type * as Plugin from "./plugin/mod";
 
 import * as Getter from "./get";

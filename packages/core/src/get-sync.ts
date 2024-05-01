@@ -1,4 +1,4 @@
-import type { RemoveNever, StoreData } from './helpers';
+import type { RemoveNever, StoreData } from './helpers/mod';
 
 interface WholeData<Data extends StoreData> {
 	(): WholeDataReturnType<Data>;

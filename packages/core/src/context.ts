@@ -1,4 +1,4 @@
-import type { StoreData } from './helpers';
+import type { StoreData } from './helpers/mod';
 import type { Parser as ParserInterface } from './parser/mod';
 import type { Persister as PersisterInterface } from './persister/mod';
 import type { Synchronizer as SynchronizerInterface } from './synchronizer/mod';

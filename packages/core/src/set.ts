@@ -1,4 +1,4 @@
-import type { StoreData } from "./helpers";
+import type { StoreData } from "./helpers/mod";
 
 interface PartialData<Data extends StoreData> {
 	(data: Partial<Data>): Promise<void>;

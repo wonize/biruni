@@ -1,5 +1,5 @@
 import type * as Context from '../context';
-import type { StoreData } from "../helpers";
+import type { StoreData } from "../helpers/mod";
 
 export interface PluginStruct<Data extends StoreData> {
 	synchronizer: Context.Synchronizer<Data>;
