@@ -184,12 +184,12 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		keys: Keys;
 		data: DataDiff<NewData, Keys>
 	}) => {
-		this.emit('preChange', {
+		this.emit('postChange', {
 			oldData: diffs.oldData,
 			newData: diffs.mergedData,
 			keyDiff: diffs.keys as KeyDiff<Data>,
 			diff: diffs.data as DataDiff<Data, KeyDiff<Data>>,
-			event: 'preChange'
+			event: 'postChange'
 		});
 	}
 
