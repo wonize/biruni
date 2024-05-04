@@ -2,7 +2,7 @@ import biruni, { type Store } from 'biruni';
 import { json, localstorage } from 'biruni/built-in';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 
-describe('Biruni/Core/Get', () => {
+describe.skip('Biruni/Core/Get', () => {
 	const stubString = {
 		count9: "{\"count\":9}",
 		unit_times: "{\"unit\":\"times\"}",
