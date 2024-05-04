@@ -4,9 +4,9 @@
 
 ### Patch Changes
 
-- - Add `Synchronizer` Plugin Infstructure
+- - Add `Synchronizer` Plugin Infrastructure
   - Add `event` built-in plugin
-    - based on `Synchronizer` infstructure
+    - based on `Synchronizer` Infrastructure
     - based on `Node.js EventEmitter API`
   - Add `on` Method API
   - Support observability for `useStore` hook
@@ -14,9 +14,9 @@
   - Fix `README`'s broken image links
   - Refactor Barrel `mod.ts` exports and `exports` filed in `package.json`
   - Refactor `@biruni/core` Base Structure
-- - Add `Synchronizer` Plugin Infstructure
+- - Add `Synchronizer` Plugin Infrastructure
   - Add `event` built-in plugin
-    - based on `Synchronizer` infstructure
+    - based on `Synchronizer` Infrastructure
     - based on `Node.js EventEmitter API`
   - Add `on` Method API
   - Support observability for `useStore` hook
