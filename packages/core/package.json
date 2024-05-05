@@ -54,9 +54,9 @@
 			"types": "./dist/types/listener.d.ts"
 		},
 		"./helpers": {
-			"require": "./dist/cjs/helpers.js",
-			"import": "./dist/esm/helpers.js",
-			"types": "./dist/types/helpers.d.ts"
+			"require": "./dist/cjs/helpers/mod.js",
+			"import": "./dist/esm/helpers/mod.js",
+			"types": "./dist/types/helpers/mod.d.ts"
 		},
 		"./plugin": {
 			"require": "./dist/cjs/plugin/mod.js",
