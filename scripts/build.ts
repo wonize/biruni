@@ -10,7 +10,6 @@ async function main() {
 	await build('packages/zod');
 }
 
-main().catch((err: unknown) => {
-	console.error(err);
+main().catch(() => {
 	process.exit(1);
 });

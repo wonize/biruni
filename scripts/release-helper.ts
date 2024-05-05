@@ -31,25 +31,27 @@ let index: number = 0;
 async function build(workspace: string, config?: Config) {
 	await task(`${++index} START [${workspace}]`, async ({ setTitle, setError, setStatus }) => {
 		try {
+			setTitle(`(DIR) CLEAR     [${workspace}]`)
 			await clr(workspace)
-			setTitle(`(DIR) CLEARED  [${workspace}]`)
 
+			setTitle(`(ESM) BUILD     [${workspace}]`)
 			await esm(workspace, { entry: ['src/'], ...config });
-			setTitle(`(ESM) BUILDED  [${workspace}]`)
 
+			setTitle(`(CJS) BUILD     [${workspace}]`)
 			await cjs(workspace, { entry: ['src/'], ...config });
-			setTitle(`(CJS) BUILDED  [${workspace}]`)
 
+			setTitle(`(UMD) BUILD     [${workspace}]`)
 			await umd(workspace, { entry: ['src/mod.ts'], ...config });
-			setTitle(`(UMD) BUILDED  [${workspace}]`)
 
+			setTitle(`(DTS) BUILD     [${workspace}]`)
 			await dts(workspace);
-			setTitle(`(DTS) BUILDED  [${workspace}]`)
 
 			setTitle(`( ${index} ) COMPLETED [${workspace}]`)
 		} catch (error: any) {
 			setStatus('error');
-			setError(error._stdout)
+			const stderr = Object.hasOwn(error, '_stdout') ? error._stdout : error
+			setError(stderr);
+			throw stderr
 		}
 	})
 }
