@@ -1,4 +1,4 @@
-import { mergeFresh, type StoreData } from "./helpers/mod";
+import { mergeFresh, shouldFreshInitializing, type StoreData } from "./helpers/mod";
 import type * as Plugin from "./plugin/mod";
 
 import * as Getter from "./get";
@@ -11,7 +11,12 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		protected pluginStruct: Plugin.Struct<Data>,
 	) {
 		this._get().then((persisted_data) => {
-			this.#initialData = mergeFresh(persisted_data, initializer())
+			const comming_data = initializer();
+			const data = mergeFresh<Readonly<Data>>(persisted_data, comming_data);
+			this.#initialData = data
+			if (shouldFreshInitializing(persisted_data, data)) {
+				this._set(data);
+			}
 		})
 	}
 
