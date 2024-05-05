@@ -1,5 +1,5 @@
 import type { DataDiff, KeyDiff, StoreData } from "../helpers/mod";
-import { EventName } from "./event";
+import type { EventName } from "./event";
 
 export interface Payload<
 	Data extends StoreData,
