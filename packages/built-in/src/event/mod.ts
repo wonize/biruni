@@ -1,8 +1,8 @@
 import type { Event as BiruniEvent, Plugin } from '@biruni/core';
 import type { DataDiff, KeyDiff, StoreData } from '@biruni/core/helpers';
 import type { Synchronizer } from '@biruni/core/synchronizer';
-import { ListenerFunction } from '@biruni/core/synchronizer/listener';
-import { Payload } from '@biruni/core/synchronizer/payload';
+import type { ListenerFunction } from '@biruni/core/synchronizer/listener';
+import type { Payload } from '@biruni/core/synchronizer/payload';
 import { default as EventEmitter } from 'events';
 
 class BiruniEventEmitter<Data extends StoreData> implements Synchronizer<Data> {

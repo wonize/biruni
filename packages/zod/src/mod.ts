@@ -1,6 +1,6 @@
 import type { Plugin } from '@biruni/core';
-import { StoreData } from '@biruni/core/helpers';
-import { Validator } from '@biruni/core/validator';
+import type { StoreData } from '@biruni/core/helpers';
+import type { Validator } from '@biruni/core/validator';
 import type { ZodSchema } from 'zod';
 
 class ZodValidator<Data extends StoreData> implements Validator<Data> {
