@@ -1,3 +1,4 @@
+import type { ToFlatKey, ValueOfFlatKey } from './helpers/flatten-key';
 import type { RemoveNever, StoreData } from './helpers/mod';
 
 interface WholeData<Data extends StoreData> {
@@ -13,6 +14,13 @@ interface SingleKey<Data extends StoreData> {
 	>;
 }
 type SingleKeyReturnType<Data extends StoreData, Key extends keyof Data> = Data[Key];
+
+interface SingleNestedKey<Data extends StoreData> {
+	<Key extends ToFlatKey<Data>>(key: Key): Promise<
+		// @ts-expect-error the Key is actuall keyof Data
+		ValueOfFlatKey<Data, NoInfer<Key>>
+	>;
+}
 
 interface KeyMapper<Data extends StoreData> {
 	<Key extends keyof Data, Mapper extends SingleKeyMapperFunction<Data, Key>>(key: Key, mapper: Mapper): Promise<
@@ -58,6 +66,7 @@ interface Overloads<Data extends StoreData> extends
 	WholeData<Data>,
 	Mapper<Data>,
 	SingleKey<Data>,
+	SingleNestedKey<Data>,
 	KeyMapper<Data>,
 	TruthyKeys<Data>,
 	KeyList<Data> { }

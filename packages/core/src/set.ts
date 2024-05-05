@@ -1,3 +1,4 @@
+import type { ToFlatKey, ValueOfFlatKey } from "./helpers/flatten-key";
 import type { StoreData } from "./helpers/mod";
 
 interface PartialData<Data extends StoreData> {
@@ -6,6 +7,11 @@ interface PartialData<Data extends StoreData> {
 
 interface KeyValue<Data extends StoreData> {
 	<Key extends keyof Data, Value extends Data[Key]>(key: Key, value: Value): Promise<void>;
+}
+
+interface KeyNestedValue<Data extends StoreData> {
+	// @ts-expect-error the Key is actuall keyof Data passed to ValueOfFlatKey
+	<Key extends ToFlatKey<Data>, Value extends ValueOfFlatKey<Data, Key>>(key: Key, value: Value): Promise<void>;
 }
 
 interface KeySetter<Data extends StoreData> {
@@ -27,6 +33,7 @@ interface SetterFunction<Data extends StoreData> {
 interface Overloads<Data extends StoreData> extends
 	PartialData<Data>,
 	KeyValue<Data>,
+	KeyNestedValue<Data>,
 	KeySetter<Data>,
 	Setter<Data> { }
 
