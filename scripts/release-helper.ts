@@ -49,7 +49,7 @@ async function build(workspace: string, config?: Config) {
 			setTitle(`( ${index} ) COMPLETED [${workspace}]`)
 		} catch (error: any) {
 			setStatus('error');
-			setError(error);
+			setError(error._stdout)
 		}
 	})
 }
