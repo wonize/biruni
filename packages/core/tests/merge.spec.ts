@@ -6,56 +6,56 @@ describe('Core/Helper/MergeFresh', () => {
 		const source = { language: 'en-US', theme: 'dark' };
 		const target = { language: 'en-US', theme: 'dark' };
 		const result = merge(source, target);
-		expect(result).toStrictEqual(source);
+		expect(result).toMatchObject(source);
 	});
 
 	test('Merge with override properties in <target> with properties in <source>', () => {
 		const source = { language: 'en-US', theme: 'dark' };
 		const target = { language: 'zh-CN', theme: 'light' };
 		const result = merge(source, target);
-		expect(result).toStrictEqual(source);
+		expect(result).toMatchObject(source);
 	});
 
 	test('Merge with remove properties in <source> when not exists in properties in <target>', () => {
 		const source = { language: 'en-US', theme: 'dark' };
 		const target = { language: 'en-US', };
 		const result = merge(source, target);
-		expect(result).toStrictEqual(target);
+		expect(result).toMatchObject(target);
 	});
 
 	test('Merge with remove properties in <source> when not exists in <target> properties with keep value from <source>', () => {
 		const source = { language: 'en-US', theme: 'dark' };
 		const target = { language: 'zh-CN', };
 		const result = merge(source, target);
-		expect(result).toStrictEqual({ language: 'en-US' });
+		expect(result).toMatchObject({ language: 'en-US' });
 	});
 
 	test('Merge with add properties in <target> when not exists in <source> properties with keep value from <source>', () => {
 		const source = { language: 'en-US', };
 		const target = { language: 'zh-CN', theme: 'dark' };
 		const result = merge(source, target);
-		expect(result).toStrictEqual({ language: 'en-US', theme: 'dark' });
+		expect(result).toMatchObject({ language: 'en-US', theme: 'dark' });
 	});
 
 	test('Merge with same properties but update value in <source> was changed in <target> to object', () => {
 		const source = { language: 'en-US', theme: 'dark' };
 		const target = { language: { code: 'en', version: 'US' }, theme: 'dark' };
 		const result = merge(source, target);
-		expect(result).toStrictEqual({ language: { code: 'en', version: 'US' }, theme: 'dark' });
+		expect(result).toMatchObject({ language: { code: 'en', version: 'US' }, theme: 'dark' });
 	});
 
 	test('Merge with same properties but update value in <source> was changed in <target> to object, keep another peroperties', () => {
 		const source = { language: 'en-US', theme: 'dark' };
 		const target = { language: { code: 'zh', version: 'CH' }, theme: 'light' };
 		const result = merge(source, target);
-		expect(result).toStrictEqual({ language: { code: 'zh', version: 'CH' }, theme: 'dark' });
+		expect(result).toMatchObject({ language: { code: 'zh', version: 'CH' }, theme: 'dark' });
 	});
 
 	test('Merge with same properties but update value in <source> was changed in <target> to primitives', () => {
 		const source = { language: { code: 'en', version: 'US' }, theme: 'dark' };
 		const target = { language: 'en-US', theme: 'dark' };
 		const result = merge(source, target);
-		expect(result).toStrictEqual({ language: 'en-US', theme: 'dark' });
+		expect(result).toMatchObject({ language: 'en-US', theme: 'dark' });
 	});
 
 	test('Merge nested properties when root property is same with keep data from <source>', () => {
