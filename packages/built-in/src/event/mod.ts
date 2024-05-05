@@ -12,7 +12,7 @@ class BiruniEventEmitter<Data extends StoreData> implements Synchronizer<Data> {
 		this._event_emitter = new EventEmitter<BiruniEvent.EventMap>();
 	}
 
-	public on<
+	public addListener<
 		Event extends BiruniEvent.EventName,
 		Keys extends KeyDiff<Data>,
 		Diffs extends DataDiff<Data, Keys>
@@ -20,7 +20,18 @@ class BiruniEventEmitter<Data extends StoreData> implements Synchronizer<Data> {
 		$$event: Event;
 		$$listener: ListenerFunction<Data, NoInfer<Event>, Keys, Diffs>;
 	}): void {
-		this._event_emitter.on(payload.$$event, payload.$$listener);
+		this._event_emitter.addListener(payload.$$event, payload.$$listener);
+	}
+
+	public removeListener<
+		Event extends BiruniEvent.EventName,
+		Keys extends KeyDiff<Data>,
+		Diffs extends DataDiff<Data, Keys>
+	>(payload: {
+		$$event: Event;
+		$$listener: ListenerFunction<Data, NoInfer<Event>, Keys, Diffs>;
+	}): void {
+		this._event_emitter.removeListener(payload.$$event, payload.$$listener);
 	}
 
 	public emit<
