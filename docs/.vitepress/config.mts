@@ -38,7 +38,8 @@ export default defineConfig({
 				text: 'Usage',
 				items: [
 					{ text: 'Store Data', link: '/references/set' },
-					{ text: 'Restore Data', link: '/references/get' }
+					{ text: 'Restore Data', link: '/references/get' },
+					{ text: 'Listen Actions', link: '/references/listener' },
 				]
 			},
 			{
