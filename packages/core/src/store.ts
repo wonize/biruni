@@ -2,7 +2,7 @@ import { mergeFresh, type StoreData } from "./helpers/mod";
 import type * as Plugin from "./plugin/mod";
 
 import * as Getter from "./get";
-import * as On from './on';
+import * as Listener from './on';
 import * as Setter from "./set";
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
@@ -146,8 +146,29 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		return parsed_data;
 	}
 
-	public on: On.Overloads<Data> = (event, listener): void => {
-		this.pluginStruct.synchronizer.$$instance.on({
+	public on: Listener.AddListener<Data> = (event, listener): void => {
+		this.pluginStruct.synchronizer.$$instance.addListener({
+			$$event: event,
+			$$listener: listener
+		});
+	}
+
+	public addListener: Listener.AddListener<Data> = (event, listener): void => {
+		this.pluginStruct.synchronizer.$$instance.addListener({
+			$$event: event,
+			$$listener: listener
+		});
+	}
+
+	public off: Listener.RemoveListener<Data> = (event, listener): void => {
+		this.pluginStruct.synchronizer.$$instance.removeListener({
+			$$event: event,
+			$$listener: listener
+		});
+	}
+
+	public removeListener: Listener.RemoveListener<Data> = (event, listener): void => {
+		this.pluginStruct.synchronizer.$$instance.removeListener({
 			$$event: event,
 			$$listener: listener
 		});
@@ -179,7 +200,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		});
 	}
 
-	private emit: On.Emit<Data> = (event, payload) => {
+	private emit: Listener.Emit<Data> = (event, payload) => {
 		this.pluginStruct.synchronizer.$$instance.emit({
 			$$event: event,
 			$$payload: payload
@@ -206,7 +227,10 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 interface StoreInterface<Data extends StoreData> {
 	readonly set: Setter.Overloads<Data>
 	readonly get: Getter.Overloads<Data>
-	readonly on: On.Overloads<Data>
+	readonly on: Listener.AddListener<Data>
+	readonly off: Listener.AddListener<Data>
+	readonly addListener: Listener.AddListener<Data>
+	readonly removeListener: Listener.RemoveListener<Data>
 }
 
 export { Store, type StoreInterface };
