@@ -129,5 +129,38 @@ setTimeout(() => {
 Al-Biruni was well versed in physics, mathematics, astronomy, and natural sciences, and also distinguished himself as a historian, chronologist, and linguist. He has been called variously the "Father of modern geodesy", and the first anthropologist.<sup>[ [2] ]</sup>
 He found the diameter of the earth very close to today's value. He argued that trigonometry, which he learned in India, should be seen as a separate science from astronomy. He advised radius to be used as a unit in trigonometric functions in astronomy and geography. Moreover, he thought possible the Earth to revolve around the Sun and developed the idea the geological eras succeed one another.
 
+<picture id="collage-picture">
+  <img src="/assets/lunar/1075th Birthday of a Persian Astronomer of Lunar Cycles.jpeg"
+    srcset="/assets/lunar/640px-Lunar_phases_al-Biruni.jpg 640px, /assets/lunar/1022px-Lunar_phases_al-Biruni.jpg 1022px, /assets/lunar/1533px-Lunar_phases_al-Biruni.jpg 1533px"
+    id="collage-image" />
+  <p id="collage-description">Lunar Cycles explained by Persian Astrologer</p>
+</picture>
+
+<style>
+  #collage-picture {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: relative;
+    height: auto;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  #collage-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  #collage-description {
+    position: absolute;
+    bottom: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 1rem 1rem 0;
+    background: hsla(0, 0%, 0%, 70%);
+  }
+</style>
+
 [1]: https://www.britannica.com/biography/al-Biruni
 [2]: https://wikipedia.com/en/al-biruni
