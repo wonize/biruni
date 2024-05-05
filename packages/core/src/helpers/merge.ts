@@ -1,5 +1,5 @@
 import { keyOf } from './keyOf';
-import { StoreData } from './type-utility';
+import type { StoreData } from './type-utility';
 
 const isObject = (input: unknown): input is object => {
 	return typeof input === 'object' && input !== null && (!(input instanceof Array) || (Array.isArray(input) === false))
