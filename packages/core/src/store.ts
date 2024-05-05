@@ -2,7 +2,7 @@ import { mergeFresh, shouldFreshInitializing, type StoreData } from "./helpers/m
 import type * as Plugin from "./plugin/mod";
 
 import * as Getter from "./get";
-import * as Listener from './on';
+import * as Listener from './listener';
 import * as Setter from "./set";
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
@@ -229,13 +229,9 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	}
 }
 
-interface StoreInterface<Data extends StoreData> {
+interface StoreInterface<Data extends StoreData> extends Listener.Methods<Data> {
 	readonly set: Setter.Overloads<Data>
 	readonly get: Getter.Overloads<Data>
-	readonly on: Listener.AddListener<Data>
-	readonly off: Listener.AddListener<Data>
-	readonly addListener: Listener.AddListener<Data>
-	readonly removeListener: Listener.RemoveListener<Data>
 }
 
 export { Store, type StoreInterface };

@@ -48,10 +48,10 @@
 			"import": "./dist/esm/get.js",
 			"types": "./dist/types/get.d.ts"
 		},
-		"./on": {
-			"require": "./dist/cjs/on.js",
-			"import": "./dist/esm/on.js",
-			"types": "./dist/types/on.d.ts"
+		"./listener": {
+			"require": "./dist/cjs/listener.js",
+			"import": "./dist/esm/listener.js",
+			"types": "./dist/types/listener.d.ts"
 		},
 		"./helpers": {
 			"require": "./dist/cjs/helpers.js",
