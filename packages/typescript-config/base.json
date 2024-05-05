@@ -18,6 +18,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "allowImportingTsExtensions": true,
+    "pretty": true,
     "lib": [
       "ESNext",
       "DOM",
