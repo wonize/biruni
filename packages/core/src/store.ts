@@ -1,4 +1,4 @@
-import { mergeFresh, shouldFreshInitializing, type StoreData } from "./helpers/mod";
+import { hasOwn, isEmptyObject, mergeFresh, type StoreData } from "./helpers/mod";
 import type * as Plugin from "./plugin/mod";
 
 import * as Getter from "./get";
@@ -13,10 +13,8 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		this._get().then((persisted_data) => {
 			const comming_data = initializer();
 			const data = mergeFresh<Readonly<Data>>(persisted_data, comming_data);
-			this.#initialData = data
-			if (shouldFreshInitializing(persisted_data, data)) {
-				this._set(data);
-			}
+			this.#initialData = data;
+			this._set(data);
 		})
 	}
 
@@ -220,8 +218,8 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 			diff: Object.keys(comeData).reduce((diff_data, key) => {
 				return Object.assign({}, diff_data, {
 					[key]: {
-						oldValue: Object.hasOwn(oldData, key) ? oldData[key as keyof Data] : null,
-						newValue: Object.hasOwn(mergedData, key) ? mergedData[key as keyof Data] : null,
+						oldValue: isEmptyObject(oldData) ? null : hasOwn(oldData, key) ? oldData[key as keyof Data] : null,
+						newValue: isEmptyObject(mergedData) ? null : hasOwn(mergedData, key) ? mergedData[key as keyof Data] : null,
 					}
 				});
 			}, {})
