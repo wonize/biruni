@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { mergeFresh as merge } from '../src/helpers/merge';
+import { mergeFresh as merge } from '../../packages/core/src/helpers/merge';
 
 describe('Core/Helper/MergeFresh', () => {
 	test('Merge with same data in <source> and <target>', () => {

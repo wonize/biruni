@@ -4,13 +4,24 @@
 	],
 	"compilerOptions": {
 		"lib": [
-			"DOM"
+			"ESNext",
+			"DOM",
+			"DOM.Iterable"
 		],
 		"types": [
 			"@types/node",
 			"vitest/globals",
 			"vitest/jsdom"
-		]
+		],
+		"baseUrl": ".",
+		"paths": {
+			"@/core/*": [
+				"../packages/core/src/*"
+			],
+			"@/core/*.ts": [
+				"../packages/core/src/*"
+			]
+		}
 	},
 	"include": [
 		"./**/*.ts",

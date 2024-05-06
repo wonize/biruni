@@ -1,0 +1,11 @@
+{
+	"name": "@biruni/tests",
+	"private": true,
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest --watch --clearScreen"
+	},
+	"dependencies": {
+		"biruni": "workspace:*"
+	}
+}
