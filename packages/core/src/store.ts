@@ -3,7 +3,7 @@ import type * as Plugin from "./plugin/mod";
 
 import * as Getter from "./get/mod.ts";
 import * as Listener from './listener';
-import * as Setter from "./set";
+import * as Setter from "./set/mod.ts";
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
 	public constructor(
