@@ -1,7 +1,7 @@
 import { hasOwn, isEmptyObject, mergeFresh, type StoreData } from "./helpers/mod";
 import type * as Plugin from "./plugin/mod";
 
-import * as Getter from "./get";
+import * as Getter from "./get/mod.ts";
 import * as Listener from './listener';
 import * as Setter from "./set";
 
