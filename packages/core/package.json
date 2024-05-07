@@ -109,8 +109,8 @@
 		"node": ">=18"
 	},
 	"scripts": {},
-	"dependencies": {},
-	"devDependencies": {},
-	"peerDependencies": {},
+	"dependencies": {
+		"dot-prop": "8.0.2"
+	},
 	"peerDependenciesMeta": {}
 }
