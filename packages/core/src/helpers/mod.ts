@@ -11,3 +11,7 @@ interface EmptyObject { }
 export const isEmptyObject = (obj: object): obj is EmptyObject => {
 	return Object.keys(obj ?? {}).length === 0;
 }
+
+export const clone = <Input extends unknown>(input: Input): Input => {
+	return Object.assign({}, JSON.parse(JSON.stringify({ cloned: input })).cloned)
+};
