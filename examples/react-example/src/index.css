@@ -1,68 +1,128 @@
+* {
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	--notch-size: 5px;
+	--padding: 1rem;
+	--app-height: 360px;
+	--select-height: 64px;
+	--app-color: white;
+	--app-color-hover: black;
+	--app-background: black;
+	--app-background-hover: white;
+	--border-size: 5px;
+	--border: var(--border-size) solid var(--app-color);
+	--gap: 1rem;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+	color: var(--app-color);
+	background-color: var(--app-background);
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+html,
+body,
+#root,
+#app,
+.App {
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	place-content: center;
+	place-items: center;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.App {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap);
+	height: calc(var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size));
+	max-width: 500px;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.example-select {
+	width: 100%;
+	height: var(--select-height);
+	display: flex;
+	place-content: flex-start;
+	place-items: center;
+	font-weight: bold;
+	position: relative;
+	overflow: hidden;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.example-list {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	border: var(--border);
+	padding: var(--padding);
+	margin: 0;
+	list-style: none;
+	gap: var(--gap);
+}
+
+.example-option {
+	display: none;
+}
+
+.example-select.open .example-option:hover,
+.example-select:not(.open) .example-list:hover,
+.example-select:not(.open) .example-list:hover .example-option {
+	cursor: pointer;
+	color: var(--app-color-hover);
+	background-color: var(--app-background-hover);
+}
+
+.example-list::after {
+	content: attr(data-selected);
+	display: flex;
+	position: absolute;
+	top: var(--padding);
+	bottom: var(--padding);
+	left: var(--padding);
+	right: var(--padding);
+	place-content: flex-start;
+	place-items: center;
+}
+
+.example-list:not([data-selected])::after {
+	content: "Select Example";
+}
+
+.example-select.open .example-list::after {
+	display: none;
+}
+
+.example-select.open {
+	position: relative;
+	z-index: 999;
+	overflow: visible;
+}
+
+.example-select.open .example-list {
+	position: absolute;
+	top: calc(var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size) * -1px);
+	bottom: 0px;
+	height: calc(var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size));
+}
+
+.example-select.open .example-option {
+	display: flex;
+	padding: var(--padding);
+	border: var(--border);
+}
+
+.example-output {
+	display: flex;
+	flex-direction: row;
+	place-content: center;
+	place-items: center;
+	width: 100%;
+	height: calc(var(--app-height) + var(--border-size) + var(--border-size));
 }
