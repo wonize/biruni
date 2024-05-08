@@ -33,6 +33,11 @@ indent_style = tab
 # additional properties
 quote_type = double
 
+# github
+[.github/**/*.*]
+indent_size = 2
+indent_style = space
+
 # golang
 [*.go]
 indent_style = tab
