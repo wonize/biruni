@@ -1,24 +1,24 @@
 import type { StoreData } from '../helpers/mod.ts';
 
-interface SingleKey<Data extends StoreData> {
-	<Key extends keyof Data>(key: Key): Promise<
-		SingleKeyReturnType<Data, Key>
-	>;
+interface ByKey<Data extends StoreData> {
+	<Key extends keyof Data>(key: Key): Promise<ByKeyReturnType<Data, Key>>;
 }
 
-type SingleKeyReturnType<Data extends StoreData, Key extends keyof Data> = Data[Key];
+type ByKeyReturnType<Data extends StoreData, Key extends keyof Data> = Data[Key];
 
 const isKeyOfData = <Data extends StoreData>(input: unknown): input is keyof Data => {
 	return typeof input === 'string';
-}
-
-const isSingleKey = <Data extends StoreData>(input: unknown): input is (undefined | never | null | void) => {
-	return typeof input === 'undefined' || input === null || Boolean(input) === false;
-}
-
-export {
-	isKeyOfData,
-	isSingleKey,
-	type SingleKey,
-	type SingleKeyReturnType
 };
+
+const isByKey = <Data extends StoreData>(
+	input: unknown,
+): input is undefined | never | null | void => {
+	return typeof input === 'undefined' || input === null || Boolean(input) === false;
+};
+
+function getByKey<Data extends StoreData, Key extends keyof Data>(data: Data, key: Key) {
+	return data[key];
+}
+
+export { getByKey, isByKey, isKeyOfData };
+export type { ByKey, ByKeyReturnType };
