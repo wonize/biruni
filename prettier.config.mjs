@@ -8,7 +8,7 @@ export default {
 	jsxSingleQuote: false,
 	htmlWhitespaceSensitivity: 'css',
 	semi: true,
-	printWidth: 80,
+	printWidth: 100,
 	trailingComma: 'es5',
 	tabWidth: 4,
 	useTabs: true,
