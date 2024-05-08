@@ -27,8 +27,4 @@ function getByMapper<Data extends StoreData, Mapper extends ByMapperFunction<Dat
 }
 
 export { getByMapper, isByMapper };
-export type {
-	ByMapper as ByMapper,
-	ByMapperFunction as ByMapperFunction,
-	ByMapperReturnType as ByMapperReturnType,
-};
+export type { ByMapper, ByMapperFunction, ByMapperReturnType };
