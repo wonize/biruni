@@ -1,22 +1,34 @@
 import type { StoreData } from '../helpers/mod.ts';
 
-interface Mapper<Data extends StoreData> {
-	<Mapper extends MapperFunction<Data>>(mapper: Mapper): Promise<MapperReturnType<Data, Mapper>>;
+interface ByMapper<Data extends StoreData> {
+	<Mapper extends ByMapperFunction<Data>>(
+		mapper: Mapper,
+	): Promise<ByMapperReturnType<Data, Mapper>>;
 }
 
-interface MapperFunction<Data extends StoreData> {
+type ByMapperReturnType<Data extends StoreData, Mapper extends ByMapperFunction<Data>> =
+	| ReturnType<Mapper>
+	| Data
+	| unknown;
+
+interface ByMapperFunction<Data extends StoreData> {
 	(data: Readonly<Data> | never): Data | unknown;
 }
 
-type MapperReturnType<Data extends StoreData, Mapper extends MapperFunction<Data>> = ReturnType<Mapper> | Data | unknown;
-
-const isMapper = <Data extends StoreData>(input: unknown): input is MapperFunction<Data> => {
+const isByMapper = <Data extends StoreData>(input: unknown): input is ByMapperFunction<Data> => {
 	return typeof input === 'function';
+};
+
+function getByMapper<Data extends StoreData, Mapper extends ByMapperFunction<Data>>(
+	data: Data,
+	mapper: Mapper,
+) {
+	return mapper(data);
 }
 
-export {
-	isMapper,
-	type Mapper,
-	type MapperFunction,
-	type MapperReturnType
+export { getByMapper, isByMapper };
+export type {
+	ByMapper as ByMapper,
+	ByMapperFunction as ByMapperFunction,
+	ByMapperReturnType as ByMapperReturnType,
 };
