@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, test } from 'vitest';
-import { getByPath } from '@/core/get/by-path.ts';
-import type { ToPathKey, ValueOfPathKey } from '@/core/helpers/path-key.ts';
+import { getByPath } from '@/core/get/by-path-value.ts';
+import type * as Path from '@/core/helpers/path-key.ts';
 
 describe('getByPath', () => {
 	interface FakeObject {
@@ -49,23 +49,23 @@ describe('getByPath', () => {
 
 	describe('Type-Safety', () => {
 		test('should be Union of Path String seperated by default "."', () => {
-			expectTypeOf<ToPathKey<FakeObject>>().toBeString();
-			expectTypeOf<ToPathKey<FakeObject>>().toEqualTypeOf<FakeObjectPathWithDotSeparated>()
+			expectTypeOf<Path.From<FakeObject>>().toBeString();
+			expectTypeOf<Path.From<FakeObject>>().toEqualTypeOf<FakeObjectPathWithDotSeparated>()
 		})
 
 		test('should be Union of Path String seperated by passed "/"', () => {
-			expectTypeOf<ToPathKey<FakeObject, '/'>>().toBeString();
-			expectTypeOf<ToPathKey<FakeObject, '/'>>().toEqualTypeOf<FakeObjectPathWithSlashSeparated>()
+			expectTypeOf<Path.From<FakeObject, '/'>>().toBeString();
+			expectTypeOf<Path.From<FakeObject, '/'>>().toEqualTypeOf<FakeObjectPathWithSlashSeparated>()
 		})
 
 		test('should be Value of passed path separated with default "."', () => {
-			expectTypeOf<ValueOfPathKey<FakeObject, 'parent.nested'>>().toBeObject();
-			expectTypeOf<ValueOfPathKey<FakeObject, 'parent.nested'>>().toEqualTypeOf<FakeObject['parent']['nested']>()
+			expectTypeOf<Path.At<FakeObject, 'parent.nested'>>().toBeObject();
+			expectTypeOf<Path.At<FakeObject, 'parent.nested'>>().toEqualTypeOf<FakeObject['parent']['nested']>()
 		})
 
 		test('should be Value of passed path separated with passed "/"', () => {
-			expectTypeOf<ValueOfPathKey<FakeObject, 'parent/nested', '/'>>().toBeObject();
-			expectTypeOf<ValueOfPathKey<FakeObject, 'parent/nested', '/'>>().toEqualTypeOf<FakeObject['parent']['nested']>()
+			expectTypeOf<Path.At<FakeObject, 'parent/nested', '/'>>().toBeObject();
+			expectTypeOf<Path.At<FakeObject, 'parent/nested', '/'>>().toEqualTypeOf<FakeObject['parent']['nested']>()
 		})
 	})
 
