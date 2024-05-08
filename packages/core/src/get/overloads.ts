@@ -1,18 +1,18 @@
 import type { StoreData } from '../helpers/mod.ts';
 
-import type { ByEntire } from './by-entire.ts';
-import type { ByKeyMapper } from './by-key-mapper.ts';
-import type { ByKey } from './by-key-value.ts';
-import type { ByKeys } from './by-keys.ts';
-import type { ByMapper } from './by-mapper.ts';
-import type { ByTruthy } from './by-truthy.ts';
+import type { GetByEntire } from './by-entire.ts';
+import type { GetByKeyMapper } from './by-key-mapper.ts';
+import type { GetByKey } from './by-key-value.ts';
+import type { GetByKeys } from './by-keys.ts';
+import type { GetByMapper } from './by-mapper.ts';
+import type { GetByTruthy } from './by-truthy.ts';
 
-interface Overloads<Data extends StoreData>
-	extends ByEntire<Data>,
-		ByMapper<Data>,
-		ByKey<Data>,
-		ByKeyMapper<Data>,
-		ByTruthy<Data>,
-		ByKeys<Data> {}
+interface GetOverloads<Data extends StoreData>
+	extends GetByEntire<Data>,
+		GetByMapper<Data>,
+		GetByKey<Data>,
+		GetByKeyMapper<Data>,
+		GetByTruthy<Data>,
+		GetByKeys<Data> {}
 
-export type { Overloads };
+export type { GetOverloads };

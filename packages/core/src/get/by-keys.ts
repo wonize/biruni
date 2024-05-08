@@ -1,12 +1,12 @@
 import type { StoreData } from '../helpers/mod.ts';
 
-interface ByKeys<Data extends StoreData> {
+interface GetByKeys<Data extends StoreData> {
 	<KeyList extends Array<keyof Data>>(
 		keys: Partial<KeyList>,
-	): Promise<ByKeysReturnType<Data, KeyList>>;
+	): Promise<GetByKeysReturnType<Data, KeyList>>;
 }
 
-type ByKeysReturnType<
+type GetByKeysReturnType<
 	Data extends StoreData,
 	KeyList extends Partial<Array<keyof Data>>,
 > = Readonly<{
@@ -28,9 +28,9 @@ function getByKeys<Data extends StoreData, KeyList extends Array<keyof Data>>(
 	const filtered_data = (keys as unknown as Array<keyof Data>).reduce((filtered_pairs, key) => {
 		return Object.assign({}, filtered_pairs, { [key]: data[key] });
 	}, {});
-	type Result = ByKeysReturnType<Data, typeof keys>;
+	type Result = GetByKeysReturnType<Data, typeof keys>;
 	return filtered_data as unknown as Result;
 }
 
 export { getByKeys, isByKeys };
-export type { ByKeys, ByKeysReturnType };
+export type { GetByKeys, GetByKeysReturnType };

@@ -1,4 +1,4 @@
-import { hasOwn, isEmptyObject, mergeFresh, type StoreData } from "./helpers/mod";
+import { clone, hasOwn, isEmptyObject, mergeFresh, type StoreData } from './helpers/mod';
 import type * as Plugin from "./plugin/mod";
 
 import * as Getter from "./get/mod.ts";
@@ -10,17 +10,64 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		initializer: () => Data,
 		protected pluginStruct: Plugin.Struct<Data>,
 	) {
-		this._get().then((persisted_data) => {
+		this.get().then((persisted_data) => {
 			const comming_data = initializer();
 			const data = mergeFresh<Readonly<Data>>(persisted_data, comming_data);
-			this.#initialData = data;
+			this.#data = data;
 			this._set(data);
-		})
+		});
 	}
 
-	#initialData!: Readonly<Data>;
-	get initialData(): Readonly<Data> {
-		return this.#initialData;
+	#data!: Data;
+	get data(): Readonly<Data> {
+		return clone(this.#data);
+	}
+
+	// @ts-expect-error the typescript confused `get` accessor of `data` with `get` method
+	get: Getter.Overloads<Data> = (first?: unknown, second?: unknown) => {
+		if (Getter.isByEntire<Data>(first)) {
+			return this.getByEntire();
+		} else if (Getter.isKeyOfData<Data>(first)) {
+			if (Getter.isByKeyMapper<Data>(second)) {
+				return this.getByKeyMapper(first, second);
+			} else if (Getter.isByKey<Data>(second)) {
+				return this.getByKey(first);
+			} else {
+				throw 'Store.get not match to any overloads (+6)';
+			}
+		} else if (Getter.isByMapper<Data>(first)) {
+			return this.getByMapper(first);
+		} else if (Getter.isByKeys<Data>(first)) {
+			return this.getByKeys(first);
+		} else if (Getter.isByTruthy<Data>(first)) {
+			return this.getByTruthy(first);
+		} else {
+			throw 'Store.get not match to any overlaods (+6)';
+		}
+	};
+
+	getByEntire: Getter.ByEntire<Data> = async () => {
+		return Getter.getByEntire(this.data);
+	};
+
+	getByKey: Getter.ByKey<Data> = async (key) => {
+		return Getter.getByKey(this.data, key);
+	};
+
+	getByKeyMapper: Getter.ByKeyMapper<Data> = async (key, mapper) => {
+		return Getter.getByKeyMapper(this.data, key, mapper);
+	};
+
+	getByKeys: Getter.ByKeys<Data> = async (keys) => {
+		return Getter.getByKeys(this.data, keys);
+	};
+
+	getByMapper: Getter.ByMapper<Data> = async (mapper) => {
+		return Getter.getByMapper(this.data, mapper);
+	};
+
+	getByTruthy: Getter.ByTruthy<Data> = async (truthy) => {
+		return Getter.getByTruthy(this.data, truthy);
 	};
 
 	public readonly set: Setter.Overloads<Data> = async (a: unknown, b?: unknown) => {
@@ -74,80 +121,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		await $$persister.$$instance.set({ $$value: stringified_data });
 
 		this.emitPostChange(newData, old_data, merged_new_data);
-	}
-
-	// @ts-expect-error 'the unknown is include in mapper types'
-	public readonly get: Getter.Overloads<Data> = async (a?: unknown, b?: unknown) => {
-		if (Getter.isWholeData<Data>(a)) {
-			return this.getByWholeData();
-		} else if (Getter.isKeyOfData<Data>(a)) {
-			if (Getter.isSingleKeyMapper<Data>(b)) {
-				return this.getBySingleKeyMapper(a, b);
-			} else if (Getter.isSingleKey<Data>(b)) {
-				return this.getByKey(a);
-			} else {
-				throw ('Store.get not match to any overloads (+6)')
-			}
-		} else if (Getter.isMapper<Data>(a)) {
-			return this.getByMapper(a);
-		} else if (Getter.isKeyList<Data>(a)) {
-			return this.getByKeyList(a);
-		} else if (Getter.isTruthyKeys<Data>(a)) {
-			return this.getByTruthyKeys(a);
-		} else {
-			throw ('Store.get not match to any overlaods (+6)')
-		}
-	}
-
-	private getByWholeData: Getter.WholeData<Data> = async () => {
-		const data = await this._get();
-		return data;
 	};
-
-	private getBySingleKeyMapper: Getter.KeyMapper<Data> = async (key, mapper) => {
-		const data = await this._get();
-		return mapper(data[key]);
-	}
-
-	private getByKey: Getter.SingleKey<Data> = async (key) => {
-		const data = await this._get();
-		return data[key];
-	}
-
-	private getByMapper: Getter.Mapper<Data> = async (mapper) => {
-		const data = await this._get();
-		return mapper(data);
-	}
-
-	private getByKeyList: Getter.KeyList<Data> = async (keys) => {
-		const data = await this._get();
-		const filtered_data = (keys as unknown as Array<keyof Data>).reduce((filtered_pairs, key) => {
-			return Object.assign({}, filtered_pairs, { [key]: data[key] });
-		}, {});
-		type Result = Getter.KeyListReturnType<Data, typeof keys>;
-		return filtered_data as unknown as Result;
-	}
-
-	private getByTruthyKeys: Getter.TruthyKeys<Data> = async (keyPairs) => {
-		const data = await this._get();
-		const filtered_data = Object.keys(keyPairs).reduce((filtered_pairs, key) => {
-			return keyPairs[key as keyof Data] === true
-				? Object.assign({}, filtered_pairs, { [key]: data[key as keyof Data] })
-				: Object.assign({}, filtered_pairs);
-		}, {});
-		type Result = Getter.TruthyKeysReturnType<Data, typeof keyPairs>;
-		return filtered_data as unknown as Result;
-	}
-
-	private _get = async (): Promise<Data> => {
-		const $$persister = this.pluginStruct?.persister;
-		const $$data = await $$persister.$$instance.get({});
-
-		const $$parser = this.pluginStruct?.parser;
-		const parsed_data = $$parser.$$instance.parse($$data.$$value);
-
-		return parsed_data;
-	}
 
 	public on: Listener.AddListener<Data> = (event, listener): void => {
 		this.pluginStruct.synchronizer.$$instance.addListener({
@@ -227,9 +201,10 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	}
 }
 
-interface StoreInterface<Data extends StoreData> extends Listener.Methods<Data> {
-	readonly set: Setter.Overloads<Data>
-	readonly get: Getter.Overloads<Data>
+interface StoreInterface<Data extends StoreData>
+	extends Listener.Methods<Data>,
+		Getter.Methods<Data> {
+	readonly set: Setter.Overloads<Data>;
 }
 
 export { Store, type StoreInterface };

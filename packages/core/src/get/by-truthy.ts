@@ -1,14 +1,14 @@
 import type { RemoveNever, StoreData } from '../helpers/mod.ts';
 
-interface ByTruthy<Data extends StoreData> {
-	<Truthy extends TruthyObject<Data>>(
-		truthy: Partial<Truthy>,
-	): Promise<ByTruthyReturnType<Data, Truthy>>;
+interface GetByTruthy<Data extends StoreData> {
+	<Truthy extends Partial<Record<keyof Data, boolean>>>(
+		truthy: Truthy,
+	): Promise<GetByTruthyReturnType<Data, Truthy>>;
 }
 
-type ByTruthyReturnType<
+type GetByTruthyReturnType<
 	Data extends StoreData,
-	Truthy extends Partial<TruthyObject<Data>>,
+	Truthy extends Partial<Record<keyof Data, boolean>>,
 > = Readonly<
 	RemoveNever<{
 		[SelectedKey in keyof Truthy]: Truthy[SelectedKey] extends false
@@ -18,31 +18,28 @@ type ByTruthyReturnType<
 	}>
 >;
 
-type TruthyObject<Data extends StoreData> = Record<keyof Data, boolean>;
-
 const isByTruthy = <Data extends StoreData>(
 	input: unknown,
-): input is Partial<TruthyObject<Data>> => {
+): input is Partial<Record<keyof Data, boolean>> => {
 	return typeof input === 'object' && input !== null;
 };
 
-function getByTruthy<Data extends StoreData, Truthy extends TruthyObject<Data>>(
+function getByTruthy<Data extends StoreData, Truthy extends Partial<Record<keyof Data, boolean>>>(
 	data: Data,
-	truthy: Partial<Truthy>,
-) {
-	let result = {};
+	truthy: Truthy,
+): GetByTruthyReturnType<Data, typeof truthy> {
+	let result = {} as unknown as GetByTruthyReturnType<Data, typeof truthy>;
 	for (const key in truthy) {
 		if (truthy[key] === true) {
 			result = Object.assign({}, result, {
 				// @ts-expect-error the `key` is key of `data`
-				[key]: data[key],
+				[key]: data[string & key],
 			});
 		}
 	}
 
-	type Output = ByTruthyReturnType<Data, typeof truthy>;
-	return result as unknown as Output;
+	return result;
 }
 
 export { getByTruthy, isByTruthy };
-export type { ByTruthy, ByTruthyReturnType, TruthyObject };
+export type { GetByTruthy, GetByTruthyReturnType };
