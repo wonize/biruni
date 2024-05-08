@@ -23,5 +23,13 @@ const isByKeyMapper = <Data extends StoreData>(
 	return typeof input === 'function';
 };
 
-export { isByKeyMapper };
+function getByKeyMapper<
+	Data extends StoreData,
+	Key extends keyof Data,
+	Mapper extends ByKeyMapperFunction<Data, Key>,
+>(data: Data, key: Key, mapper: Mapper) {
+	return mapper(data[key]);
+}
+
+export { getByKeyMapper, isByKeyMapper };
 export type { ByKeyMapper, ByKeyMapperFunction, ByKeyMapperReturnType };
