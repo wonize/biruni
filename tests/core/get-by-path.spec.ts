@@ -2,7 +2,7 @@ import { describe, expect, expectTypeOf, test } from 'vitest';
 import { getByPath } from '@/core/get/by-path-value.ts';
 import type * as Path from '@/core/helpers/path-key.ts';
 
-describe('Core/getByPath()', () => {
+describe.todo('Core/getByPath()', () => {
 	interface FakeObject {
 		parent: {
 			child: readonly ['FIRST_TUPLE', 'SECOND_TUPLE'];

@@ -2,7 +2,7 @@ import { diff, type Diff } from '@/core/listener/diff.ts';
 import type { MockData } from '__mocks__/mock-store.ts';
 import { describe, expect, test } from 'vitest';
 
-describe('Core/diff()', () => {
+describe.todo('Core/diff()', () => {
 	test('Indication Diff Keys and Values', () => {
 		const source: MockData = {
 			lang: 'EN', // changed

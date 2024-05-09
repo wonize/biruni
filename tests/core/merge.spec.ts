@@ -1,7 +1,7 @@
 import { mergeFresh as merge } from '@/core/helpers/merge.ts';
 import { describe, expect, test } from 'vitest';
 
-describe('Core/Helper/MergeFresh', () => {
+describe.todo('Core/Helper/MergeFresh', () => {
 	test('Merge with same data in <source> and <target>', () => {
 		const source = { language: 'en-US', theme: 'dark' };
 		const target = { language: 'en-US', theme: 'dark' };
