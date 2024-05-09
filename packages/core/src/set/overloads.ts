@@ -1,14 +1,14 @@
-import type { StoreData } from "../helpers/mod.ts";
+import type { StoreData } from '../helpers/mod.ts';
 
-import type { KeySetter } from './by-key-setter.ts';
-import type { KeyValue } from './by-key-value.ts';
-import type { PartialData } from './by-partial.ts';
-import type { Setter } from './by-setter.ts';
+import type { SetByKeySetter } from './by-key-setter.ts';
+import type { SetByKeyValue } from './by-key-value.ts';
+import type { SetByPair } from './by-pair.ts';
+import type { SetBySetter } from './by-setter.ts';
 
-interface Overloads<Data extends StoreData> extends
-	PartialData<Data>,
-	KeyValue<Data>,
-	KeySetter<Data>,
-	Setter<Data> { }
+interface SetOverloads<Data extends StoreData>
+	extends SetByPair<Data>,
+		SetByKeyValue<Data>,
+		SetByKeySetter<Data>,
+		SetBySetter<Data> {}
 
-export type { Overloads };
+export type { SetOverloads };

@@ -1,13 +1,20 @@
-export { isKeySetter } from './by-key-setter.ts';
-export type { KeySetter, KeySetterFunction } from './by-key-setter.ts';
+export { isByKeySetter, setByKeySetter } from './by-key-setter.ts';
+export type {
+	SetByKeySetter as ByKeySetter,
+	SetByKeySetterFunction as ByKeySetterFunction,
+} from './by-key-setter.ts';
 
-export { isKeyOfData, isKeyValue } from './by-key-value.ts';
-export type { KeyValue } from './by-key-value.ts';
+export { isByKeyValue, isKeyOfData, setByKeyValue } from './by-key-value.ts';
+export type { SetByKeyValue as ByKeyValue } from './by-key-value.ts';
 
-export { isPartialData } from './by-partial.ts';
-export type { PartialData } from './by-partial.ts';
+export { isByPair, setByPair } from './by-pair.ts';
+export type { SetByPair as ByPair } from './by-pair.ts';
 
-export { isSetter } from './by-setter.ts';
-export type { Setter, SetterFunction } from './by-setter.ts';
+export { isBySetter, setBySetter } from './by-setter.ts';
+export type {
+	SetBySetter as BySetter,
+	SetBySetterFunction as BySetterFunction,
+} from './by-setter.ts';
 
-export type * from './overloads.ts';
+export type { SetInterface as Methods } from './methods.ts';
+export type { SetOverloads as Overloads } from './overloads.ts';

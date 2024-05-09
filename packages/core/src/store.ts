@@ -8,19 +8,21 @@ import * as Setter from "./set/mod.ts";
 class Store<Data extends StoreData> implements StoreInterface<Data> {
 	public constructor(
 		initializer: () => Data,
-		protected pluginStruct: Plugin.Struct<Data>,
+		protected pluginStruct: Plugin.Struct<Data>
 	) {
 		this.get().then((persisted_data) => {
 			const comming_data = initializer();
 			const data = mergeFresh<Readonly<Data>>(persisted_data, comming_data);
-			this.#data = data;
-			this._set(data);
+			this.data = data;
 		});
 	}
 
 	#data!: Data;
 	get data(): Readonly<Data> {
 		return clone(this.#data);
+	}
+	set data(data: Data) {
+		this.#data = data;
 	}
 
 	// @ts-expect-error the typescript confused `get` accessor of `data` with `get` method
@@ -70,57 +72,36 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		return Getter.getByTruthy(this.data, truthy);
 	};
 
-	public readonly set: Setter.Overloads<Data> = async (a: unknown, b?: unknown) => {
-		if (Setter.isKeyOfData<Data>(a)) {
-			if (Setter.isKeySetter<Data>(b)) {
-				await this.setByKeySetter(a, b);
-			} else if (Setter.isKeyValue<Data>(b)) {
-				await this.setByKeyValue(a, b);
+	set: Setter.Overloads<Data> = async (first: unknown, scond?: unknown) => {
+		if (Setter.isKeyOfData<Data>(first)) {
+			if (Setter.isByKeySetter<Data>(scond)) {
+				return this.setByKeySetter(first, scond);
+			} else if (Setter.isByKeyValue<Data>(scond)) {
+				return this.setByKeyValue(first, scond);
 			}
-		} else if (Setter.isSetter<Data>(a)) {
-			await this.setBySetter(a);
-		} else if (Setter.isPartialData<Data>(a)) {
-			await this.setByPartialData(a);
+		} else if (Setter.isBySetter<Data>(first)) {
+			return this.setBySetter(first);
+		} else if (Setter.isByPair<Data>(first)) {
+			return this.setByPair(first);
 		} else {
 			throw 'Store.set not match to any overlaods (+4)';
 		}
 	};
 
-	private setByKeySetter: Setter.KeySetter<Data> = async (key, mapper) => {
-		const old_value = await this.get(key);
-		const new_value = mapper(old_value as unknown as Readonly<Parameters<typeof mapper>[number]>);
-		const new_data = { [key]: new_value } as unknown as Partial<Data>;
-		await this._set(new_data);
+	setByKeySetter: Setter.ByKeySetter<Data> = async (key, setter) => {
+		this.data = Setter.setByKeySetter(this.data, key, setter);
 	};
 
-	private setByKeyValue: Setter.KeyValue<Data> = async (key, value) => {
-		const new_data = { [key]: value } as unknown as Partial<Data>;
-		await this._set(new_data);
+	setByKeyValue: Setter.ByKeyValue<Data> = async (key, value) => {
+		this.data = Setter.setByKeyValue(this.data, key, value);
 	};
 
-	private setByPartialData: Setter.PartialData<Data> = async (data) => {
-		await this._set(data);
+	setByPair: Setter.ByPair<Data> = async (pair) => {
+		this.data = Setter.setByPair(this.data, pair);
 	};
 
-	private setBySetter: Setter.Setter<Data> = async (mapper) => {
-		const old_data = await this.get();
-		const new_data = mapper(old_data);
-		await this._set(new_data);
-	};
-
-	private _set = async (newData: Partial<Data>) => {
-		const old_data = await this.get();
-		const merged_new_data = Object.assign({}, old_data, newData) as unknown as Readonly<Data>;
-
-		this.emitPreChange(newData, old_data, merged_new_data);
-
-		const $$parser = this.pluginStruct?.parser;
-		const stringified_data = $$parser.$$instance.stringify(merged_new_data);
-
-		const $$persister = this.pluginStruct?.persister;
-		await $$persister.$$instance.set({ $$value: stringified_data });
-
-		this.emitPostChange(newData, old_data, merged_new_data);
+	setBySetter: Setter.BySetter<Data> = async (setter) => {
+		this.data = Setter.setBySetter(this.data, setter);
 	};
 
 	public on: Listener.AddListener<Data> = (event, listener): void => {
@@ -203,8 +184,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 interface StoreInterface<Data extends StoreData>
 	extends Listener.Methods<Data>,
-		Getter.Methods<Data> {
-	readonly set: Setter.Overloads<Data>;
-}
+		Getter.Methods<Data>,
+		Setter.Methods<Data> {}
 
 export { Store, type StoreInterface };
