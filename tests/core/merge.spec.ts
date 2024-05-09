@@ -1,5 +1,5 @@
+import { mergeFresh as merge } from '@/core/helpers/merge.ts';
 import { describe, expect, test } from 'vitest';
-import { mergeFresh as merge } from '../../packages/core/src/helpers/merge';
 
 describe('Core/Helper/MergeFresh', () => {
 	test('Merge with same data in <source> and <target>', () => {
@@ -18,20 +18,20 @@ describe('Core/Helper/MergeFresh', () => {
 
 	test('Merge with remove properties in <source> when not exists in properties in <target>', () => {
 		const source = { language: 'en-US', theme: 'dark' };
-		const target = { language: 'en-US', };
+		const target = { language: 'en-US' };
 		const result = merge(source, target);
 		expect(result).toMatchObject(target);
 	});
 
 	test('Merge with remove properties in <source> when not exists in <target> properties with keep value from <source>', () => {
 		const source = { language: 'en-US', theme: 'dark' };
-		const target = { language: 'zh-CN', };
+		const target = { language: 'zh-CN' };
 		const result = merge(source, target);
 		expect(result).toMatchObject({ language: 'en-US' });
 	});
 
 	test('Merge with add properties in <target> when not exists in <source> properties with keep value from <source>', () => {
-		const source = { language: 'en-US', };
+		const source = { language: 'en-US' };
 		const target = { language: 'zh-CN', theme: 'dark' };
 		const result = merge(source, target);
 		expect(result).toMatchObject({ language: 'en-US', theme: 'dark' });
@@ -84,12 +84,12 @@ describe('Core/Helper/MergeFresh', () => {
 		const target = { language: 'en-US' };
 		const result = merge(source, target);
 		expect(result).toEqual({ language: 'en-US' });
-	})
+	});
 
 	test('Merge empty <target> with non-empty <source>, keep properties and values from <source>', () => {
 		const source = { language: 'en-US' };
 		const target = {};
 		const result = merge(source, target);
 		expect(result).toEqual({ language: 'en-US' });
-	})
+	});
 });

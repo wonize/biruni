@@ -2,13 +2,13 @@ import { describe, expect, expectTypeOf, test } from 'vitest';
 import { getByPath } from '@/core/get/by-path-value.ts';
 import type * as Path from '@/core/helpers/path-key.ts';
 
-describe('getByPath', () => {
+describe('Core/getByPath()', () => {
 	interface FakeObject {
 		parent: {
 			child: readonly ['FIRST_TUPLE', 'SECOND_TUPLE'];
 			nested: {
 				child: 'FIRST_UNION' | 'SECOND_UNION';
-			}
+			};
 		};
 		sibling: {
 			value: 'FIRST_VALUE' | 'SECOND_VALUE';
@@ -23,7 +23,7 @@ describe('getByPath', () => {
 		| 'parent.nested'
 		| 'parent.nested.child'
 		| 'sibling'
-		| 'sibling.value'
+		| 'sibling.value';
 
 	type FakeObjectPathWithSlashSeparated =
 		| 'parent'
@@ -33,51 +33,61 @@ describe('getByPath', () => {
 		| 'parent/nested'
 		| 'parent/nested/child'
 		| 'sibling'
-		| 'sibling/value'
+		| 'sibling/value';
 
 	const fakeObject: FakeObject = {
 		parent: {
 			child: ['FIRST_TUPLE', 'SECOND_TUPLE'],
 			nested: {
-				child: 'FIRST_UNION'
-			}
+				child: 'FIRST_UNION',
+			},
 		},
 		sibling: {
-			value: 'SECOND_VALUE'
-		}
-	} as const
+			value: 'SECOND_VALUE',
+		},
+	} as const;
 
-	describe('Type-Safety', () => {
+	describe('Type Checking', () => {
 		test('should be Union of Path String seperated by default "."', () => {
 			expectTypeOf<Path.From<FakeObject>>().toBeString();
-			expectTypeOf<Path.From<FakeObject>>().toEqualTypeOf<FakeObjectPathWithDotSeparated>()
-		})
+			expectTypeOf<Path.From<FakeObject>>().toEqualTypeOf<FakeObjectPathWithDotSeparated>();
+		});
 
 		test('should be Union of Path String seperated by passed "/"', () => {
 			expectTypeOf<Path.From<FakeObject, '/'>>().toBeString();
-			expectTypeOf<Path.From<FakeObject, '/'>>().toEqualTypeOf<FakeObjectPathWithSlashSeparated>()
-		})
+			expectTypeOf<
+				Path.From<FakeObject, '/'>
+			>().toEqualTypeOf<FakeObjectPathWithSlashSeparated>();
+		});
 
 		test('should be Value of passed path separated with default "."', () => {
 			expectTypeOf<Path.At<FakeObject, 'parent.nested'>>().toBeObject();
-			expectTypeOf<Path.At<FakeObject, 'parent.nested'>>().toEqualTypeOf<FakeObject['parent']['nested']>()
-		})
+			expectTypeOf<Path.At<FakeObject, 'parent.nested'>>().toEqualTypeOf<
+				FakeObject['parent']['nested']
+			>();
+		});
 
 		test('should be Value of passed path separated with passed "/"', () => {
 			expectTypeOf<Path.At<FakeObject, 'parent/nested', '/'>>().toBeObject();
-			expectTypeOf<Path.At<FakeObject, 'parent/nested', '/'>>().toEqualTypeOf<FakeObject['parent']['nested']>()
-		})
-	})
+			expectTypeOf<Path.At<FakeObject, 'parent/nested', '/'>>().toEqualTypeOf<
+				FakeObject['parent']['nested']
+			>();
+		});
+	});
 
-	test('Return Value separated with default "."', () => {
+	test('Default Delimiter <".">', () => {
 		expect(getByPath(fakeObject, 'parent.nested')).toBeTypeOf('object');
 		expect(getByPath(fakeObject, 'parent.nested')).toMatchObject(fakeObject.parent.nested);
-		expectTypeOf(getByPath(fakeObject, 'parent.nested')).toEqualTypeOf<FakeObject['parent']['nested']>()
-	})
+		expectTypeOf(getByPath(fakeObject, 'parent.nested')).toEqualTypeOf<
+			FakeObject['parent']['nested']
+		>();
+	});
 
-	test('Return Value separated with passed "/"', () => {
+	test('Custom Delimiter <"/">', () => {
 		expect(getByPath(fakeObject, 'parent/nested', '/')).toBeTypeOf('object');
 		expect(getByPath(fakeObject, 'parent/nested', '/')).toMatchObject(fakeObject.parent.nested);
-		expectTypeOf(getByPath(fakeObject, 'parent/nested', '/')).toEqualTypeOf<FakeObject['parent']['nested']>()
-	})
-})
+		expectTypeOf(getByPath(fakeObject, 'parent/nested', '/')).toEqualTypeOf<
+			FakeObject['parent']['nested']
+		>();
+	});
+});
