@@ -1,9 +1,9 @@
 import { clone, hasOwn, isEmptyObject, mergeFresh, type StoreData } from './helpers/mod';
-import type * as Plugin from "./plugin/mod";
+import type * as Plugin from './plugin/mod';
 
-import * as Getter from "./get/mod.ts";
+import * as Getter from './get/mod.ts';
 import * as Listener from './listener';
-import * as Setter from "./set/mod.ts";
+import * as Setter from './set/mod.ts';
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
 	public constructor(
@@ -26,7 +26,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	}
 
 	// @ts-expect-error the typescript confused `get` accessor of `data` with `get` method
-	get: Getter.Overloads<Data> = (first?: unknown, second?: unknown) => {
+	get: Getter.Overloads<Data> = async (first?: unknown, second?: unknown) => {
 		if (Getter.isByEntire<Data>(first)) {
 			return this.getByEntire();
 		} else if (Getter.isKeyOfData<Data>(first)) {
@@ -107,63 +107,67 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	public on: Listener.AddListener<Data> = (event, listener): void => {
 		this.pluginStruct.synchronizer.$$instance.addListener({
 			$$event: event,
-			$$listener: listener
+			$$listener: listener,
 		});
-	}
+	};
 
 	public addListener: Listener.AddListener<Data> = (event, listener): void => {
 		this.pluginStruct.synchronizer.$$instance.addListener({
 			$$event: event,
-			$$listener: listener
+			$$listener: listener,
 		});
-	}
+	};
 
 	public off: Listener.RemoveListener<Data> = (event, listener): void => {
 		this.pluginStruct.synchronizer.$$instance.removeListener({
 			$$event: event,
-			$$listener: listener
+			$$listener: listener,
 		});
-	}
+	};
 
 	public removeListener: Listener.RemoveListener<Data> = (event, listener): void => {
 		this.pluginStruct.synchronizer.$$instance.removeListener({
 			$$event: event,
-			$$listener: listener
+			$$listener: listener,
 		});
-	}
+	};
 
-	private emitPreChange = <
-		NewData extends Partial<Data>
-	>(comeData: NewData, oldData: Data, mergedData: Data) => {
+	private emitPreChange = <NewData extends Partial<Data>>(
+		comeData: NewData,
+		oldData: Data,
+		mergedData: Data
+	) => {
 		const diffs = this._diff(comeData, oldData, mergedData);
 		this.emit('preChange', {
 			oldData: diffs.oldData,
 			newData: diffs.newData,
 			keyDiff: diffs.keyDiff,
 			diff: diffs.diff,
-			event: 'preChange'
+			event: 'preChange',
 		});
-	}
+	};
 
-	private emitPostChange = <
-		NewData extends Partial<Data>
-	>(comeData: NewData, oldData: Data, mergedData: Data) => {
+	private emitPostChange = <NewData extends Partial<Data>>(
+		comeData: NewData,
+		oldData: Data,
+		mergedData: Data
+	) => {
 		const diffs = this._diff(comeData, oldData, mergedData);
 		this.emit('postChange', {
 			oldData: diffs.oldData,
 			newData: diffs.newData,
 			keyDiff: diffs.keyDiff,
 			diff: diffs.diff,
-			event: 'postChange'
+			event: 'postChange',
 		});
-	}
+	};
 
 	private emit: Listener.Emit<Data> = (event, payload) => {
 		this.pluginStruct.synchronizer.$$instance.emit({
 			$$event: event,
-			$$payload: payload
-		})
-	}
+			$$payload: payload,
+		});
+	};
 
 	private _diff = (comeData: Partial<Data>, oldData: Data, mergedData: Data) => {
 		return {
@@ -173,13 +177,21 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 			diff: Object.keys(comeData).reduce((diff_data, key) => {
 				return Object.assign({}, diff_data, {
 					[key]: {
-						oldValue: isEmptyObject(oldData) ? null : hasOwn(oldData, key) ? oldData[key as keyof Data] : null,
-						newValue: isEmptyObject(mergedData) ? null : hasOwn(mergedData, key) ? mergedData[key as keyof Data] : null,
-					}
+						oldValue: isEmptyObject(oldData)
+							? null
+							: hasOwn(oldData, key)
+								? oldData[key as keyof Data]
+								: null,
+						newValue: isEmptyObject(mergedData)
+							? null
+							: hasOwn(mergedData, key)
+								? mergedData[key as keyof Data]
+								: null,
+					},
 				});
-			}, {})
-		}
-	}
+			}, {}),
+		};
+	};
 }
 
 interface StoreInterface<Data extends StoreData>

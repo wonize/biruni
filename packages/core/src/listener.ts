@@ -1,8 +1,10 @@
-import type { DataDiff, KeyDiff, StoreData } from "./helpers/mod";
-import type { EventName } from "./synchronizer/event";
-import type { Payload } from "./synchronizer/payload";
+import type { DataDiff, KeyDiff, StoreData } from './helpers/mod';
+import type { EventName } from './synchronizer/event';
+import type { Payload } from './synchronizer/payload';
 
-interface ListenerMethod<Data extends StoreData> extends AddListenerMethod<Data>, RemoveListenerMethod<Data> { }
+interface ListenerMethod<Data extends StoreData>
+	extends AddListenerMethod<Data>,
+		RemoveListenerMethod<Data> {}
 
 interface AddListenerMethod<Data extends StoreData> {
 	readonly on: AddListener<Data>;
@@ -23,30 +25,25 @@ interface RemoveListener<Data extends StoreData> {
 }
 
 interface Emit<Data extends StoreData> {
-	<
-		Event extends EventName,
-		Keys extends KeyDiff<Data>,
-		Diffs extends DataDiff<Data, Keys>
-	>(
+	<Event extends EventName, Keys extends KeyDiff<Data>, Diffs extends DataDiff<Data, Keys>>(
 		event: Event,
-		payload: Payload<Data, NoInfer<Event>, Keys, Diffs>,
+		payload: Payload<Data, NoInfer<Event>, Keys, Diffs>
 	): void;
 }
 
 interface ListenerFunction<Data extends StoreData> {
-	<
-		Event extends EventName,
-		Keys extends KeyDiff<Data>,
-		Diffs extends DataDiff<Data, Keys>,
-	>(payload: Payload<Data, Event, Keys, Diffs>): void;
+	<Event extends EventName, Keys extends KeyDiff<Data>, Diffs extends DataDiff<Data, Keys>>(
+		payload: Payload<Data, Event, Keys, Diffs>
+	): void;
 }
 
 export type {
-	RemoveListener, RemoveListenerMethod,
-	AddListener, AddListenerMethod,
-	AddListener as Overloads,
-	ListenerMethod as Methods,
-	ListenerMethod,
+	AddListener,
+	AddListenerMethod,
 	Emit,
+	ListenerMethod,
+	ListenerMethod as Methods,
+	AddListener as Overloads,
+	RemoveListener,
+	RemoveListenerMethod,
 };
-
