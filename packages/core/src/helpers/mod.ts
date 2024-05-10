@@ -1,17 +1,7 @@
+export { clone } from './clone';
+export { shouldFreshInitializing } from './fresh-initialize';
 export { hasOwn } from './hasOwn';
+export { isEmptyObject } from './is-empty-object';
 export { keyOf } from './keyOf';
 export { mergeFresh } from './merge';
 export type * from './type-utility';
-
-export function shouldFreshInitializing(source: object, target: object): boolean {
-	return JSON.stringify({ input: source }) !== JSON.stringify({ input: target });
-}
-
-interface EmptyObject { }
-export const isEmptyObject = (obj: object): obj is EmptyObject => {
-	return Object.keys(obj ?? {}).length === 0;
-}
-
-export const clone = <Input extends unknown>(input: Input): Input => {
-	return Object.assign({}, JSON.parse(JSON.stringify({ cloned: input })).cloned)
-};

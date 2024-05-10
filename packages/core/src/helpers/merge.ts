@@ -2,8 +2,12 @@ import { keyOf } from './keyOf';
 import type { StoreData } from './type-utility';
 
 const isObject = (input: unknown): input is object => {
-	return typeof input === 'object' && input !== null && (!(input instanceof Array) || (Array.isArray(input) === false))
-}
+	return (
+		typeof input === 'object' &&
+		input !== null &&
+		(!(input instanceof Array) || Array.isArray(input) === false)
+	);
+};
 const o = <TReturn extends object>(...objects: object[]): TReturn => Object.assign({}, ...objects);
 const hasOwn = Object.hasOwn;
 
@@ -26,31 +30,33 @@ function mergeFresh<TData extends StoreData>(source: object, target: object): TD
 			const $target_value = $target[key as keyof object];
 			if (isObject($target_value)) {
 				$result = o($result, {
-					[key]: mergeFresh($result[key] as object, $target_value)
-				})
+					[key]: mergeFresh($result[key] as object, $target_value),
+				});
 			} else {
 				$result = o($result, {
-					[key]: $target_value
-				})
+					[key]: $target_value,
+				});
 			}
 		} else {
 			const $target_value = $target[key as keyof object];
 			if (isObject($target_value)) {
 				$result = o($result, {
-					[key]: $target_value
-				})
+					[key]: $target_value,
+				});
 			} else {
 				$result = o($result, {
-					[key]: $result[key]
-				})
+					[key]: $result[key],
+				});
 			}
 		}
-	})
+	});
 
 	keysOfTarget.forEach((key) => {
-		if (hasOwn($result, key) === true) { return; }
+		if (hasOwn($result, key) === true) {
+			return;
+		}
 		$result = o($result, { [key]: $target[key] });
-	})
+	});
 
 	return $result;
 }
