@@ -1,4 +1,4 @@
-import { clone, type StoreData } from '../helpers/mod.ts';
+import { clone, type StoreData } from '../helpers/mod';
 
 interface GetByEntire<Data extends StoreData> {
 	(): Promise<GetByEntireReturnType<Data>>;
@@ -7,7 +7,7 @@ interface GetByEntire<Data extends StoreData> {
 type GetByEntireReturnType<Data extends StoreData> = Readonly<Data>;
 
 const isByEntire = <Data extends StoreData>(
-	input: unknown,
+	input: unknown
 ): input is undefined | never | null | void => {
 	return typeof input === 'undefined' || input === null || Boolean(input) === false;
 };

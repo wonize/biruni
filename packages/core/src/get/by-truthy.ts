@@ -1,8 +1,8 @@
-import type { RemoveNever, StoreData } from '../helpers/mod.ts';
+import type { RemoveNever, StoreData } from '../helpers/mod';
 
 interface GetByTruthy<Data extends StoreData> {
 	<Truthy extends Partial<Record<keyof Data, boolean>>>(
-		truthy: Truthy,
+		truthy: Truthy
 	): Promise<GetByTruthyReturnType<Data, Truthy>>;
 }
 
@@ -19,14 +19,14 @@ type GetByTruthyReturnType<
 >;
 
 const isByTruthy = <Data extends StoreData>(
-	input: unknown,
+	input: unknown
 ): input is Partial<Record<keyof Data, boolean>> => {
 	return typeof input === 'object' && input !== null;
 };
 
 function getByTruthy<Data extends StoreData, Truthy extends Partial<Record<keyof Data, boolean>>>(
 	data: Data,
-	truthy: Truthy,
+	truthy: Truthy
 ): GetByTruthyReturnType<Data, typeof truthy> {
 	let result = {} as unknown as GetByTruthyReturnType<Data, typeof truthy>;
 	for (const key in truthy) {

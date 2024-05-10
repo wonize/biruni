@@ -1,4 +1,4 @@
-import type { StoreData } from '../helpers/mod.ts';
+import type { StoreData } from '../helpers/mod';
 
 interface GetByKey<Data extends StoreData> {
 	<Key extends keyof Data>(key: Key): Promise<GetByKeyReturnType<Data, Key>>;
@@ -11,7 +11,7 @@ const isKeyOfData = <Data extends StoreData>(input: unknown): input is keyof Dat
 };
 
 const isByKey = <Data extends StoreData>(
-	input: unknown,
+	input: unknown
 ): input is undefined | never | null | void => {
 	return typeof input === 'undefined' || input === null || Boolean(input) === false;
 };

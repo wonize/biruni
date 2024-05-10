@@ -1,8 +1,8 @@
-import type { StoreData } from '../helpers/mod.ts';
+import type { StoreData } from '../helpers/mod';
 
 interface GetByKeys<Data extends StoreData> {
 	<KeyList extends Array<keyof Data>>(
-		keys: Partial<KeyList>,
+		keys: Partial<KeyList>
 	): Promise<GetByKeysReturnType<Data, KeyList>>;
 }
 
@@ -23,7 +23,7 @@ const isByKeys = <Data extends StoreData>(input: unknown): input is Partial<Arra
 
 function getByKeys<Data extends StoreData, KeyList extends Array<keyof Data>>(
 	data: Data,
-	keys: Partial<KeyList>,
+	keys: Partial<KeyList>
 ) {
 	const filtered_data = (keys as unknown as Array<keyof Data>).reduce((filtered_pairs, key) => {
 		return Object.assign({}, filtered_pairs, { [key]: data[key] });

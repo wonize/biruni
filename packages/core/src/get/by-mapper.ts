@@ -1,8 +1,8 @@
-import type { StoreData } from '../helpers/mod.ts';
+import type { StoreData } from '../helpers/mod';
 
 interface GetByMapper<Data extends StoreData> {
 	<Mapper extends GetByMapperFunction<Data>>(
-		mapper: Mapper,
+		mapper: Mapper
 	): Promise<GetByMapperReturnType<Data, Mapper>>;
 }
 
@@ -21,7 +21,7 @@ const isByMapper = <Data extends StoreData>(input: unknown): input is GetByMappe
 
 function getByMapper<Data extends StoreData, Mapper extends GetByMapperFunction<Data>>(
 	data: Data,
-	mapper: Mapper,
+	mapper: Mapper
 ) {
 	return mapper(data);
 }

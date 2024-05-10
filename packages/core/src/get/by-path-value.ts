@@ -1,6 +1,6 @@
 import { getProperty } from 'dot-prop';
-import { clone, type StoreData } from '../helpers/mod.ts';
-import type * as Path from '../helpers/path-key.ts';
+import { clone, type StoreData } from '../helpers/mod';
+import type * as Path from '../helpers/path-key';
 
 interface ByPathValue<Data extends StoreData> {
 	<TPath extends Path.From<Data>>(path: TPath): Promise<Path.At<Data, NoInfer<TPath>>>;
