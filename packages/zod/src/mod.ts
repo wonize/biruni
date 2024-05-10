@@ -1,25 +1,24 @@
-import type { Plugin } from '@biruni/core';
+import type { ContextType } from '@biruni/core/context';
 import type { StoreData } from '@biruni/core/helpers';
-import type { Validator } from '@biruni/core/validator';
+import * as Plugin from '@biruni/core/plugin';
 import type { ZodSchema } from 'zod';
 
-class ZodValidator<Data extends StoreData> implements Validator<Data> {
-	public constructor(private schema: ZodSchema) { }
+class ZodPlugin<Data extends StoreData> extends Plugin.BiruniPlugin<Data> {
+	override type: ContextType = 'validator';
+	override name: 'biruni/zod' = 'biruni/zod';
 
-	public validate<CustomData extends Data>(data: CustomData): boolean {
-		return Boolean(this.schema.parse(data));
+	public constructor(private schema: ZodSchema) {
+		super();
 	}
-}
 
-const zod = (schema: ZodSchema): Plugin.Function => {
-	return function <Data extends StoreData>() {
-		const $$instance = new ZodValidator<Data>(schema);
-		return {
-			$$type: 'validator',
-			$$instance: $$instance,
-		};
+	override beforeSet: (data: Data) => Promise<Data> = async (data) => {
+		return this.schema.parse(data);
 	};
 }
+
+const zod = <Data extends StoreData>(schema: ZodSchema) => {
+	return new ZodPlugin<Data>(schema);
+};
 
 export default zod;
 export { zod as ZodPlugin, zod };
