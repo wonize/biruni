@@ -6,7 +6,7 @@ export default function () {
 		['Counter']: <Counter />,
 		['User Preference']: <div>User Preference</div>,
 		['Zustand']: <div>Zustand Example</div>,
-	}
+	};
 
-	return (<DropDown options={Examples} />)
+	return <DropDown options={Examples} />;
 }
