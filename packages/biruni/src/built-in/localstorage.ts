@@ -1,1 +1,1 @@
-export * from '@biruni/built-in/localstorage';
+export * from '@biruni/built-in/localstorage/mod';
