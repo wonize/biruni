@@ -1,1 +1,1 @@
-export * as Getter from '@biruni/core/get';
+export * as Getter from '@biruni/core/get/mod';
