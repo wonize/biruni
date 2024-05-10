@@ -1,15 +1,14 @@
-import { clone, mergeFresh, type StoreData } from './helpers/mod.ts';
-import type * as Plugin from './plugin/mod.ts';
+import { clone, mergeFresh, type StoreData } from './helpers/mod';
+import type * as Plugin from './plugin/mod';
 
-import * as Getter from './get/mod.ts';
-import type { EmitListener } from './listener/emit.ts';
-import * as Listener from './listener/mod.ts';
-import * as Setter from './set/mod.ts';
+import * as Getter from './get/mod';
+import * as Listener from './listener/mod';
+import * as Setter from './set/mod';
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
 	public constructor(
 		initializer: () => Data,
-		protected pluginStruct: Plugin.Struct<Data>
+		protected pluginStack: Plugin.Stack<Data>
 	) {
 		this.get().then((persisted_data) => {
 			const comming_data = initializer();
@@ -50,7 +49,19 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	};
 
 	getByEntire: Getter.ByEntire<Data> = async () => {
-		return Getter.getByEntire(this.data);
+		let value: Data = this.data;
+
+		for (const plugin of this.pluginStack) {
+			value = await plugin.beforeGet(value);
+		}
+
+		value = Getter.getByEntire(value);
+
+		for (const plugin of this.pluginStack) {
+			value = await plugin.afterGet(value);
+		}
+
+		return value;
 	};
 
 	getByKey: Getter.ByKey<Data> = async (key) => {
@@ -106,38 +117,33 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	};
 
 	addListener: Listener.Add<Data> = (event, listener) => {
-		// TODO: this.events.map((ev) => ev.on(event, listener));
-		this.pluginStruct.synchronizer.$$instance.addListener({
-			$$event: event,
-			$$listener: listener,
-		});
+		for (const plugin of this.pluginStack) {
+			if (plugin.type === 'synchronizer') {
+				plugin.addListener!.call(this, event, listener);
+			}
+		}
 	};
 	on: Listener.Add<Data> = (event, listener) => {
-		// TODO: this.events.map((ev) => ev.on(event, listener));
-		this.pluginStruct.synchronizer.$$instance.addListener({
-			$$event: event,
-			$$listener: listener,
-		});
+		for (const plugin of this.pluginStack) {
+			if (plugin.type === 'synchronizer') {
+				plugin.addListener!.call(this, event, listener);
+			}
+		}
 	};
 
 	removeListener: Listener.Remove<Data> = (event, listener) => {
-		this.pluginStruct.synchronizer.$$instance.removeListener({
-			$$event: event,
-			$$listener: listener,
-		});
+		for (const plugin of this.pluginStack) {
+			if (plugin.type === 'synchronizer') {
+				plugin.removeListener!.call(this, event, listener);
+			}
+		}
 	};
 	off: Listener.Remove<Data> = (event, listener) => {
-		this.pluginStruct.synchronizer.$$instance.removeListener({
-			$$event: event,
-			$$listener: listener,
-		});
-	};
-
-	protected emit: EmitListener<Data> = (event, payload) => {
-		this.pluginStruct.synchronizer.$$instance.emit({
-			$$event: event,
-			$$payload: payload,
-		});
+		for (const plugin of this.pluginStack) {
+			if (plugin.type === 'synchronizer') {
+				plugin.removeListener!.call(this, event, listener);
+			}
+		}
 	};
 }
 
