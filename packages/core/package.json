@@ -39,19 +39,19 @@
 			"types": "./dist/types/store.d.ts"
 		},
 		"./set": {
-			"require": "./dist/cjs/set.js",
-			"import": "./dist/esm/set.js",
-			"types": "./dist/types/set.d.ts"
+			"require": "./dist/cjs/set/mod.js",
+			"import": "./dist/esm/set/mod.js",
+			"types": "./dist/types/set/mod.d.ts"
 		},
 		"./get": {
-			"require": "./dist/cjs/get.js",
-			"import": "./dist/esm/get.js",
-			"types": "./dist/types/get.d.ts"
+			"require": "./dist/cjs/get/mod.js",
+			"import": "./dist/esm/get/mod.js",
+			"types": "./dist/types/get/mod.d.ts"
 		},
 		"./listener": {
-			"require": "./dist/cjs/listener.js",
-			"import": "./dist/esm/listener.js",
-			"types": "./dist/types/listener.d.ts"
+			"require": "./dist/cjs/listener/mod.js",
+			"import": "./dist/esm/listener/mod.js",
+			"types": "./dist/types/listener/mod.d.ts"
 		},
 		"./helpers": {
 			"require": "./dist/cjs/helpers/mod.js",
