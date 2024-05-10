@@ -15,11 +15,12 @@ class PluginChain<Data extends StoreData, Namespace extends string = string>
 
 	public plug(plugin: Plugin.BiruniPlugin<Data>) {
 		plugin.namespace = this.namespace;
-		return new PluginChain<Data>(this.namespace, this.pluginStack!.concat(plugin));
+		return new PluginChain<Data, Namespace>(this.namespace, this.pluginStack!.concat(plugin));
 	}
 
 	public init<T extends Data>(initializer: () => T) {
-		return new Store(initializer, this.pluginStack);
+		// @ts-expect-error the `this.pluginStack` is not undefined, also it's will be match with `Plugin.Stack<T>`, because `T` is `Data`.
+		return new Store<T>(initializer, this.pluginStack);
 	}
 }
 
