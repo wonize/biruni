@@ -1,59 +1,38 @@
-import type { Event as BiruniEvent, Plugin } from '@biruni/core';
-import type { DataDiff, KeyDiff, StoreData } from '@biruni/core/helpers';
-import type { Synchronizer } from '@biruni/core/synchronizer';
-import type { ListenerFunction } from '@biruni/core/synchronizer/listener';
-import type { Payload } from '@biruni/core/synchronizer/payload';
+import type { Event as BiruniEvent } from '@biruni/core';
+import type { ContextType } from '@biruni/core/context';
+import type { StoreData } from '@biruni/core/helpers';
+import type { Add, Remove } from '@biruni/core/listener';
+import { diff } from '@biruni/core/listener/diff';
+import * as Plugin from '@biruni/core/plugin';
 import { default as EventEmitter } from 'events';
 
-class BiruniEventEmitter<Data extends StoreData> implements Synchronizer<Data> {
+class BiruniEventEmitter<Data extends StoreData> extends Plugin.BiruniPlugin<Data> {
 	private _event_emitter: EventEmitter;
 
+	override type: ContextType = 'synchronizer';
+	override name: 'built-in/event-emitter' = 'built-in/event-emitter';
+
 	public constructor() {
+		super();
 		this._event_emitter = new EventEmitter<BiruniEvent.EventMap>();
 	}
 
-	public addListener<
-		Event extends BiruniEvent.EventName,
-		Keys extends KeyDiff<Data>,
-		Diffs extends DataDiff<Data, Keys>
-	>(payload: {
-		$$event: Event;
-		$$listener: ListenerFunction<Data, NoInfer<Event>, Keys, Diffs>;
-	}): void {
-		this._event_emitter.addListener(payload.$$event, payload.$$listener);
-	}
+	override addListener: Add<Data> = (event, listener) => {
+		this._event_emitter.addListener(event, listener);
+	};
 
-	public removeListener<
-		Event extends BiruniEvent.EventName,
-		Keys extends KeyDiff<Data>,
-		Diffs extends DataDiff<Data, Keys>
-	>(payload: {
-		$$event: Event;
-		$$listener: ListenerFunction<Data, NoInfer<Event>, Keys, Diffs>;
-	}): void {
-		this._event_emitter.removeListener(payload.$$event, payload.$$listener);
-	}
+	override removeListener: Remove<Data> = (event, listener) => {
+		this._event_emitter.removeListener(event, listener);
+	};
 
-	public emit<
-		Event extends BiruniEvent.EventName,
-		Keys extends KeyDiff<Data>,
-		Diffs extends DataDiff<Data, Keys>
-	>(payload: {
-		$$event: Event;
-		$$payload: Payload<Data, NoInfer<Event>, Keys, Diffs>;
-	}): void {
-		this._event_emitter.emit(payload.$$event, payload.$$payload);
-	}
+	override afterSet: (data: Data) => Promise<Data> = async (data) => {
+		this._event_emitter.emit('change', diff({}, data));
+		return data;
+	};
 }
 
-const event = (): Plugin.Function => {
-	return function <Data extends StoreData>() {
-		const $$instance = new BiruniEventEmitter<Data>();
-		return {
-			$$type: 'synchronizer',
-			$$instance: $$instance,
-		}
-	}
-}
+const event: Plugin.Function = <Data extends StoreData>() => {
+	return new BiruniEventEmitter<Data>();
+};
 
 export { event as EventEmitterPlugin, event };

@@ -1,26 +1,28 @@
 import type { Plugin } from '@biruni/core';
+import type { ContextType } from '@biruni/core/context';
 import type { StoreData } from '@biruni/core/helpers';
-import type { Parser } from '@biruni/core/parser';
+import { BiruniPlugin } from '@biruni/core/plugin';
 
-class JsonParser<S extends StoreData> implements Parser<S> {
-	public parse<T extends S>(value: string): T {
-		return JSON.parse(value);
+class JsonPlugin<Data extends StoreData> extends BiruniPlugin<Data> {
+	override type: ContextType = 'parser';
+	override name: 'built-in/json' = 'built-in/json';
+
+	constructor() {
+		super();
 	}
 
-	public stringify<T extends S>(value: T): string {
-		return JSON.stringify(value);
-	}
-}
+	override beforeGet: (data: Data) => Promise<Data> = async (data) => {
+		return JSON.parse(data as unknown as string) as Data;
+	};
 
-const json = (): Plugin.Function => {
-	return function <Data extends StoreData>() {
-		const $$instance = new JsonParser<Data>();
-		return {
-			$$type: 'parser',
-			$$instance: $$instance,
-		};
+	override beforeSet: (data: Data) => Promise<Data> = async (data) => {
+		return JSON.stringify(data) as unknown as Data;
 	};
 }
+
+const json: Plugin.Function = <Data extends StoreData>() => {
+	return new JsonPlugin<Data>();
+};
 
 export default json;
 export { json as JsonPlugin, json };

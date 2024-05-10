@@ -1,53 +1,29 @@
 import type { Plugin } from '@biruni/core';
+import type { ContextType } from '@biruni/core/context';
 import type { StoreData } from '@biruni/core/helpers';
-import type { Persister } from '@biruni/core/persister';
+import { BiruniPlugin } from '@biruni/core/plugin';
 
-class LocalStoragePersister<Data extends StoreData> implements Persister<Data> {
-	private readonly _storage: Storage;
-	public constructor(private $$key: string) {
-		this._storage = this._whichLocalStorage();
+class LocalStoragePlugin<Data extends StoreData> extends BiruniPlugin<Data> {
+	override type: ContextType = 'persister';
+	override name: 'built-in/localStorage' = 'built-in/localStorage';
+
+	constructor() {
+		super();
 	}
 
-	public async set<T extends string, K extends string>(tag: {
-		$$value: T;
-		$$key?: K;
-	}): Promise<void> {
-		const $$key = tag.$$key ?? this.$$key;
-		this._storage.setItem($$key, tag.$$value);
-	}
+	override beforeGet: (data: Data) => Promise<Data> = async (data) => {
+		return localStorage.getItem(this.namespace!) as unknown as Data;
+	};
 
-	public async get<T extends string, K extends string>(tag: {
-		$$key?: K;
-	}): Promise<{ $$value: T }> {
-		const $$key = tag.$$key ?? this.$$key;
-		const $$value = this._storage.getItem($$key) as T;
-		return { $$value };
-	}
-
-	private _whichLocalStorage = () => {
-		try {
-			let stamp = (new Date()).toString();
-			const storage = window.localStorage;
-			storage.setItem(stamp, stamp);
-			const fail = storage.getItem(stamp) != stamp;
-			storage.removeItem(stamp);
-			return storage;
-		} catch (err: unknown) {
-			return localStorage;
-		}
-	}
-}
-
-const localstorage = (key: string): Plugin.Function => {
-	return function <Data extends StoreData>() {
-		const $$instance = new LocalStoragePersister<Data>(key);
-
-		return {
-			$$type: 'persister',
-			$$instance: $$instance,
-		};
+	override afterSet: (data: Data) => Promise<Data> = async (data) => {
+		localStorage.setItem(this.namespace!, data as unknown as string);
+		return data;
 	};
 }
+
+const localstorage: Plugin.Function = <Data extends StoreData>() => {
+	return new LocalStoragePlugin<Data>();
+};
 
 export default localstorage;
 export { localstorage as LocalStoragePlugin, localstorage };
