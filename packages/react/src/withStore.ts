@@ -10,21 +10,21 @@ function withStore<
 	TCleanProps = Omit<TProps, keyof TData>,
 	TNewProps = TCleanProps & Partial<TData>,
 >(Store: TStore, Component: React.ComponentType<TProps & Partial<TNewProps>>) {
-	return function EnhancedBiruni<
-		Props extends Record<string, unknown>
-		& TNewProps
-	>(props: Props) {
+	return function EnhancedBiruni<Props extends Record<string, unknown> & TNewProps>(
+		props: Props
+	) {
 		const store = useStore(Store);
 		return React.createElement(
 			Component,
-			Object.assign({}, props, store.get()) as Props & TProps & TNewProps,
+			Object.assign({}, props, store.get()) as Props & TProps & TNewProps
 		);
 	};
 }
 
 export { withStore };
 
-export type WithStore<
-	TStore extends Store<StoreData>,
-	TProps extends object = object
-> = Omit<TProps, keyof ExtractStoreData<TStore>> & Partial<ExtractStoreData<TStore>>;
+export type WithStore<TStore extends Store<StoreData>, TProps extends object = object> = Omit<
+	TProps,
+	keyof ExtractStoreData<TStore>
+> &
+	Partial<ExtractStoreData<TStore>>;
