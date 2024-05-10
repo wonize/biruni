@@ -10,9 +10,13 @@ function useStore<
 	const [data, setData] = React.useState<NoInfer<Data>>(store.data);
 
 	React.useEffect(() => {
-		store.addListener('change', function onPostChange(event) {
-			setData(() => event.newData);
-		});
+		function onChange(payload: any) {
+			setData(() => payload.newData);
+		}
+		store.addListener('change', onChange);
+		return () => {
+			store.removeListener('change', onChange);
+		};
 	}, []);
 
 	const localStore = React.useMemo<UseStore<NoInfer<Data>>>(
