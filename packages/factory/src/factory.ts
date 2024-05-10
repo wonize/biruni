@@ -1,42 +1,39 @@
-import type { Plugin } from '@biruni/core';
-import Store from '@biruni/core';
+import { Store } from '@biruni/core';
 import type { StoreData } from '@biruni/core/helpers';
-import type { StoreFactoryChain } from './chain';
+import type * as Plugin from '@biruni/core/plugin';
+import type { Chain } from './chain';
 
-class StoreFactory<Data extends StoreData> implements StoreFactoryChain<Data> {
-	readonly #pluginStruct: Plugin.Struct<Data> = {
-		validator: {},
-		parser: {},
-		persister: {},
-		synchronizer: {},
-	} as Plugin.Struct<Data>;
-
-	public constructor(plugin?: Plugin.Function, comingPluginStruct?: Plugin.Struct<Data>) {
-		const pluginStruct = comingPluginStruct;
-
-		if (typeof plugin !== 'function') return;
-		const pluginContext = plugin();
-		this.#pluginStruct = Object.assign({}, pluginStruct, {
-			[pluginContext.$$type]: pluginContext,
-		}) as Plugin.Struct<Data>;
+class PluginChain<Data extends StoreData, Namespace extends string = string>
+	implements Chain<Data>
+{
+	public constructor(
+		protected namespace: Namespace,
+		protected pluginStack?: Plugin.Stack<Data>
+	) {
+		this.pluginStack = ([] as any).concat(pluginStack);
 	}
 
-	public plug(plugin: Plugin.Function): StoreFactoryChain<Data> {
-		return new StoreFactory<Data>(plugin, this.#pluginStruct);
+	public plug(plugin: Plugin.BiruniPlugin<Data>) {
+		plugin.namespace = this.namespace;
+		return new PluginChain<Data>(this.namespace, this.pluginStack!.concat(plugin));
 	}
 
-	public init<T extends Data>(initializer: () => T): Store<T> {
-		return new Store<T>(initializer, this.#pluginStruct);
+	public init<T extends Data>(initializer: () => T) {
+		return new Store(initializer, this.pluginStack);
 	}
 }
 
-function defineBiruni<TData extends StoreData>(): StoreFactoryChain<TData> {
-	return new StoreFactory<TData>();
+function defineBiruni<TData extends StoreData, TSpace extends string>(
+	namespace: TSpace
+): Chain<TData> {
+	return new PluginChain<TData, TSpace>(namespace);
 }
 
 export {
-	StoreFactory as Biruni,
-	StoreFactory,
+	PluginChain as Biruni,
+	PluginChain as PluginFactory,
+	PluginChain as StoreFactory,
 	defineBiruni as biruni,
-	defineBiruni
+	defineBiruni as default,
+	defineBiruni,
 };
