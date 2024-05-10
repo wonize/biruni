@@ -1,8 +1,9 @@
-import { clone, hasOwn, isEmptyObject, mergeFresh, type StoreData } from './helpers/mod';
-import type * as Plugin from './plugin/mod';
+import { clone, mergeFresh, type StoreData } from './helpers/mod.ts';
+import type * as Plugin from './plugin/mod.ts';
 
 import * as Getter from './get/mod.ts';
-import * as Listener from './listener';
+import type { EmitListener } from './listener/emit.ts';
+import * as Listener from './listener/mod.ts';
 import * as Setter from './set/mod.ts';
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
@@ -104,93 +105,39 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		this.data = Setter.setBySetter(this.data, setter);
 	};
 
-	public on: Listener.AddListener<Data> = (event, listener): void => {
+	addListener: Listener.Add<Data> = (event, listener) => {
+		// TODO: this.events.map((ev) => ev.on(event, listener));
+		this.pluginStruct.synchronizer.$$instance.addListener({
+			$$event: event,
+			$$listener: listener,
+		});
+	};
+	on: Listener.Add<Data> = (event, listener) => {
+		// TODO: this.events.map((ev) => ev.on(event, listener));
 		this.pluginStruct.synchronizer.$$instance.addListener({
 			$$event: event,
 			$$listener: listener,
 		});
 	};
 
-	public addListener: Listener.AddListener<Data> = (event, listener): void => {
-		this.pluginStruct.synchronizer.$$instance.addListener({
+	removeListener: Listener.Remove<Data> = (event, listener) => {
+		this.pluginStruct.synchronizer.$$instance.removeListener({
 			$$event: event,
 			$$listener: listener,
 		});
 	};
-
-	public off: Listener.RemoveListener<Data> = (event, listener): void => {
+	off: Listener.Remove<Data> = (event, listener) => {
 		this.pluginStruct.synchronizer.$$instance.removeListener({
 			$$event: event,
 			$$listener: listener,
 		});
 	};
 
-	public removeListener: Listener.RemoveListener<Data> = (event, listener): void => {
-		this.pluginStruct.synchronizer.$$instance.removeListener({
-			$$event: event,
-			$$listener: listener,
-		});
-	};
-
-	private emitPreChange = <NewData extends Partial<Data>>(
-		comeData: NewData,
-		oldData: Data,
-		mergedData: Data
-	) => {
-		const diffs = this._diff(comeData, oldData, mergedData);
-		this.emit('preChange', {
-			oldData: diffs.oldData,
-			newData: diffs.newData,
-			keyDiff: diffs.keyDiff,
-			diff: diffs.diff,
-			event: 'preChange',
-		});
-	};
-
-	private emitPostChange = <NewData extends Partial<Data>>(
-		comeData: NewData,
-		oldData: Data,
-		mergedData: Data
-	) => {
-		const diffs = this._diff(comeData, oldData, mergedData);
-		this.emit('postChange', {
-			oldData: diffs.oldData,
-			newData: diffs.newData,
-			keyDiff: diffs.keyDiff,
-			diff: diffs.diff,
-			event: 'postChange',
-		});
-	};
-
-	private emit: Listener.Emit<Data> = (event, payload) => {
+	protected emit: EmitListener<Data> = (event, payload) => {
 		this.pluginStruct.synchronizer.$$instance.emit({
 			$$event: event,
 			$$payload: payload,
 		});
-	};
-
-	private _diff = (comeData: Partial<Data>, oldData: Data, mergedData: Data) => {
-		return {
-			oldData: oldData,
-			newData: mergedData,
-			keyDiff: Object.keys(comeData) as Array<keyof typeof comeData>,
-			diff: Object.keys(comeData).reduce((diff_data, key) => {
-				return Object.assign({}, diff_data, {
-					[key]: {
-						oldValue: isEmptyObject(oldData)
-							? null
-							: hasOwn(oldData, key)
-								? oldData[key as keyof Data]
-								: null,
-						newValue: isEmptyObject(mergedData)
-							? null
-							: hasOwn(mergedData, key)
-								? mergedData[key as keyof Data]
-								: null,
-					},
-				});
-			}, {}),
-		};
 	};
 }
 
