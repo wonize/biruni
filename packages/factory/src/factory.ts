@@ -10,7 +10,8 @@ class PluginChain<Data extends StoreData, Namespace extends string = string>
 		protected namespace: Namespace,
 		protected pluginStack?: Plugin.Stack<Data>
 	) {
-		this.pluginStack = ([] as any).concat(pluginStack);
+		// @ts-expect-error the `pluginStack` will be fill in runtime
+		this.pluginStack = [].concat(pluginStack ?? []);
 	}
 
 	public plug(plugin: Plugin.BiruniPlugin<Data>) {
