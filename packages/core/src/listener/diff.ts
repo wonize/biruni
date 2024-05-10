@@ -1,4 +1,4 @@
-import type { RemoveNever, StoreData } from '../helpers/type-utility';
+import type { RemoveNever, StoreData } from '../helpers/type-utility.ts';
 
 export function diff<Source extends Data, Target extends Data, Data extends any = StoreData>(
 	source_data: Source,
