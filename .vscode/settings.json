@@ -33,12 +33,10 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/.classpath": false,
-    "**/.project": false,
-    "**/.settings": false,
-    "**/.factorypath": false
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
   },
   "eslint.workingDirectories": [
     {
