@@ -1,4 +1,4 @@
-import { clone, type StoreData } from '../helpers/mod.ts';
+import { clone, type StoreData } from '../helpers/mod';
 
 interface SetByPair<Data extends StoreData> {
 	(data: Partial<Data>): Promise<void>;

@@ -1,9 +1,9 @@
-import type { StoreData } from '../helpers/mod.ts';
+import type { StoreData } from '../helpers/mod';
 
-import type { SetByKeySetter } from './by-key-setter.ts';
-import type { SetByKeyValue } from './by-key-value.ts';
-import type { SetByPair } from './by-pair.ts';
-import type { SetBySetter } from './by-setter.ts';
+import type { SetByKeySetter } from './by-key-setter';
+import type { SetByKeyValue } from './by-key-value';
+import type { SetByPair } from './by-pair';
+import type { SetBySetter } from './by-setter';
 
 interface SetOverloads<Data extends StoreData>
 	extends SetByPair<Data>,

@@ -1,4 +1,4 @@
-import { clone, type StoreData } from '../helpers/mod.ts';
+import { clone, type StoreData } from '../helpers/mod';
 
 interface SetBySetter<Data extends StoreData> {
 	<Setter extends SetBySetterFunction<Data>>(setter: Setter): Promise<void>;

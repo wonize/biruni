@@ -1,4 +1,4 @@
-import { clone, type StoreData } from '../helpers/mod.ts';
+import { clone, type StoreData } from '../helpers/mod';
 
 interface SetByKeySetter<Data extends StoreData> {
 	<Key extends keyof Data, Setter extends SetByKeySetterFunction<Data[Key], Data>>(

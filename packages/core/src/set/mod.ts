@@ -1,20 +1,17 @@
-export { isByKeySetter, setByKeySetter } from './by-key-setter.ts';
+export { isByKeySetter, setByKeySetter } from './by-key-setter';
 export type {
 	SetByKeySetter as ByKeySetter,
 	SetByKeySetterFunction as ByKeySetterFunction,
-} from './by-key-setter.ts';
+} from './by-key-setter';
 
-export { isByKeyValue, isKeyOfData, setByKeyValue } from './by-key-value.ts';
-export type { SetByKeyValue as ByKeyValue } from './by-key-value.ts';
+export { isByKeyValue, isKeyOfData, setByKeyValue } from './by-key-value';
+export type { SetByKeyValue as ByKeyValue } from './by-key-value';
 
-export { isByPair, setByPair } from './by-pair.ts';
-export type { SetByPair as ByPair } from './by-pair.ts';
+export { isByPair, setByPair } from './by-pair';
+export type { SetByPair as ByPair } from './by-pair';
 
-export { isBySetter, setBySetter } from './by-setter.ts';
-export type {
-	SetBySetter as BySetter,
-	SetBySetterFunction as BySetterFunction,
-} from './by-setter.ts';
+export { isBySetter, setBySetter } from './by-setter';
+export type { SetBySetter as BySetter, SetBySetterFunction as BySetterFunction } from './by-setter';
 
-export type { SetInterface as Methods } from './methods.ts';
-export type { SetOverloads as Overloads } from './overloads.ts';
+export type { SetInterface as Methods } from './methods';
+export type { SetOverloads as Overloads } from './overloads';

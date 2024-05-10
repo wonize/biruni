@@ -1,4 +1,4 @@
-import { clone, type StoreData } from '../helpers/mod.ts';
+import { clone, type StoreData } from '../helpers/mod';
 
 interface SetByKeyValue<Data extends StoreData> {
 	<Key extends keyof Data, Value extends Data[Key]>(key: Key, value: Value): Promise<void>;
