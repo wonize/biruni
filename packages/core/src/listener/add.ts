@@ -1,6 +1,6 @@
-import type { StoreData } from '../helpers/mod.ts';
-import type { EventName } from '../synchronizer/event.ts';
-import type { ListenerFunction } from '../synchronizer/listener.ts';
+import type { StoreData } from '../helpers/mod';
+import type { EventName } from '../synchronizer/event';
+import type { ListenerFunction } from '../synchronizer/listener';
 
 interface AddListenerMethods<Data extends StoreData> {
 	readonly on: AddListener<Data>;

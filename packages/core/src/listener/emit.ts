@@ -1,6 +1,6 @@
-import type { DataDiff, KeyDiff, StoreData } from '../helpers/mod.ts';
-import type { EventName } from '../synchronizer/event.ts';
-import type { Payload } from '../synchronizer/payload.ts';
+import type { DataDiff, KeyDiff, StoreData } from '../helpers/mod';
+import type { EventName } from '../synchronizer/event';
+import type { Payload } from '../synchronizer/payload';
 
 interface EmitListener<Data extends StoreData> {
 	<Event extends EventName, Keys extends KeyDiff<Data>, Diffs extends DataDiff<Data, Keys>>(

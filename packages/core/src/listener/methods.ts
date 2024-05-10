@@ -1,6 +1,6 @@
-import type { StoreData } from '../helpers/mod.ts';
-import type { AddListenerMethods } from './add.ts';
-import type { RemoveListenerMethods } from './remove.ts';
+import type { StoreData } from '../helpers/mod';
+import type { AddListenerMethods } from './add';
+import type { RemoveListenerMethods } from './remove';
 
 interface ListenerMethods<Data extends StoreData>
 	extends AddListenerMethods<Data>,
