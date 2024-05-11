@@ -63,31 +63,6 @@
 			"import": "./dist/esm/plugin/mod.js",
 			"types": "./dist/types/plugin/mod.d.ts"
 		},
-		"./parser": {
-			"require": "./dist/cjs/parser/mod.js",
-			"import": "./dist/esm/parser/mod.js",
-			"types": "./dist/types/parser/mod.d.ts"
-		},
-		"./persister": {
-			"require": "./dist/cjs/persister/mod.js",
-			"import": "./dist/esm/persister/mod.js",
-			"types": "./dist/types/persister/mod.d.ts"
-		},
-		"./synchronizer": {
-			"require": "./dist/cjs/synchronizer/mod.js",
-			"import": "./dist/esm/synchronizer/mod.js",
-			"types": "./dist/types/synchronizer/mod.d.ts"
-		},
-		"./validator": {
-			"require": "./dist/cjs/validator/mod.js",
-			"import": "./dist/esm/validator/mod.js",
-			"types": "./dist/types/validator/mod.d.ts"
-		},
-		"./context": {
-			"require": "./dist/cjs/context.js",
-			"import": "./dist/esm/context.js",
-			"types": "./dist/types/context.d.ts"
-		},
 		"./*": {
 			"require": "./dist/cjs/*.js",
 			"import": "./dist/esm/*.js",
