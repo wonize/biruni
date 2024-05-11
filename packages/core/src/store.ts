@@ -1,5 +1,5 @@
 import { clone, mergeFresh, type StoreData } from './helpers/mod';
-import type * as Plugin from './plugin/mod';
+import * as Plugin from './plugin/mod';
 
 import * as Getter from './get/mod';
 import * as Listener from './listener/mod';
@@ -49,38 +49,32 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 	};
 
 	getByEntire: Getter.ByEntire<Data> = async () => {
-		let value: Data = this.data;
-
-		for (const plugin of this.pluginStack) {
-			value = await plugin.beforeGet(value);
-		}
-
-		value = Getter.getByEntire(value);
-
-		for (const plugin of this.pluginStack) {
-			value = await plugin.afterGet(value);
-		}
-
-		return value;
+		this.data = await Plugin.preprocess(this.data, this.pluginStack);
+		return Getter.getByEntire(this.data);
 	};
 
 	getByKey: Getter.ByKey<Data> = async (key) => {
+		this.data = await Plugin.preprocess(this.data, this.pluginStack);
 		return Getter.getByKey(this.data, key);
 	};
 
 	getByKeyMapper: Getter.ByKeyMapper<Data> = async (key, mapper) => {
+		this.data = await Plugin.preprocess(this.data, this.pluginStack);
 		return Getter.getByKeyMapper(this.data, key, mapper);
 	};
 
 	getByKeys: Getter.ByKeys<Data> = async (keys) => {
+		this.data = await Plugin.preprocess(this.data, this.pluginStack);
 		return Getter.getByKeys(this.data, keys);
 	};
 
 	getByMapper: Getter.ByMapper<Data> = async (mapper) => {
+		this.data = await Plugin.preprocess(this.data, this.pluginStack);
 		return Getter.getByMapper(this.data, mapper);
 	};
 
 	getByTruthy: Getter.ByTruthy<Data> = async (truthy) => {
+		this.data = await Plugin.preprocess(this.data, this.pluginStack);
 		return Getter.getByTruthy(this.data, truthy);
 	};
 
@@ -102,18 +96,22 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 	setByKeySetter: Setter.ByKeySetter<Data> = async (key, setter) => {
 		this.data = Setter.setByKeySetter(this.data, key, setter);
+		await Plugin.postprocess(this.data, this.pluginStack);
 	};
 
 	setByKeyValue: Setter.ByKeyValue<Data> = async (key, value) => {
 		this.data = Setter.setByKeyValue(this.data, key, value);
+		await Plugin.postprocess(this.data, this.pluginStack);
 	};
 
 	setByPair: Setter.ByPair<Data> = async (pair) => {
 		this.data = Setter.setByPair(this.data, pair);
+		await Plugin.postprocess(this.data, this.pluginStack);
 	};
 
 	setBySetter: Setter.BySetter<Data> = async (setter) => {
 		this.data = Setter.setBySetter(this.data, setter);
+		await Plugin.postprocess(this.data, this.pluginStack);
 	};
 
 	addListener: Listener.Add<Data> = (event, listener) => {
