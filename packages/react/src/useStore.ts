@@ -1,5 +1,6 @@
 import { Getter, Setter, type GetterSync, type Store } from '@biruni/core';
 import type { ExtractStoreData, StoreData } from '@biruni/core/helpers';
+import type { Payload } from '@biruni/core/listener';
 import React from 'react';
 
 function useStore<
@@ -10,8 +11,8 @@ function useStore<
 	const [data, setData] = React.useState<NoInfer<Data>>(store.data);
 
 	React.useEffect(() => {
-		function onChange(payload: any) {
-			setData(() => payload.newData);
+		function onChange(payload: Payload<'change', Data>) {
+			setData(() => payload.target as unknown as NoInfer<Data>);
 		}
 		store.addListener('change', onChange);
 		return () => {
