@@ -13,6 +13,8 @@ export abstract class BiruniPlugin<Data extends StoreData> implements PluginInte
 	abstract readonly type: Context.ContextType;
 	abstract readonly name: string;
 
+	// @ts-expect-error the `_namespace` will be injected from `biruni/factory`
+	protected _namespace: string;
 	get namespace() {
 		return this._namespace;
 	}
@@ -20,7 +22,7 @@ export abstract class BiruniPlugin<Data extends StoreData> implements PluginInte
 		this._namespace = namespace;
 	}
 
-	constructor(protected _namespace?: string) {}
+	constructor() {}
 
 	preprocess: (data: Data) => Promise<Data> = async (data) => {
 		return data;
