@@ -1,11 +1,10 @@
 import { useStore } from '@biruni/react';
-import { biruni, event, json, localstorage } from 'biruni';
+import { biruni } from 'biruni';
+import { recommended } from 'biruni/built-in';
 import './Counter.css';
 
 const CounterStore = biruni('biruni-example-counter')
-	.plug(event())
-	.plug(json())
-	.plug(localstorage())
+	.plug(recommended())
 	.init(() => ({ count: 0 }));
 
 const Counter = () => {
