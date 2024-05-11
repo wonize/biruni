@@ -14,10 +14,24 @@ class PluginChain<Data extends StoreData, Namespace extends string = string>
 		this.pluginStack = [].concat(pluginStack ?? []);
 	}
 
-	public plug(plugin: Plugin.BiruniPlugin<Data>) {
-		plugin.namespace = this.namespace;
-		return new PluginChain<Data, Namespace>(this.namespace, this.pluginStack!.concat(plugin));
-	}
+	plug: Chain<Data>['plug'] = (input) => {
+		let $plugins = input as Array<Plugin.BiruniPlugin<Data>>;
+
+		if (
+			typeof input === 'object' &&
+			input !== null &&
+			(!(input instanceof Array) || Array.isArray(input) === false)
+		) {
+			$plugins = [input];
+		}
+
+		$plugins = $plugins.map((plugin) => {
+			plugin.namespace = this.namespace;
+			return plugin;
+		});
+
+		return new PluginChain<Data, Namespace>(this.namespace, this.pluginStack!.concat($plugins));
+	};
 
 	public init<T extends Data>(initializer: () => T) {
 		// @ts-expect-error the `this.pluginStack` is not undefined, also it's will be match with `Plugin.Stack<T>`, because `T` is `Data`.
