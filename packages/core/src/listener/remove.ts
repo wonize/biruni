@@ -1,6 +1,6 @@
 import type { StoreData } from '../helpers/mod';
-import type { EventName } from '../synchronizer/event';
-import type { ListenerFunction } from '../synchronizer/listener';
+import type { EventName } from './event';
+import type { ListenerFunction } from './listener';
 
 interface RemoveListenerMethods<Data extends StoreData> {
 	readonly off: RemoveListener<Data>;
