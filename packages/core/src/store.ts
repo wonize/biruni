@@ -13,7 +13,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		this.get().then((persisted_data) => {
 			const comming_data = initializer();
 			const data = mergeFresh<Readonly<Data>>(persisted_data, comming_data);
-			this.data = data;
+			this.setByEntire(data);
 		});
 	}
 
