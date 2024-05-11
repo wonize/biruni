@@ -114,6 +114,11 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		await Plugin.postprocess(this.data, this.pluginStack);
 	};
 
+	protected setByEntire = async (data: Data) => {
+		this.data = data;
+		await Plugin.postprocess(this.data, this.pluginStack);
+	};
+
 	addListener: Listener.Add<Data> = (event, listener) => {
 		for (const plugin of this.pluginStack) {
 			if (plugin.type === 'synchronizer') {
