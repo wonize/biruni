@@ -78,12 +78,12 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		return Getter.getByTruthy(this.data, truthy);
 	};
 
-	set: Setter.Overloads<Data> = async (first: unknown, scond?: unknown) => {
+	set: Setter.Overloads<Data> = async (first: unknown, second?: unknown) => {
 		if (Setter.isKeyOfData<Data>(first)) {
-			if (Setter.isByKeySetter<Data>(scond)) {
-				return this.setByKeySetter(first, scond);
-			} else if (Setter.isByKeyValue<Data>(scond)) {
-				return this.setByKeyValue(first, scond);
+			if (Setter.isByKeySetter<Data>(second)) {
+				return this.setByKeySetter(first, second);
+			} else if (Setter.isByKeyValue<Data>(second)) {
+				return this.setByKeyValue(first, second);
 			}
 		} else if (Setter.isBySetter<Data>(first)) {
 			return this.setBySetter(first);
