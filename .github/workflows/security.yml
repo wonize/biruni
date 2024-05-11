@@ -27,10 +27,12 @@ jobs:
               continue-on-error: true
               env:
                   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+              with:
+                  command: test --all-projects --exclude='docs,examples,scripts,node_modules'
             - name: Run Snyk Monitor to check for vulnerabilities
               uses: snyk/actions/node@master
               continue-on-error: true
               env:
                   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
               with:
-                  command: monitor
+                  command: monitor --all-projects --exclude='docs,examples,scripts,node_modules'
