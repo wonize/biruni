@@ -55,14 +55,13 @@
 		"node": ">=18"
 	},
 	"scripts": {},
-	"dependencies": {},
 	"devDependencies": {
-		"zod": "3.22.0",
-		"@biruni/core": "workspace:*"
+		"@biruni/core": "workspace:*",
+		"zod": "3.23.8"
 	},
 	"peerDependencies": {
-		"zod": ">=3.22.0",
-		"@biruni/core": "<=0.0.5"
+		"@biruni/core": "<=0.0.5",
+		"zod": ">=3.23.8"
 	},
 	"peerDependenciesMeta": {
 		"@biruni/core": {
