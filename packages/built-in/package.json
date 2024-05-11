@@ -48,6 +48,11 @@
 			"import": "./dist/esm/event/mod.js",
 			"types": "./dist/types/event/mod.d.ts"
 		},
+		"./built-in": {
+			"require": "./dist/cjs/built-in.js",
+			"import": "./dist/esm/built-in.js",
+			"types": "./dist/types/built-in.d.ts"
+		},
 		"./*": {
 			"require": "./dist/cjs/*.js",
 			"import": "./dist/esm/*.js",
