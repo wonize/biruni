@@ -11,7 +11,11 @@ class ZodPlugin<Data extends StoreData> extends Plugin.BiruniPlugin<Data> {
 		super();
 	}
 
-	override beforeSet: (data: Data) => Promise<Data> = async (data) => {
+	override postprocess: (data: Data) => Promise<Data> = async (data) => {
+		return this.schema.parse(data);
+	};
+
+	override preprocess: (data: Data) => Promise<Data> = async (data) => {
 		return this.schema.parse(data);
 	};
 }

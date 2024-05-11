@@ -1,7 +1,6 @@
 import type { Plugin } from '@biruni/core';
-import type { ContextType } from '@biruni/core/context';
 import type { StoreData } from '@biruni/core/helpers';
-import { BiruniPlugin } from '@biruni/core/plugin';
+import { BiruniPlugin, type ContextType } from '@biruni/core/plugin';
 
 class JsonPlugin<Data extends StoreData> extends BiruniPlugin<Data> {
 	override type: ContextType = 'parser';
@@ -11,12 +10,13 @@ class JsonPlugin<Data extends StoreData> extends BiruniPlugin<Data> {
 		super();
 	}
 
-	override beforeGet: (data: Data) => Promise<Data> = async (data) => {
-		return JSON.parse(data as unknown as string) as Data;
+	override preprocess: (data: Data) => Promise<Data> = async (data) => {
+		if (data) return JSON.parse(data as unknown as string) as Data;
+		return data;
 	};
 
-	override beforeSet: (data: Data) => Promise<Data> = async (data) => {
-		return JSON.stringify(data) as unknown as Data;
+	override postprocess: (data: Data) => Promise<Data> = async (data) => {
+		return JSON.stringify(data ?? {}) as unknown as Data;
 	};
 }
 

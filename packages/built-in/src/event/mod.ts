@@ -1,5 +1,4 @@
 import type { Event as BiruniEvent } from '@biruni/core';
-import type { ContextType } from '@biruni/core/context';
 import type { StoreData } from '@biruni/core/helpers';
 import type { Add, Remove } from '@biruni/core/listener';
 import { diff } from '@biruni/core/listener/diff';
@@ -9,7 +8,7 @@ import { default as EventEmitter } from 'events';
 class BiruniEventEmitter<Data extends StoreData> extends Plugin.BiruniPlugin<Data> {
 	private _event_emitter: EventEmitter;
 
-	override type: ContextType = 'synchronizer';
+	override type: Plugin.ContextType = 'synchronizer';
 	override name: 'built-in/event-emitter' = 'built-in/event-emitter';
 
 	public constructor() {
@@ -25,7 +24,7 @@ class BiruniEventEmitter<Data extends StoreData> extends Plugin.BiruniPlugin<Dat
 		this._event_emitter.removeListener(event, listener);
 	};
 
-	override afterSet: (data: Data) => Promise<Data> = async (data) => {
+	override postprocess: (data: Data) => Promise<Data> = async (data) => {
 		this._event_emitter.emit('change', diff({}, data));
 		return data;
 	};
