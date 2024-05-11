@@ -1,4 +1,3 @@
-import type { Plugin } from '@biruni/core';
 import type { StoreData } from '@biruni/core/helpers';
 import { BiruniPlugin, type ContextType } from '@biruni/core/plugin';
 
@@ -20,7 +19,7 @@ class JsonPlugin<Data extends StoreData> extends BiruniPlugin<Data> {
 	};
 }
 
-const json: Plugin.Function = <Data extends StoreData>() => {
+const json = <Data extends StoreData>() => {
 	return new JsonPlugin<Data>();
 };
 
