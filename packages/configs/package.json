@@ -3,16 +3,15 @@
 	"version": "0.0.0",
 	"private": true,
 	"files": [
-		"eslint.ts",
 		"tsconfig.json",
-		"tsconfig.react.json",
+		"tsconfig/base.json",
+		"tsconfig/declaration.json",
+		"tsconfig/nextjs.json",
+		"tsconfig/react.json",
+		"eslint.ts",
 		"legacy-eslint/library.js",
 		"legacy-eslint/next.js",
-		"legacy-eslint/react-internal.js",
-		"legacy-tsconfig/base.json",
-		"legacy-tsconfig/declaration.json",
-		"legacy-tsconfig/nextjs.json",
-		"legacy-tsconfig/react.json"
+		"legacy-eslint/react-internal.js"
 	],
 	"devDependencies": {
 		"@eslint/js": "9.2.0",
