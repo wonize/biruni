@@ -1,5 +1,6 @@
 {
 	"private": true,
+	"packageManager": "pnpm@9.2.0",
 	"dependencies": {
 		"vue": "3.4.26",
 		"vue-photo-collage": "1.0.5"
