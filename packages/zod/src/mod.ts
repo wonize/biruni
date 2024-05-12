@@ -4,7 +4,7 @@ import type { ZodSchema } from 'zod';
 
 class ZodPlugin<Data extends StoreData> extends Plugin.BiruniPlugin<Data> {
 	override type: Plugin.ContextType = 'validator';
-	override name: 'biruni/zod' = 'biruni/zod';
+	override name = 'biruni/zod' as const;
 
 	public constructor(private schema: ZodSchema) {
 		super();
@@ -19,7 +19,7 @@ class ZodPlugin<Data extends StoreData> extends Plugin.BiruniPlugin<Data> {
 	};
 }
 
-const zod = <Data extends StoreData>(schema: ZodSchema) => {
+const zod = <Data extends StoreData>(schema: ZodSchema): Plugin.BiruniPlugin<Data> => {
 	return new ZodPlugin<Data>(schema);
 };
 
