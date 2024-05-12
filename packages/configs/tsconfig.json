@@ -1,0 +1,35 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Default",
+	"compilerOptions": {
+		"target": "ES6",
+		"module": "Preserve",
+		"moduleDetection": "force",
+		"moduleResolution": "Bundler",
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"resolveJsonModule": true,
+		"incremental": false,
+		"allowJs": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"allowImportingTsExtensions": true,
+		"pretty": true,
+		"lib": [
+			"ESNext",
+			"DOM",
+			"DOM.Iterable"
+		]
+	},
+	"exclude": [
+		"**/node_modules",
+		"**/*.d.ts",
+		"**/dist/*",
+		"**/.turbo/*",
+		"**/tsup.config.ts"
+	]
+}
