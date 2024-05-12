@@ -3,25 +3,25 @@
 ## Import
 
 ```typescript
-import event from "@biruni/built-in/event";
+import event from '@biruni/built-in/event';
 ```
 
 ::: details Alternative Import Syntax
 
 ```typescript
-import event from "@biruni/built-in/event/mod";
+import event from '@biruni/built-in/event/mod';
 ```
 
 ---
 
 ```typescript
-import { event } from "@biruni/built-in/mod";
+import { event } from '@biruni/built-in/mod';
 ```
 
 ---
 
 ```typescript
-import { event } from "@biruni/built-in";
+import { event } from '@biruni/built-in';
 ```
 
 ---
@@ -31,25 +31,25 @@ Also it's available in `biruni` as battery-included
 ---
 
 ```typescript
-import { event } from "biruni";
+import { event } from 'biruni';
 ```
 
 ---
 
 ```typescript
-import { event } from "biruni/built-in";
+import { event } from 'biruni/built-in';
 ```
 
 ---
 
 ```typescript
-import { event } from "biruni/event";
+import { event } from 'biruni/event';
 ```
 
 ---
 
 ```typescript
-import event from "biruni/event";
+import event from 'biruni/event';
 ```
 
 > [!tip]

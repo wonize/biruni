@@ -29,7 +29,7 @@ export default biruni();
 ```
 
 ```tsx [usage]
-import MyCustomNameStore from "./counter.store.ts";
+import MyCustomNameStore from './counter.store.ts';
 ```
 
 :::

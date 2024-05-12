@@ -31,65 +31,65 @@ $ yarn add --save biruni
 ::: code-group
 
 ```tsx [initialize]
-import { biruni } from "biruni";
-import json from "@biruni/built-in/json";
-import localstorage from "@biruni/built-in/localstorage";
+import { biruni } from 'biruni';
+import json from '@biruni/built-in/json';
+import localstorage from '@biruni/built-in/localstorage';
 
 type CounterStore = {
-  count: number;
+	count: number;
 };
 
 export default biruni<CounterStore>()
-  .plug(json())
-  .plug(localstorage("counter-storage-key"))
-  .init(() => ({ count: 1 }));
+	.plug(json())
+	.plug(localstorage('counter-storage-key'))
+	.init(() => ({ count: 1 }));
 ```
 
 ```tsx [add observer/events]
-import { biruni } from "biruni";
-import json from "@biruni/built-in/json";
-import localstorage from "@biruni/built-in/localstorage";
-import event from "@biruni/built-in/event"; // [!code ++]
+import { biruni } from 'biruni';
+import json from '@biruni/built-in/json';
+import localstorage from '@biruni/built-in/localstorage';
+import event from '@biruni/built-in/event'; // [!code ++]
 
 type CounterStore = {
-  count: number;
+	count: number;
 };
 
 export default biruni<CounterStore>()
-  .plug(json())
-  .plug(event()) // [!code ++]
-  .plug(localstorage("counter-storage-key"))
-  .init(() => ({ count: 1 }));
+	.plug(json())
+	.plug(event()) // [!code ++]
+	.plug(localstorage('counter-storage-key'))
+	.init(() => ({ count: 1 }));
 ```
 
 ```tsx [add zod validation]
-import { biruni } from "biruni";
-import json from "@biruni/built-in/json";
-import localstorage from "@biruni/built-in/localstorage";
-import zod from "@biruni/zod"; // [!code ++]
-import { z } from "zod"; // [!code ++]
+import { biruni } from 'biruni';
+import json from '@biruni/built-in/json';
+import localstorage from '@biruni/built-in/localstorage';
+import zod from '@biruni/zod'; // [!code ++]
+import { z } from 'zod'; // [!code ++]
 
 const CounterSchema = z.object({ count: z.number().min(1).max(10) }); // [!code ++]
 type CounterStore = z.infer<typeof CounterSchema>; // [!code ++]
 
 export default biruni<CounterStore>()
-  .plug(json())
-  .plug(zod(CounterSchema)) // [!code ++]
-  .plug(localstorage("counter-storage-key"))
-  .init(() => ({ count: 1 }));
+	.plug(json())
+	.plug(zod(CounterSchema)) // [!code ++]
+	.plug(localstorage('counter-storage-key'))
+	.init(() => ({ count: 1 }));
 ```
 
 ```tsx [manipulate with set/get]
-import CounterStore from "./store.ts";
+import CounterStore from './store.ts';
 
-const count = await CoutnerStore.get("count");
-CounterStore.on("preChange", function (payload) {
-  console.log("[ ", payload.oldData, " ] >--CHANGED--> [ ", payload.newData, " ]");
-  // [ { count: 1 } ] >--CHANGED--> [ { count: 5 } ]
+const count = await CoutnerStore.get('count');
+CounterStore.on('preChange', function (payload) {
+	console.log('[ ', payload.oldData, ' ] >--CHANGED--> [ ', payload.newData, ' ]');
+	// [ { count: 1 } ] >--CHANGED--> [ { count: 5 } ]
 });
 
 setTimeout(() => {
-  CounterStore.set("count", 5);
+	CounterStore.set('count', 5);
 }, 3_000);
 ```
 

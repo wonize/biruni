@@ -8,11 +8,11 @@ To perssist and cache data.
 
 ::: details Examples
 
-- `indexeddb API`
-- `localStorage API`
-- `sessionStorage API`
-- `@ionic/secure-storage`
-- `@capacitor/perferences`
+-   `indexeddb API`
+-   `localStorage API`
+-   `sessionStorage API`
+-   `@ionic/secure-storage`
+-   `@capacitor/perferences`
 
 :::
 
@@ -22,9 +22,9 @@ To parse/stringify data.
 
 ::: details Examples
 
-- `JSON`
-- `YAML`
-- `TOML`
+-   `JSON`
+-   `YAML`
+-   `TOML`
 
 :::
 
@@ -34,10 +34,10 @@ To sync data between things
 
 ::: details Examples
 
-- `DOM Event API`
-- `Storage Event API`
-- `Event Emitter API`
-- `Broadcast Channel API`
+-   `DOM Event API`
+-   `Storage Event API`
+-   `Event Emitter API`
+-   `Broadcast Channel API`
 
 :::
 
@@ -47,10 +47,10 @@ To validate and verify data
 
 ::: details Examples
 
-- `zod`
-- `yup`
-- `joi`
-- `superstruct`
+-   `zod`
+-   `yup`
+-   `joi`
+-   `superstruct`
 
 :::
 
@@ -62,15 +62,15 @@ To integerate with another tools
 
 **Store Managers**
 
-- `pullstate`
-- `zustand`
-- `pinia`
+-   `pullstate`
+-   `zustand`
+-   `pinia`
 
 **Frameworks**
 
-- `sveltekit`
-- `svelte`
-- `react`
-- `vue`
+-   `sveltekit`
+-   `svelte`
+-   `react`
+-   `vue`
 
 :::

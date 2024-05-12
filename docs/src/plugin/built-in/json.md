@@ -3,25 +3,25 @@
 ## Import
 
 ```typescript
-import json from "@biruni/built-in/json";
+import json from '@biruni/built-in/json';
 ```
 
 ::: details Alternative Import Syntax
 
 ```typescript
-import json from "@biruni/built-in/json/mod";
+import json from '@biruni/built-in/json/mod';
 ```
 
 ---
 
 ```typescript
-import { json } from "@biruni/built-in/mod";
+import { json } from '@biruni/built-in/mod';
 ```
 
 ---
 
 ```typescript
-import { json } from "@biruni/built-in";
+import { json } from '@biruni/built-in';
 ```
 
 ---
@@ -31,25 +31,25 @@ Also it's available in `biruni` as battery-included
 ---
 
 ```typescript
-import { json } from "biruni";
+import { json } from 'biruni';
 ```
 
 ---
 
 ```typescript
-import { json } from "biruni/built-in";
+import { json } from 'biruni/built-in';
 ```
 
 ---
 
 ```typescript
-import { json } from "biruni/json";
+import { json } from 'biruni/json';
 ```
 
 ---
 
 ```typescript
-import json from "biruni/json";
+import json from 'biruni/json';
 ```
 
 > [!tip]

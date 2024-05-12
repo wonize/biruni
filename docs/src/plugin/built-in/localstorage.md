@@ -3,25 +3,25 @@
 ## Import
 
 ```typescript
-import localstorage from "@biruni/built-in/localstorage";
+import localstorage from '@biruni/built-in/localstorage';
 ```
 
 ::: details Alternative Import Syntax
 
 ```typescript
-import localstorage from "@biruni/built-in/localstorage/mod";
+import localstorage from '@biruni/built-in/localstorage/mod';
 ```
 
 ---
 
 ```typescript
-import { localstorage } from "@biruni/built-in/mod";
+import { localstorage } from '@biruni/built-in/mod';
 ```
 
 ---
 
 ```typescript
-import { localstorage } from "@biruni/built-in";
+import { localstorage } from '@biruni/built-in';
 ```
 
 ---
@@ -31,25 +31,25 @@ Also it's available in `biruni` as battery-included
 ---
 
 ```typescript
-import { localstorage } from "biruni";
+import { localstorage } from 'biruni';
 ```
 
 ---
 
 ```typescript
-import { localstorage } from "biruni/built-in";
+import { localstorage } from 'biruni/built-in';
 ```
 
 ---
 
 ```typescript
-import { localstorage } from "biruni/localstorage";
+import { localstorage } from 'biruni/localstorage';
 ```
 
 ---
 
 ```typescript
-import localstorage from "biruni/localstorage";
+import localstorage from 'biruni/localstorage';
 ```
 
 > [!tip]

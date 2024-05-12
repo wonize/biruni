@@ -16,17 +16,17 @@ The `.set` method allows you to store, save, or update data in a Storage Key. Th
 ## Set Data with Key-Value Pair
 
 ```typescript
-userSettings.set({ theme: "dark" });
+userSettings.set({ theme: 'dark' });
 ```
 
 ```json
 {
-  "theme": "light", // [!code --]
-  "theme": "dark", // [!code ++]
+	"theme": "light", // [!code --]
+	"theme": "dark", // [!code ++]
 
-  // unchanged and merged ->
-  "language": "en-US",
-  "primaryColor": "blue"
+	// unchanged and merged ->
+	"language": "en-US",
+	"primaryColor": "blue"
 }
 ```
 
@@ -41,17 +41,17 @@ userSettings.set({ theme: "dark" });
 ## Set Data with Key and Value
 
 ```typescript
-userSettings.set("theme", "dark");
+userSettings.set('theme', 'dark');
 ```
 
 ```json
 {
-  "theme": "light", // [!code --]
-  "theme": "dark", // [!code ++]
+	"theme": "light", // [!code --]
+	"theme": "dark", // [!code ++]
 
-  // unchanged and merged ->
-  "language": "en-US",
-  "primaryColor": "blue"
+	// unchanged and merged ->
+	"language": "en-US",
+	"primaryColor": "blue"
 }
 ```
 
@@ -70,19 +70,19 @@ userSettings.set("theme", "dark");
 > also can be used to conditional changes
 
 ```typescript
-userSettings.set("theme", (theme) => {
-  return theme === "light" ? "dark" : "light";
+userSettings.set('theme', (theme) => {
+	return theme === 'light' ? 'dark' : 'light';
 });
 ```
 
 ```json
 {
-  "theme": "light", // [!code --]
-  "theme": "dark", // [!code ++]
+	"theme": "light", // [!code --]
+	"theme": "dark", // [!code ++]
 
-  // unchanged and merged ->
-  "language": "en-US",
-  "primaryColor": "blue"
+	// unchanged and merged ->
+	"language": "en-US",
+	"primaryColor": "blue"
 }
 ```
 
@@ -100,22 +100,22 @@ userSettings.set("theme", (theme) => {
 
 ```typescript
 userSettings.set((oldData) => {
-  if (oldData.theme === "light") {
-    return { theme: "dark" };
-  } else {
-    return { theme: "light" };
-  }
+	if (oldData.theme === 'light') {
+		return { theme: 'dark' };
+	} else {
+		return { theme: 'light' };
+	}
 });
 ```
 
 ```json
 {
-  "theme": "light", // [!code --]
-  "theme": "dark", // [!code ++]
+	"theme": "light", // [!code --]
+	"theme": "dark", // [!code ++]
 
-  // unchanged and merged ->
-  "language": "en-US",
-  "primaryColor": "blue"
+	// unchanged and merged ->
+	"language": "en-US",
+	"primaryColor": "blue"
 }
 ```
 
@@ -136,15 +136,15 @@ There is also `@biruni/utility` library to contain some magical modules to be he
 1. **Import**
 
 ```typescript
-import { set } from "@biruni/utility";
+import { set } from '@biruni/utility';
 ```
 
 2. **Use**
 
 ```typescript
 set(userSettings);
-set(userSettings, { theme: "dark" });
-set(userSettings, "theme", "dark");
-set(userSettings, "theme", (theme) => (theme === "light" ? "dark" : "light"));
-set(userSettings, (oldData) => (oldData.theme === "light" ? "dark" : "light"));
+set(userSettings, { theme: 'dark' });
+set(userSettings, 'theme', 'dark');
+set(userSettings, 'theme', (theme) => (theme === 'light' ? 'dark' : 'light'));
+set(userSettings, (oldData) => (oldData.theme === 'light' ? 'dark' : 'light'));
 ```

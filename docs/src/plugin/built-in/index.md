@@ -24,6 +24,6 @@ $ pnpm add @biruni/built-in
 
 ## Include
 
-- [`json`](/plugin/built-in/json)
-- [`event`](/plugin/built-in/event)
-- [`localstorage`](/plugin/built-in/localstorage)
+-   [`json`](/plugin/built-in/json)
+-   [`event`](/plugin/built-in/event)
+-   [`localstorage`](/plugin/built-in/localstorage)

@@ -25,65 +25,92 @@ const TSUP_COMMON_OPTIONS: Options = {
 	minify: 'terser',
 	treeshake: 'safest',
 	env: { NODE_ENV: 'production' },
-}
+};
 
 let index: number = 0;
 async function build(workspace: string, config?: Config) {
 	await task(`${++index} START [${workspace}]`, async ({ setTitle, setError, setStatus }) => {
 		try {
-			setTitle(`(DIR) CLEAR     [${workspace}]`)
-			await clr(workspace)
+			setTitle(`(DIR) CLEAR     [${workspace}]`);
+			await clr(workspace);
 
-			setTitle(`(ESM) BUILD     [${workspace}]`)
+			setTitle(`(ESM) BUILD     [${workspace}]`);
 			await esm(workspace, { entry: ['src/'], ...config });
 
-			setTitle(`(CJS) BUILD     [${workspace}]`)
+			setTitle(`(CJS) BUILD     [${workspace}]`);
 			await cjs(workspace, { entry: ['src/'], ...config });
 
-			setTitle(`(UMD) BUILD     [${workspace}]`)
+			setTitle(`(UMD) BUILD     [${workspace}]`);
 			await umd(workspace, { entry: ['src/mod.ts'], ...config });
 
-			setTitle(`(DTS) BUILD     [${workspace}]`)
+			setTitle(`(DTS) BUILD     [${workspace}]`);
 			await dts(workspace);
 
-			setTitle(`( ${index} ) COMPLETED [${workspace}]`)
+			setTitle(`( ${index} ) COMPLETED [${workspace}]`);
 		} catch (error: any) {
 			setStatus('error');
-			const stderr = Object.hasOwn(error, '_stdout') ? error._stdout : error
+			const stderr = Object.hasOwn(error, '_stdout') ? error._stdout : error;
 			setError(stderr);
-			throw stderr
+			throw stderr;
 		}
-	})
+	});
 }
 
 async function esm(workspace: string, config?: Config) {
-	await tsup(resolveTsupOptions(workspace, Object.assign({}, {
-		format: ['esm'],
-		outDir: 'dist/esm',
-	}, config)));
+	await tsup(
+		resolveTsupOptions(
+			workspace,
+			Object.assign(
+				{},
+				{
+					format: ['esm'],
+					outDir: 'dist/esm',
+				},
+				config
+			)
+		)
+	);
 }
 
 async function cjs(workspace: string, config?: Config) {
-	await tsup(resolveTsupOptions(workspace, Object.assign({}, {
-		format: ['cjs'],
-		outDir: 'dist/cjs',
-	}, config)));
+	await tsup(
+		resolveTsupOptions(
+			workspace,
+			Object.assign(
+				{},
+				{
+					format: ['cjs'],
+					outDir: 'dist/cjs',
+				},
+				config
+			)
+		)
+	);
 }
 
 async function umd(workspace: string, config?: Config) {
-	await tsup(resolveTsupOptions(workspace, Object.assign({}, {
-		format: ['iife'],
-		outDir: 'dist/umd',
+	await tsup(
+		resolveTsupOptions(
+			workspace,
+			Object.assign(
+				{},
+				{
+					format: ['iife'],
+					outDir: 'dist/umd',
 
-		// specifice iife
-		outExtension: () => ({ js: '.global.js' }),
-		bundle: true
-	}, config)));
+					// specifice iife
+					outExtension: () => ({ js: '.global.js' }),
+					bundle: true,
+				},
+				config
+			)
+		)
+	);
 }
 
 async function dts(workspace: string) {
 	const o = resolveConfigs(workspace, { outDir: 'dist/types' });
-	await $`cd ${o.base} && npx tsc --declarationDir ${o.outDir} --emitDeclarationOnly --declarationMap --declaration --noEmit false`
+	await $`cd ${o.base} && npx tsc --declarationDir ${o.outDir} --emitDeclarationOnly --declarationMap --declaration --noEmit false`;
 }
 
 type Config = Partial<Omit<Options, 'entryPoints' | 'clean'>>;
@@ -92,7 +119,7 @@ type Config = Partial<Omit<Options, 'entryPoints' | 'clean'>>;
 
 async function checkType(workspace: string) {
 	const o = resolveConfigs(workspace, {
-		outDir: 'dist'
+		outDir: 'dist',
 	});
 	const output = await $`cd ${o.base} && npx tsc --noEmit`;
 	if (output.exitCode !== 0) {
@@ -102,9 +129,9 @@ async function checkType(workspace: string) {
 
 async function clr(workspace: string, config?: Config) {
 	const o = resolveConfigs(workspace, {
-		outDir: config?.outDir ?? 'dist'
-	})
-	await $`cd ${o.base} && rm -rf ${o.outDir}`
+		outDir: config?.outDir ?? 'dist',
+	});
+	await $`cd ${o.base} && rm -rf ${o.outDir}`;
 }
 
 // ========== Resolvers ==========
@@ -112,22 +139,30 @@ async function clr(workspace: string, config?: Config) {
 function resolveTsupOptions(workspace: string, config?: Config): Options {
 	const o = resolveConfigs(workspace, {
 		outDir: config!.outDir as string,
-		entry: config?.entry
+		entry: config?.entry,
 	});
 
 	delete config?.entry;
 	delete config?.outDir;
 
-	return Object.assign({}, TSUP_COMMON_OPTIONS, {
-		name: workspace,
-		outDir: o.outDir,
-		entry: o.entry,
-		tsconfig: o.tsconfig,
-		outExtension: () => ({ js: '.js' })
-	}, config ?? {}) as Options;
+	return Object.assign(
+		{},
+		TSUP_COMMON_OPTIONS,
+		{
+			name: workspace,
+			outDir: o.outDir,
+			entry: o.entry,
+			tsconfig: o.tsconfig,
+			outExtension: () => ({ js: '.js' }),
+		},
+		config ?? {}
+	) as Options;
 }
 
-function resolveConfigs(workspace: string, config: { outDir: string, entry?: Options['entry'] | string }) {
+function resolveConfigs(
+	workspace: string,
+	config: { outDir: string; entry?: Options['entry'] | string }
+) {
 	const cwd = process.cwd();
 	const base = resolvePath(workspace, cwd);
 	const outDir = resolvePath(config.outDir, base);
@@ -153,7 +188,7 @@ function resolveConfigs(workspace: string, config: { outDir: string, entry?: Opt
 		outDir,
 		tsconfig,
 		packagejson,
-		entry
+		entry,
 	};
 }
 

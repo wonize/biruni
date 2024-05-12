@@ -24,9 +24,9 @@ The returned data will look like this:
 
 ```json
 {
-  "theme": "dark",
-  "language": "en-US",
-  "primaryColor": "blue"
+	"theme": "dark",
+	"language": "en-US",
+	"primaryColor": "blue"
 }
 ```
 
@@ -43,7 +43,7 @@ The returned data will look like this:
 You can retrieve a specific key's value using the .get method.
 
 ```typescript
-userSettings.get("theme");
+userSettings.get('theme');
 ```
 
 The returned value will be:
@@ -55,11 +55,11 @@ The returned value will be:
 You can also map the value to a custom output format using a function:
 
 ```typescript
-userSettings.get("theme", (theme) => {
-  return {
-    value: theme,
-    message: `the current theme is: ${theme}`,
-  };
+userSettings.get('theme', (theme) => {
+	return {
+		value: theme,
+		message: `the current theme is: ${theme}`,
+	};
 });
 ```
 
@@ -67,8 +67,8 @@ The output will be:
 
 ```json
 {
-  "value": "dar",
-  "message": "we current theme is: dark"
+	"value": "dar",
+	"message": "we current theme is: dark"
 }
 ```
 
@@ -93,15 +93,15 @@ In case you want to map the value to a custom output format, you can use:
 This method allows you to retrieve data for a list of selected keys.
 
 ```typescript
-userSettings.get(["theme", "primaryColor"]);
+userSettings.get(['theme', 'primaryColor']);
 ```
 
 The returned data will be:
 
 ```json
 {
-  "theme": "dark",
-  "primaryColor": "blue"
+	"theme": "dark",
+	"primaryColor": "blue"
 }
 ```
 
@@ -125,7 +125,7 @@ userSettings.get({ theme: true, primaryColor: false });
 
 ```json
 {
-  "theme": "dark"
+	"theme": "dark"
 }
 ```
 
@@ -145,10 +145,10 @@ This method allows you to transform the input data into a custom output format.
 
 ```typescript
 userSettings.get((store) => {
-  return {
-    value: store.theme,
-    message: `the current theme is: ${store.theme}`,
-  };
+	return {
+		value: store.theme,
+		message: `the current theme is: ${store.theme}`,
+	};
 });
 ```
 
@@ -156,8 +156,8 @@ The returned data will be:
 
 ```json
 {
-  "value": "dark",
-  "message": "the current theme is: dark"
+	"value": "dark",
+	"message": "the current theme is: dark"
 }
 ```
 
@@ -190,16 +190,16 @@ There is also `@biruni/utility` library to contain some magical modules to be he
 1. **Import**
 
 ```typescript
-import { get } from "@biruni/utility";
+import { get } from '@biruni/utility';
 ```
 
 2. **Use**
 
 ```typescript
 get(userSettings);
-get(userSettings, ["theme"]);
-get(userSettings, "theme");
-get(userSettings, "theme", (theme) => `${theme} mode`);
+get(userSettings, ['theme']);
+get(userSettings, 'theme');
+get(userSettings, 'theme', (theme) => `${theme} mode`);
 get(userSettings, { theme: true });
 get(userSettings, (store) => store.theme);
 ```

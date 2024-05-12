@@ -1,25 +1,25 @@
 * {
-  box-sizing: border-box;
-  font-family: sans-serif;
+	box-sizing: border-box;
+	font-family: sans-serif;
 }
 
 :root {
-  --notch-size: 5px;
-  --padding: 1rem;
-  --app-height: 360px;
-  --select-height: 64px;
-  --app-color: white;
-  --app-color-hover: black;
-  --app-background: black;
-  --app-background-hover: white;
-  --border-size: 5px;
-  --border: var(--border-size) solid var(--app-color);
-  --gap: 1rem;
+	--notch-size: 5px;
+	--padding: 1rem;
+	--app-height: 360px;
+	--select-height: 64px;
+	--app-color: white;
+	--app-color-hover: black;
+	--app-background: black;
+	--app-background-hover: white;
+	--border-size: 5px;
+	--border: var(--border-size) solid var(--app-color);
+	--gap: 1rem;
 }
 
 * {
-  color: var(--app-color);
-  background-color: var(--app-background);
+	color: var(--app-color);
+	background-color: var(--app-background);
 }
 
 html,
@@ -27,102 +27,108 @@ body,
 #root,
 #app,
 .App {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  place-content: center;
-  place-items: center;
-  box-sizing: border-box;
-  overflow: hidden;
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	place-content: center;
+	place-items: center;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 
 .App {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  height: calc(var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size));
-  max-width: 500px;
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap);
+	height: calc(
+		var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size)
+	);
+	max-width: 500px;
 }
 
 .example-select {
-  width: 100%;
-  height: var(--select-height);
-  display: flex;
-  place-content: flex-start;
-  place-items: center;
-  font-weight: bold;
-  position: relative;
-  overflow: hidden;
+	width: 100%;
+	height: var(--select-height);
+	display: flex;
+	place-content: flex-start;
+	place-items: center;
+	font-weight: bold;
+	position: relative;
+	overflow: hidden;
 }
 
 .example-list {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  border: var(--border);
-  padding: var(--padding);
-  margin: 0;
-  list-style: none;
-  gap: var(--gap);
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	border: var(--border);
+	padding: var(--padding);
+	margin: 0;
+	list-style: none;
+	gap: var(--gap);
 }
 
 .example-option {
-  display: none;
+	display: none;
 }
 
 .example-select.open .example-option:hover,
 .example-select:not(.open) .example-list:hover,
 .example-select:not(.open) .example-list:hover .example-option {
-  cursor: pointer;
-  color: var(--app-color-hover);
-  background-color: var(--app-background-hover);
+	cursor: pointer;
+	color: var(--app-color-hover);
+	background-color: var(--app-background-hover);
 }
 
 .example-list::after {
-  content: attr(data-selected);
-  display: flex;
-  position: absolute;
-  top: var(--padding);
-  bottom: var(--padding);
-  left: var(--padding);
-  right: var(--padding);
-  place-content: flex-start;
-  place-items: center;
+	content: attr(data-selected);
+	display: flex;
+	position: absolute;
+	top: var(--padding);
+	bottom: var(--padding);
+	left: var(--padding);
+	right: var(--padding);
+	place-content: flex-start;
+	place-items: center;
 }
 
 .example-list:not([data-selected])::after {
-  content: "Select Example";
+	content: 'Select Example';
 }
 
 .example-select.open .example-list::after {
-  display: none;
+	display: none;
 }
 
 .example-select.open {
-  position: relative;
-  z-index: 999;
-  overflow: visible;
+	position: relative;
+	z-index: 999;
+	overflow: visible;
 }
 
 .example-select.open .example-list {
-  position: absolute;
-  top: calc(var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size) * -1px);
-  bottom: 0px;
-  height: calc(var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size));
+	position: absolute;
+	top: calc(
+		var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size) * -1px
+	);
+	bottom: 0px;
+	height: calc(
+		var(--app-height) + var(--select-height) + var(--border-size) + var(--border-size)
+	);
 }
 
 .example-select.open .example-option {
-  display: flex;
-  padding: var(--padding);
-  border: var(--border);
+	display: flex;
+	padding: var(--padding);
+	border: var(--border);
 }
 
 .example-output {
-  display: flex;
-  flex-direction: row;
-  place-content: center;
-  place-items: center;
-  width: 100%;
-  height: calc(var(--app-height) + var(--border-size) + var(--border-size));
+	display: flex;
+	flex-direction: row;
+	place-content: center;
+	place-items: center;
+	width: 100%;
+	height: calc(var(--app-height) + var(--border-size) + var(--border-size));
 }

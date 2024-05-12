@@ -23,14 +23,14 @@ $ pnpm add @biruni/react
 1. **Import**
 
 ```typescript
-import { useStore } from "@biruni/react";
+import { useStore } from '@biruni/react';
 ```
 
 2. **Use**
 
 ```tsx
 const MyComponent = () => {
-  const store = useStore(MyStore);
+	const store = useStore(MyStore);
 };
 ```
 
@@ -39,7 +39,7 @@ const MyComponent = () => {
 1. **Import**
 
 ```typescript
-import { withStore, type WithStore } from "@biruni/react";
+import { withStore, type WithStore } from '@biruni/react';
 ```
 
 2. **Define**
@@ -48,7 +48,7 @@ update `Props` from:
 
 ```typescript
 type Props = {
-  myPropKey: string;
+	myPropKey: string;
 };
 ```
 
@@ -56,10 +56,10 @@ to:
 
 ```typescript
 type Props = WithStore<
-  typeof MyStore,
-  {
-    myPropKey: string;
-  }
+	typeof MyStore,
+	{
+		myPropKey: string;
+	}
 >;
 ```
 

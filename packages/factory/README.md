@@ -14,10 +14,10 @@ Unified All-In-One Storage Utilities
 
 ## Features
 
-- Simple API's
-- Easy-to-Use API's
-- Plugin API's for extensibility
-- Type Safety powerd by Typescript
+-   Simple API's
+-   Easy-to-Use API's
+-   Plugin API's for extensibility
+-   Type Safety powerd by Typescript
 
 ## Installation
 

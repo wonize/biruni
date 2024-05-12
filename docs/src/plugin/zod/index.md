@@ -21,25 +21,25 @@ $ pnpm add @biruni/zod zod
 ## Import
 
 ```typescript
-import { zod } from "@biruni/zod";
+import { zod } from '@biruni/zod';
 ```
 
 ::: details Import Aliases
 
 ```typescript
-import zod from "@biruni/zod";
+import zod from '@biruni/zod';
 ```
 
 ---
 
 ```typescript
-import { zod } from "@biruni/zod/mod";
+import { zod } from '@biruni/zod/mod';
 ```
 
 ---
 
 ```typescript
-import zod from "@biruni/zod/mod";
+import zod from '@biruni/zod/mod';
 ```
 
 > [!TIP]
@@ -50,10 +50,10 @@ import zod from "@biruni/zod/mod";
 ## Define
 
 ```typescript {1,3-5,7,9}
-import { z } from "zod";
+import { z } from 'zod';
 
 const CounterSchema = z.object({
-  count: z.number().min(1).max(10),
+	count: z.number().min(1).max(10),
 });
 
 type CounterStore = z.infer<typeof CounterSchema>;

@@ -21,31 +21,31 @@ $ pnpm add @biruni/utility
 ## Import
 
 ```typescript
-import { get, set } from "@biruni/utility";
+import { get, set } from '@biruni/utility';
 ```
 
 ::: details Aliases
 
 ```ts
-import set from "@biruni/utility/set";
+import set from '@biruni/utility/set';
 ```
 
 ---
 
 ```ts
-import { set } from "@biruni/utility/set";
+import { set } from '@biruni/utility/set';
 ```
 
 ---
 
 ```ts
-import get from "@biruni/utility/get";
+import get from '@biruni/utility/get';
 ```
 
 ---
 
 ```ts
-import { get } from "@biruni/utility/get";
+import { get } from '@biruni/utility/get';
 ```
 
 :::
