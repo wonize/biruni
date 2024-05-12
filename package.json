@@ -28,7 +28,6 @@
 		"@types/node": "20.12.7",
 		"biruni": "workspace:*",
 		"jsdom": "24.0.0",
-		"plop": "4.0.1",
 		"tasuku": "2.0.1",
 		"terser": "5.30.3",
 		"tsup": "8.0.2",
