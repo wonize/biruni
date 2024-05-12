@@ -47,7 +47,7 @@ const pkg = `
 	  "README.md",
 	  "package.json"
 	],
-	"packageManager": "pnpm@9.2.0",
+	"packageManager": "pnpm@9.1.0",
 	"engines": {
 	  "node": ">=18"
 	},
