@@ -40,10 +40,15 @@
     "**/.settings": true,
     "**/.factorypath": true
   },
+  "eslint.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.run": "onSave",
+  "eslint.lintTask.options": "--config='../eslint.config.js' --color --format='stylish' .",
+  "eslint.experimental.useFlatConfig": true,
   "eslint.workingDirectories": [
     {
       "mode": "auto"
-    }
+    },
   ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

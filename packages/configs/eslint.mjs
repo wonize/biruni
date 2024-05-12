@@ -1,38 +1,22 @@
 // import * as globals from 'globals';
-import * as eslint from '@eslint/js';
-import * as prettier from 'eslint-plugin-prettier/recommended';
-import * as vitest from 'eslint-plugin-vitest';
-import * as tseslint from 'typescript-eslint';
-
-/** @typedef ConfigOption
- * @prop { 'all' | 'recommended' } base
- * @prop { boolean } typescript
- * @prop { boolean } prettier
- * @prop { boolean } vitest
- **/
+import eslint from '@eslint/js';
+import prettier from 'eslint-plugin-prettier/recommended';
+import vitest from 'eslint-plugin-vitest';
+import tseslint from 'typescript-eslint';
 
 /** @param {ConfigOption} option */
 function defineConfig(option) {
-	let configs = [eslint.configs.recommended];
+	let configs = [].concat(assignFiles(eslint.configs.recommended));
 
 	if (option.prettier) {
-		configs = configs.concat(prettier);
+		configs = configs.concat(assignFiles(prettier));
 	}
 
 	if (option.typescript) {
 		configs = configs
-			.concat(tseslint.configs.strict)
-			.concat(tseslint.configs.stylistic)
-			.concat({
-				files: ['**/*.{ts,tsx}'],
-				ignores: [
-					'**/*.spec.{js,jsx,ts,tsx}',
-					'**/*.test.{js,jsx,ts,tsx}',
-					'.*.js',
-					'node_modules/',
-					'dist/',
-				],
-			});
+			.concat(assignFiles(tseslint.configs.strict))
+			.concat(assignFiles(tseslint.configs.stylistic))
+			.concat({ rules: { '@typescript-eslint/prefer-function-type': 'off' } });
 	}
 
 	if (option.vitest) {
@@ -49,3 +33,41 @@ function defineConfig(option) {
 
 export default defineConfig;
 export { defineConfig };
+
+/** @typedef ConfigOption
+ * @prop { 'all' | 'recommended' } base
+ * @prop { boolean } typescript
+ * @prop { boolean } prettier
+ * @prop { boolean } vitest
+ **/
+
+/** @param {*} config */
+function assignFiles(configs) {
+	let $configs = configs;
+	if (
+		typeof $configs === 'object' &&
+		$configs !== null &&
+		(!($configs instanceof Array) || Array.isArray($configs) === false)
+	) {
+		$configs = [$configs];
+	}
+
+	return $configs.map((config) =>
+		Object.assign(
+			{},
+			{
+				files: ['**/*.{ts,tsx}'],
+				ignores: [
+					'**/*.spec.{js,jsx,ts,tsx}',
+					'**/*.test.{js,jsx,ts,tsx}',
+					'.*.{js,ts,mjs,mts,cjs,cts}',
+					'**/node_modules',
+					'**/dist',
+					'**/tests',
+					'**/scripts',
+				],
+			},
+			config
+		)
+	);
+}
