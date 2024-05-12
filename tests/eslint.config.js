@@ -1,6 +1,6 @@
-import { config } from '@repo/configs/eslint';
+import { defineConfig } from '@repo/configs/eslint.mjs';
 
-export default config({
+export default defineConfig({
 	base: 'recommended',
 	typescript: true,
 	prettier: true,
