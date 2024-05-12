@@ -21,9 +21,18 @@ function defineConfig(option) {
 
 	if (option.typescript) {
 		configs = configs
-			// recommended
 			.concat(tseslint.configs.strict)
-			.concat(tseslint.configs.stylistic);
+			.concat(tseslint.configs.stylistic)
+			.concat({
+				files: ['**/*.{ts,tsx}'],
+				ignores: [
+					'**/*.spec.{js,jsx,ts,tsx}',
+					'**/*.test.{js,jsx,ts,tsx}',
+					'.*.js',
+					'node_modules/',
+					'dist/',
+				],
+			});
 	}
 
 	if (option.vitest) {
@@ -35,7 +44,7 @@ function defineConfig(option) {
 		});
 	}
 
-	return configs;
+	return tseslint.config(...configs);
 }
 
 export default defineConfig;
