@@ -1,9 +1,19 @@
-**/_ignored_
-**/.git
-**/.vscode
-**/node_modules
-**/dist
+# basic
+**/.git/**
+**/.vscode/**
+**/_ignored_/**
+**/node_modules/**
+**/dist/**
+
+# package manager
 **/package.json
 **/package-lock.json
 **/pnpm-lock.yaml
 **/pnpm-lock.yml
+
+# hidden files/directories
+**/.*
+**/.*/**
+
+
+

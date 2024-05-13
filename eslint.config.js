@@ -24,5 +24,23 @@ export default tseslint.config(
 		rules: {
 			'@typescript-eslint/prefer-function-type': 'off',
 		},
-	})
+	}),
+	{
+		ignores: [
+			'**/.*',
+			'**/.*/**',
+			'**/*.config.?(m|c)[jt]s?(x)',
+			'**/*.spec.?(m|c)[jt]s?(x)',
+			'**/*.test.?(m|c)[jt]s?(x)',
+			'**/tests/**',
+			'**/.git/**',
+			'**/.vscode/**',
+			'**/_ignored_/**',
+			'**/node_modules/**',
+			'**/dist/**',
+			'**/docs/**',
+			'**/scripts/**',
+			'**/examples/**',
+		],
+	}
 );
