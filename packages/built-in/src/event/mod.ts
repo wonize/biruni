@@ -9,7 +9,7 @@ class BiruniEventEmitter<Data extends StoreData> extends Plugin.BiruniPlugin<Dat
 	#event_emitter: EventEmitter;
 
 	override type: Plugin.ContextType = 'synchronizer';
-	override name: 'built-in/event-emitter' = 'built-in/event-emitter';
+	override name = 'built-in/event-emitter' as const;
 
 	public constructor() {
 		super();

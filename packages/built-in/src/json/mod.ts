@@ -3,9 +3,9 @@ import { BiruniPlugin, type ContextType } from '@biruni/core/plugin';
 
 class JsonPlugin<Data extends StoreData> extends BiruniPlugin<Data> {
 	override type: ContextType = 'parser';
-	override name: 'built-in/json' = 'built-in/json';
+	override name = 'built-in/json' as const;
 
-	constructor() {
+	public constructor() {
 		super();
 	}
 

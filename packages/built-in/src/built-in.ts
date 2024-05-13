@@ -4,7 +4,7 @@ import { JsonPlugin } from './json/mod';
 import { LocalStoragePlugin } from './localstorage/mod';
 import type { BiruniPlugin } from '@biruni/core/plugin';
 
-const BasicLocalStorage = <Data extends StoreData>(): Array<BiruniPlugin<Data>> => {
+const BasicLocalStorage = <Data extends StoreData>(): BiruniPlugin<Data>[] => {
 	return [LocalStoragePlugin<Data>(), JsonPlugin<Data>(), EventEmitterPlugin<Data>()] as const;
 };
 

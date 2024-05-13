@@ -3,21 +3,23 @@ import { BiruniPlugin, type ContextType } from '@biruni/core/plugin';
 
 class LocalStoragePlugin<Data extends StoreData> extends BiruniPlugin<Data> {
 	override type: ContextType = 'persister';
-	override name: 'built-in/localStorage' = 'built-in/localStorage';
+	override name = 'built-in/localStorage' as const;
 
-	constructor() {
+	public constructor() {
 		super();
 	}
 
-	override preprocess: (data: Data) => Promise<Data> = async (data) => {
-		return localStorage.getItem(this.namespace) as unknown as Data;
+	// @ts-expect-error the `getItem` never return null, handled by initializer
+	override preprocess: (data: Data) => Promise<Data> = async () => {
+		return localStorage.getItem(this.namespace);
 	};
 
 	override postprocess: (data: Data) => Promise<Data> = async (data) => {
 		if (typeof data !== 'string') {
-			throw 'Error: <afterSet> in <built-in/localStorage>' + this.namespace;
+			throw 'Error: <postprocess> in <built-in/localStorage>' + this.namespace;
 		}
-		localStorage.setItem(this.namespace, data as unknown as string);
+
+		localStorage.setItem(this.namespace, data);
 		return data;
 	};
 }
