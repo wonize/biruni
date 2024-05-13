@@ -25,6 +25,15 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		this.#data = data;
 	}
 
+	// @ts-expect-error the keyof `Data` should be `string`
+	has = (key: string): key is keyof Data => {
+		if (Object.prototype['hasOwnProperty']?.call(this.data, key)) return true;
+		if (Object['hasOwnProperty']?.call(this.data, key)) return true;
+		if (Object['keys']?.(this.data)?.indexOf(key) != -1) return true;
+		if (Object['hasOwn']?.(this.data, key)) return true;
+		return key in this.data;
+	};
+
 	// @ts-expect-error the typescript confused `get` accessor of `data` with `get` method
 	get: Getter.Overloads<Data> = async (first?: unknown, second?: unknown) => {
 		if (Getter.isByEntire<Data>(first)) {
