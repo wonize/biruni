@@ -4,7 +4,7 @@
   "editor.formatOnSaveMode": "file",
   "prettier.enable": true,
   "prettier.useEditorConfig": true,
-  "prettier.configPath": "../prettier.config.mjs",
+  "prettier.configPath": "prettier.config.mjs",
   /* <<< TYPESCRIPT >>> */
   "typescript.tsdk": "node_modules/typescript/lib",
   /* <<< FILE SPECIFIC CONFIGS >>> */
