@@ -121,30 +121,30 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 	addListener: Listener.Add<Data> = (event, listener) => {
 		for (const plugin of this.pluginStack) {
-			if (plugin.type === 'synchronizer') {
-				plugin.addListener!.call(this, event, listener);
+			if ('addListener' in plugin && typeof plugin.addListener === 'function') {
+				plugin.addListener.call(this, event, listener);
 			}
 		}
 	};
 	on: Listener.Add<Data> = (event, listener) => {
 		for (const plugin of this.pluginStack) {
-			if (plugin.type === 'synchronizer') {
-				plugin.addListener!.call(this, event, listener);
+			if ('addListener' in plugin && typeof plugin.addListener === 'function') {
+				plugin.addListener.call(this, event, listener);
 			}
 		}
 	};
 
 	removeListener: Listener.Remove<Data> = (event, listener) => {
 		for (const plugin of this.pluginStack) {
-			if (plugin.type === 'synchronizer') {
-				plugin.removeListener!.call(this, event, listener);
+			if ('removeListener' in plugin && typeof plugin.removeListener === 'function') {
+				plugin.removeListener.call(this, event, listener);
 			}
 		}
 	};
 	off: Listener.Remove<Data> = (event, listener) => {
 		for (const plugin of this.pluginStack) {
-			if (plugin.type === 'synchronizer') {
-				plugin.removeListener!.call(this, event, listener);
+			if ('removeListener' in plugin && typeof plugin.removeListener === 'function') {
+				plugin.removeListener.call(this, event, listener);
 			}
 		}
 	};
