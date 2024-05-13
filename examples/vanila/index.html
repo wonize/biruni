@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="public/style.css" />
+		<link rel="stylesheet" href="public/Counter.css" />
+		<title>Vite + TS</title>
+	</head>
+
+	<body>
+		<div class="root">
+			<div class="App">
+				<div class="example-output">
+					<div class="counter">
+						<div class="output output--pretty">
+							<p class="pretty" id="counter-pretty"></p>
+							<p class="snippet"></p>
+						</div>
+						<div class="controls">
+							<button class="increase" id="counter-increase">Increase</button>
+							<button class="decrease" id="counter-decrease">Decrease</button>
+							<button class="reset" id="counter-reset">Reset</button>
+						</div>
+					</div>
+				</div>
+				<div class="example-select">
+					<ul class="example-list" data-selected="Counter"></ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- <script src="https://cdn.jsdelivr.net/npm/biruni@0.0.6/dist/umd/mod.global.js"></script> -->
+		<script type="module">
+			import * as biruni from 'https://cdn.jsdelivr.net/npm/biruni@0.0.6/+esm';
+
+			const counterStore = biruni
+				.biruni('biruni-vanilla-example')
+				.plug(biruni.event())
+				.plug(biruni.json())
+				.plug(biruni.localstorage())
+				.init(function initCounterStore() {
+					return { count: 0 };
+				});
+
+			document.addEventListener('DOMContentLoaded', function onDOMLoaded() {
+				const $increase = document.querySelector('#counter-increase');
+				const $decrease = document.querySelector('#counter-decrease');
+				const $reset = document.querySelector('#counter-reset');
+				const $pretty = document.querySelector('#counter-pretty');
+
+				counterStore.get('count').then((value) => {
+					$pretty.textContent = value;
+				});
+
+				counterStore.addListener('change', function onChangeStore(payload) {
+					$pretty.textContent = payload.target.count;
+				});
+
+				$increase.addEventListener('click', function onClickIncrease() {
+					void counterStore.set('count', (count) => count + 1);
+				});
+
+				$decrease.addEventListener('click', function onClickDecrease() {
+					void counterStore.set('count', (count) => count - 1);
+				});
+
+				$reset.addEventListener('click', function onClickReset() {
+					void counterStore.set('count', 0);
+				});
+			});
+		</script>
+	</body>
+</html>

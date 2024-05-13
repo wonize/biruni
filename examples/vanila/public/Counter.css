@@ -1,0 +1,94 @@
+.counter {
+	font-weight: bold;
+	display: flex;
+	flex-direction: row;
+	place-content: center;
+	place-items: center;
+	width: 100%;
+	height: 100%;
+	gap: var(--gap);
+}
+
+.counter .output,
+.counter .pretty,
+.counter .snippet {
+	display: flex;
+	place-content: center;
+	place-items: center;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.counter .output {
+	position: relative;
+}
+
+.counter .output.output--pretty .pretty {
+	opacity: 1;
+}
+
+.counter .output.output--snippet .snippet {
+	opacity: 1;
+}
+
+.counter .output .pretty,
+.counter .output .snippet {
+	opacity: 0;
+	position: absolute;
+	border: var(--border);
+}
+
+.counter .output .pretty {
+	font-size: 8em;
+}
+
+.counter .output .snippet {
+	place-content: flex-start;
+	place-items: flex-start;
+	width: 100%;
+	height: 100%;
+	padding: var(--padding);
+}
+
+.counter .controls {
+	display: flex;
+	flex-direction: column;
+	place-content: flex-start;
+	place-items: flex-start;
+	gap: var(--gap);
+	height: 100%;
+}
+
+.counter .controls button {
+	font-size: 1.2em;
+	font-weight: bold;
+	color: var(--app-color);
+	background-color: var(--app-background);
+	border: var(--border);
+	padding: var(--padding);
+	width: 100%;
+}
+
+.counter .controls button:hover {
+	color: var(--app-color-hover);
+	background-color: var(--app-background-hover);
+}
+
+.counter .controls button.increase {
+	order: 1;
+}
+
+.counter .controls button.decrease {
+	order: 3;
+}
+
+.counter .controls button.reset {
+	order: 2;
+}
+
+.counter .controls button:not(.reset, .decrease, .increase) {
+	order: 5;
+}
