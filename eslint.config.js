@@ -23,6 +23,13 @@ export default tseslint.config(
 		},
 		rules: {
 			'@typescript-eslint/prefer-function-type': 'off',
+			'@typescript-eslint/array-type': [
+				'error',
+				{
+					default: 'array-simple',
+					readonly: 'generic',
+				},
+			],
 		},
 	}),
 	{

@@ -1,8 +1,8 @@
-// import * as globals from 'globals';
 import eslint from '@eslint/js';
 import prettier from 'eslint-plugin-prettier/recommended';
 import vitest from 'eslint-plugin-vitest';
 import * as path from 'node:path';
+import * as process from 'node:process';
 import tseslint from 'typescript-eslint';
 
 const project = path.resolve(process.cwd(), 'tsconfig.json');
