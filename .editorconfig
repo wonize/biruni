@@ -54,3 +54,9 @@ indent_size = 4
 # windows shell scripts
 [*.{cmd,bat,ps1}]
 end_of_line = crlf
+
+# vscode
+[**/.vscode/*.*]
+indent_size = 2
+indent_style = space
+end_of_line = crlf
