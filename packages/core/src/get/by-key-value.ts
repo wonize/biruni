@@ -11,8 +11,8 @@ const isKeyOfData = <Data extends StoreData>(input: unknown): input is keyof Dat
 };
 
 const isByKey = <Data extends StoreData>(
-	input: unknown
-): input is undefined | never | null | void => {
+	input: Data | unknown
+): input is undefined | never | null => {
 	return typeof input === 'undefined' || input === null || Boolean(input) === false;
 };
 

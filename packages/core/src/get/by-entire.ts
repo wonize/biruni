@@ -7,8 +7,8 @@ interface GetByEntire<Data extends StoreData> {
 type GetByEntireReturnType<Data extends StoreData> = Readonly<Data>;
 
 const isByEntire = <Data extends StoreData>(
-	input: unknown
-): input is undefined | never | null | void => {
+	input: Data | unknown
+): input is undefined | never | null => {
 	return typeof input === 'undefined' || input === null || Boolean(input) === false;
 };
 

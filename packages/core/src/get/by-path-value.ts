@@ -20,7 +20,9 @@ function getByPath<
 	const $path = separator
 		? path.toString().replace(RegExp(separator, 'g'), '.')
 		: path.toString();
-	return getProperty($data, $path)! satisfies TValue;
+
+	// @ts-expect-error no return null. checked by types
+	return getProperty($data, $path);
 }
 
 export { getByPath, isByPath };

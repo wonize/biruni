@@ -20,7 +20,7 @@ export type At<
 export type From<Data extends object, Sep extends Separator = '.'> =
 	| keyof Data
 	| keyof {
-			[K in keyof Data as Data[K] extends Array<unknown>
+			[K in keyof Data as Data[K] extends unknown[]
 				? `${string & K}${Sep}${number}`
 				: Data[K] extends ReadonlyArray<unknown>
 					? `${string & K}${Sep}${string & IndexOfArray<Data[K]>}`

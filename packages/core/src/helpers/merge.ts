@@ -24,6 +24,7 @@ function mergeFresh<TData extends StoreData>(source: object, target: object): TD
 
 	keysOfResult.forEach((key) => {
 		if (hasOwn($target, key) === false) {
+			// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 			delete $result[key];
 			$result = o($result);
 		} else if (isObject($result[key])) {

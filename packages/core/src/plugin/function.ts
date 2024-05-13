@@ -22,8 +22,6 @@ export abstract class BiruniPlugin<Data extends StoreData> implements PluginInte
 		this._namespace = namespace;
 	}
 
-	constructor() {}
-
 	preprocess: (data: Data) => Promise<Data> = async (data) => {
 		return data;
 	};

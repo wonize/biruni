@@ -5,9 +5,9 @@ export type Payload<Event extends EventName = 'change', Data extends StoreData =
 	change: ChangePayload<Data>;
 }[Event];
 
-export type ChangePayload<Data extends StoreData> = {
+export interface ChangePayload<Data extends StoreData> {
 	diff: Partial<{ [P in keyof Data]: { source: Data[P]; target: Data[P] } }>;
 	keys: Partial<Array<keyof Data>>;
 	source: Partial<Data>;
 	target: Partial<Data>;
-};
+}

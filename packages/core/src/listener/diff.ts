@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-constraint, @typescript-eslint/no-explicit-any */
+
 import type { RemoveNever, StoreData } from '../helpers/type-utility';
 
 export function diff<Source extends Data, Target extends Data, Data extends any = StoreData>(
@@ -5,8 +7,8 @@ export function diff<Source extends Data, Target extends Data, Data extends any 
 	target_data: Target
 ): Diff<Source, Target, Data> {
 	let diff_data = {};
-	let diff_keys: Array<unknown> = [];
-	for (let key in target_data) {
+	let diff_keys: unknown[] = [];
+	for (const key in target_data) {
 		// @ts-expect-error the keyof `target_data` and `source_data` will be same
 		const source_value = source_data?.[key];
 		const target_value = target_data[key];
