@@ -1,3 +1,3 @@
-# `@turbo/eslint-config`
+# `@repo/configs`
 
-Collection of internal eslint configurations.
+Collection of internal eslint/tsconfig configurations.
