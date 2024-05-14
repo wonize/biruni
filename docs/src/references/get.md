@@ -12,7 +12,7 @@ The `.get` method is used to retrieve values from the Storage Key. There are six
 > [!NOTE]
 > All returned data is wrapped in a Promise and follows the async/await function signature.
 
-## Retrieve All Data
+## Retrieve All Entire Data
 
 This method returns all the data stored in the Store.
 
@@ -34,6 +34,14 @@ The returned data will look like this:
 
 ```typescript
 .get(): Promise<Readonly<Data>>;
+```
+
+:::
+
+::: details Sepcific Alias
+
+```typescript
+.getByEntire(): Promise<Readonly<Data>>;
 ```
 
 :::
@@ -88,6 +96,25 @@ In case you want to map the value to a custom output format, you can use:
 
 :::
 
+::: details Specific Alias
+
+```typescript
+.getByKey<Key extends keyof Data>(key: Key): Promise<Data[Key]>;
+```
+
+In case you want to map the value to a custom output format, you can use:
+
+```typescript
+.getByKeyMapper<Key extends keyof Data, Mapper extends (data: Data[Key] | never) => (Data[Key] | unknown)>(key: Key, mapper: Mapper): Promise<ReturnType<Mapper> | Data[Key] | unknown>;
+```
+
+:::
+
+> [!IMPORTANT]
+> Avoiding to change data, rendering, update state or stores in `mapper` callback function.
+>
+> Otherwise, using `.then` chain of returned `Promise`
+
 ## Filter By Key List
 
 This method allows you to retrieve data for a list of selected keys.
@@ -115,6 +142,16 @@ The returned data will be:
 
 :::
 
+::: details Specific Alias
+
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
+
+```typescript
+.getByKeys<KeyList extends Array<keyof Data>>(keys: Partial<KeyList>): Promise<Readonly<{ [SelectedKey in KeyList extends Partial<Array<infer Key>> ? Key : never]: Data[SelectedKey] }>>;
+```
+
+:::
+
 ## Filter By Key Object
 
 This method allows you to retrieve data for selected keys based on a `boolean`-like value.
@@ -135,6 +172,16 @@ userSettings.get({ theme: true, primaryColor: false });
 
 ```typescript
 .get<KeyObject extends Record<keyof Data, boolean>>(keys: Partial<KeyObject>): Promise<TruthyKeysReturnType<Data, KeyObject>>;
+```
+
+:::
+
+::: details Specific Alias
+
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
+
+```typescript
+.getByTruthy<KeyObject extends Record<keyof Data, boolean>>(keys: Partial<KeyObject>): Promise<TruthyKeysReturnType<Data, KeyObject>>;
 ```
 
 :::
@@ -182,6 +229,21 @@ The returned data will be:
 ```
 
 :::
+
+::: details Specific Alias
+
+> The generic type is automatically inferred, so you don't need to pass it explicitly.
+
+```typescript
+.getByMapper<Mapper extends (data: Readonly<Data> | never) => (Data | unknown)>(mapper: Mapper): Promise<ReturnType<Mapper> | Data | unknown>;
+```
+
+:::
+
+> [!IMPORTANT]
+> Avoiding to change data, rendering, update state or stores in `mapper` callback function.
+>
+> Otherwise, using `.then` chain of returned `Promise`
 
 ## Using Utilities
 
