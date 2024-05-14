@@ -39,7 +39,6 @@
 		"terser": "5.30.3",
 		"tsup": "8.0.2",
 		"tsx": "4.7.3",
-		"turbo": "latest",
 		"typescript": "5.4.5",
 		"vite-tsconfig-paths": "4.3.2",
 		"vitepress": "1.1.3",
