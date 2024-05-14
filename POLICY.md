@@ -4,7 +4,7 @@ Biruni is a flexible tools to combine storage related utilities in single one. W
 
 ## Code of Conduct
 
-This project is committed to creating a welcoming and inclusive community for all. Please adhere to the Contributor Covenant code of conduct when contributing to Biruni. By participating in this project, you agree to uphold the standards outlined in the code of conduct and support a positive, respectful, and collaborative environment.
+This project is committed to creating a welcoming and inclusive community for all. Please adhere to the Contributor Covenant code of conduct when contributing to Biruni. By participating in this project, you agree to uphold the standards outlined in the code of conduct and support a positive, respectful, and collaborative environment. Also Convenant [Code of Conduct](./CODE_OF_CONDUCT.md) avaialble
 
 ## Reporting Guidelines
 
@@ -34,8 +34,7 @@ Roles in our project are defined as follows:
 
 -   **Maintainers**: Responsible for managing the project repository, reviewing pull requests, and addressing reported issues.
 -   **Contributors**: Anyone who actively participates in the project, including writing code, opening issues, or providing documentation improvements.
--  **Ecosystem Engineers**: Individuals or organizations who develop and distribute plugins for the Biruni project under their own name or organization when published or deployed. Plugin source code is optional to be stored under the Biruni  repository, but it is encouraged for ease of distribution and project collaboration.
-
+-   **Ecosystem Engineers**: Individuals or organizations who develop and distribute plugins for the Biruni project under their own name or organization when published or deployed. Plugin source code is optional to be stored under the Biruni repository, but it is encouraged for ease of distribution and project collaboration.
 
 ## Licensing and Distributing
 
