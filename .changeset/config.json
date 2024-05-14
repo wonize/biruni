@@ -1,11 +1,27 @@
 {
-	"$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
-	"changelog": "@changesets/cli/changelog",
-	"commit": false,
-	"fixed": [],
-	"linked": [],
-	"access": "restricted",
-	"baseBranch": "main",
-	"updateInternalDependencies": "patch",
-	"ignore": []
+  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [
+    [
+      "biruni",
+      "@biruni/core",
+      "@biruni/built-in",
+      "@biruni/factory",
+      "@biruni/react",
+      "@biruni/zod",
+      "@biruni/capacitor-preferences"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "@repo/*"
+  ],
+  "privatePackages": {
+    "version": true,
+    "tag": false
+  }
 }
