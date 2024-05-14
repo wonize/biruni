@@ -2,9 +2,9 @@
 
 ## Biruni Story Builder
 
-After installing Biruni, the next step is initializing. This involves creating and setting up your plugins and default data.
+After installing Biruni, the next step is initializing. This involves creating a new Store and setting up your plugins and default data.
 
-The primary function you'll use is the `biruni` directive, which is also aliased as `defineBiruni`, `defineStore`, or simply `biruni`. Additionally, there is a class-based builder named `Biruni`.
+The primary function you'll use is the `biruni()` directive, which is also aliased as `defineBiruni()`, `defineStore()`, or simply `biruni()`. Additionally, there is a class-based builder named `Biruni`.
 
 > ![NOTE]
 > we recommending to using directive function instead of builder class
@@ -13,13 +13,13 @@ The biruni function provides two essential methods: `plug` and `init`. it also a
 
 ### Namespace and Scope
 
-To manage unique storage, you should use an identifier called namespace (also known as scope or any name you prefer).
+The namespace is a unique identifier used to manage storage. It's important to use a unique identifier called namespace ( called namespace (also known as scope or any name you prefer) to avoid conflicts with other stores and plugins that may be using the same storage.
 
 -   Useful for `localStorage` and `sessionStorage` keys
--   Helpful for **SQLite** file names or in-memory scoped storage (upcoming feature)
--   Used for **`@capacitor/preferences`** groups (upcoming feature)
--   Applicable for **Redis** `namespaces` or key prefixes (upcoming feature)
--   Relevant for **Deno KV** scopes (upcoming feature)
+-   Useful for **SQLite** file names or in-memory scoped storage (upcoming feature)
+-   Useful for **`@capacitor/preferences`** groups (upcoming feature)
+-   Useful for **Redis** `namespaces` or key prefixes (upcoming feature)
+-   Useful for **Deno KV** scopes (upcoming feature)
 -   Useful for determining warnings/errors in development environment
 
 ### `plug` Method
@@ -65,7 +65,7 @@ To pass default data to your storage, use the `init` method. It accepts a callba
 })
 ```
 
-For example, initializing data with two keys `theme` and `language` will be:
+For example, initializing data with two keys `theme` and `language` will look like this:
 
 ```typescript
 .init(function initializer(){
@@ -131,3 +131,4 @@ biruni('user-settings')
 ```
 
 **Fresh Initializing** ensures that the old `language` key is removed to reduce storage size, and the new `lang` key is added with the value `ENG`. This process is similar to garbage collection but for unused or obsolete keys.
+**Fresh Initializing** is especially useful when you're updating your application and need to change the structure of your data.
