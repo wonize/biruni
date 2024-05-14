@@ -4,9 +4,9 @@
 
 After installing Biruni, the next step is initializing. This involves creating a new Store and setting up your plugins and default data.
 
-The primary function you'll use is the `biruni()` directive, which is also aliased as `defineBiruni()`, `defineStore()`, or simply `biruni()`. Additionally, there is a class-based builder named `Biruni`.
+The primary function you'll use is the `biruni` directive, which is also aliased as `defineBiruni`, `defineStore`, or simply `biruni`. Additionally, there is a class-based builder named `Biruni`.
 
-> ![NOTE]
+> [!NOTE]
 > we recommending to using directive function instead of builder class
 
 The biruni function provides two essential methods: `plug` and `init`. it also accepts a single parameter: `namespace`.
@@ -52,7 +52,7 @@ The syntax is simple and straightforward:
 .plug(PluginThree)
 ```
 
-> ![IMPORTANT]
+> [!IMPORTANT]
 > At least, one plugin per type must be provided; otherwise, the Store will throw errors.
 
 ### `init` method

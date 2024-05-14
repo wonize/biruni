@@ -1,5 +1,9 @@
 # References
 
+[`.init` API](/references/init) to Create Data Store
+
+---
+
 [`.set` API](/references/set) to Store Data's
 
 ---
