@@ -1,52 +1,78 @@
-# Listening Actions
+# Listener API
 
-> [!IMPORTANT]
-> Require to plug some `Synchronizer` plugins least one
+Require having at least one `Synchronizer` plugin installed.
 
-## `.on` Method
+## `.addListener` Method
 
-> Aliased to `addListener`
+> [!NOTE]
+> Aliased to `on`
+
+This method is used to add an event listener to the Store.
 
 ```typescript
-.addListener('postChange', function onChange(payload) {
-  // do stuff with `payload`
+.addListener('change', (payload) => {
+	// do stuff with `payload`
 });
 ```
 
-::: details signature
+::: details Signature
 
 ```typescript
-(event: EventName, listener: ListenerFunction<EventName>) => void;
+(event: EventName, listener: ListenerFunction<EventName>): void;
 ```
 
 :::
 
-## Available Events
+## `.removeListener` Method
 
--   Change (`preChange`, `postChange`)
+> [!NOTE]
+> Aliased to `off`
+
+This method is used to remove an event listener to the Store.
+
+```typescript
+.removeListener('change', /* same listener passed to addListener */);
+```
+
+::: details Signature
+
+```typescript
+(event: EventName, listener: ListenerFunction<EventName>): void;
+```
+
+:::
 
 ## Payload
+
+The shape of the `payload` object provided to the listener function, containing various data related to the change event.
 
 ```typescript
 interface Payload {
 	// whole new data object
-	newData;
+	target: unknown;
 
 	// whole old data object
-	oldData;
+	source: unknown;
 
-	// only changed key/value pairs
-	diffs;
+	// only changed values
+	diff: Diff;
 
-	// only changed key of pairs
-	keyDiff;
+	// only changed keys
+	keys: PropertyKey[];
+}
 
-	// what event is this (for external callback listeners)
-	event;
+type Diff = {
+	[PropertyKey: string]: {
+		target: unknown;
+		source: unknown;
+	};
+};
+
+interface ListenerFunction<EventName> {
+	(event: EventName, payload: Payload): void;
 }
 ```
 
-Currently Available Event Hooks (unstable, only internal-use):
+## Events (Experimental)
 
--   `preChange` : before `.set` Method commit changes
--   `postChange`: after `.set` Method commit changes
+-   `change`: Triggers after a change have been committed when the `.set` method invoked.
