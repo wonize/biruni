@@ -13,7 +13,7 @@ The biruni function provides two essential methods: `plug` and `init`. it also a
 
 ### Namespace and Scope
 
-The namespace is a unique identifier used to manage storage. It's important to use a unique identifier called namespace ( called namespace (also known as scope or any name you prefer) to avoid conflicts with other stores and plugins that may be using the same storage.
+The namespace is a unique identifier used to manage storage. It's important to use a unique identifier called namespace (also known as scope or any name you prefer) to avoid conflicts with other stores and plugins that may be using the same storage.
 
 -   Useful for `localStorage` and `sessionStorage` keys
 -   Useful for **SQLite** file names or in-memory scoped storage (upcoming feature)
@@ -29,7 +29,7 @@ The `plug` method assigns and integrates your plugins into the main core of `Sto
 There are several built-in plugins available. For example:
 
 -   `localStorage` as a Persister
--   `JSON` as a Parser
+-   Built-In `JSON` as a Parser
 -   `EventEmitter` as a Synchronizer
 
 You can also use `BuiltinPlugin` as a collection of these three plugins combined.
@@ -50,6 +50,24 @@ The syntax is simple and straightforward:
 .plug(PluginOne)
 .plug(PluginTwo)
 .plug(PluginThree)
+```
+
+The starter setup, will be look like:
+
+```typescript
+.plug(builtins())
+
+// Accepts a list of plugins as an array
+.plug([
+  json(),
+  event(),
+  localstorage()
+])
+
+// Can be used in a step-by-step way
+.plug(json())
+.plug(event())
+.plug(localstorage())
 ```
 
 > [!IMPORTANT]
