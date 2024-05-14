@@ -5,6 +5,7 @@ import React from 'react';
 
 function useStore<
 	TData extends StoreData,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	TStore extends Store<any> = Store<TData>,
 	Data extends TData = ExtractStoreData<TStore>,
 >(store: TStore): UseStore<NoInfer<Data>> {
@@ -24,6 +25,8 @@ function useStore<
 		() =>
 			({
 				set: store.set,
+
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				get: (first?: unknown, second?: unknown): any => {
 					if (Getter.isByEntire(first)) {
 						return Getter.getByEntire(data);
@@ -32,7 +35,9 @@ function useStore<
 							return Getter.getByKeyMapper(data, first, second);
 						} else if (Getter.isByKey(second)) {
 							return Getter.getByKey(data, first);
-						} else {
+						}
+						// eslint-disable-next-line no-empty
+						else {
 						}
 					} else if (Getter.isByMapper(first)) {
 						return Getter.getByMapper(data, first);
@@ -40,7 +45,9 @@ function useStore<
 						return Getter.getByKeys(data, first);
 					} else if (Getter.isByTruthy(first)) {
 						return Getter.getByTruthy(data, first);
-					} else {
+					}
+					// eslint-disable-next-line no-empty
+					else {
 					}
 				},
 			}) satisfies UseStore<NoInfer<Data>>,

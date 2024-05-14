@@ -30,7 +30,8 @@ class PluginChain<Data extends StoreData, Namespace extends string = string>
 			return plugin;
 		});
 
-		return new PluginChain<Data, Namespace>(this.namespace, this.pluginStack!.concat($plugins));
+		// @ts-expect-error the `this.pluginStack` is always array
+		return new PluginChain<Data, Namespace>(this.namespace, this.pluginStack.concat($plugins));
 	};
 
 	public init<T extends Data>(initializer: () => T) {

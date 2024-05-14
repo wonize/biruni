@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import type { Store } from '@biruni/core';
 import type { ExtractStoreData, StoreData } from '@biruni/core/helpers';
 

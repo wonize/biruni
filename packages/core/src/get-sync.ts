@@ -48,7 +48,7 @@ type TruthyKeysReturnType<
 	RemoveNever<{
 		[SelectedKey in keyof KeyObject]: KeyObject[SelectedKey] extends false
 			? never
-			: // @ts-ignore
+			: // @ts-expect-error the `SelectedKey` is string and keyof `Data`
 				Data[string & SelectedKey];
 	}>
 >;

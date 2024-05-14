@@ -8,6 +8,5 @@ export interface Chain<Data extends StoreData> {
 }
 
 interface ChainPlug<Data extends StoreData> {
-	(plugin: BiruniPlugin<Data>): Chain<Data>;
-	(plugin: Array<BiruniPlugin<Data>>): Chain<Data>;
+	(plugin: BiruniPlugin<Data> | Array<BiruniPlugin<Data>>): Chain<Data>;
 }
