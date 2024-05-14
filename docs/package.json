@@ -1,4 +1,5 @@
 {
+	"name": "@repo/docs",
 	"private": true,
 	"packageManager": "pnpm@9.1.0"
 }
