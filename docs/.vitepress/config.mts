@@ -9,6 +9,10 @@ export default defineConfig({
 
 	srcDir: 'src',
 	cleanUrls: true,
+	sitemap: {
+		hostname: 'https://wonize.github.com/biruni/',
+	},
+
 	themeConfig: {
 		logo: {
 			src: '/assets/logo.svg',
