@@ -85,7 +85,7 @@ To compose multiple plugins into one, you can define a composite plugin that tak
 
 #### `preprocess` Method
 
-The `preprocess` hook is called before the data is processed by plugins in the pipeline. plugins can modify, parse, retrieve, or prevent data processing by returning the given `data` argument.
+The `preprocess` hook is called before the data is processed by plugins in the pipeline. plugins can modify, parse, retrieve data. or prevent data processing by returning the given `data` argument.
 
 #### `postprocess` Method
 
