@@ -32,8 +32,7 @@ $ yarn add --save biruni
 
 ```tsx [initialize]
 import { biruni } from 'biruni';
-import json from '@biruni/built-in/json';
-import localstorage from '@biruni/built-in/localstorage';
+import { event, json, localstorage } from '@biruni/built-in';
 
 type CounterStore = {
 	count: number;
@@ -41,31 +40,14 @@ type CounterStore = {
 
 export default biruni<CounterStore>()
 	.plug(json())
-	.plug(localstorage('counter-storage-key'))
-	.init(() => ({ count: 1 }));
-```
-
-```tsx [add observer/events]
-import { biruni } from 'biruni';
-import json from '@biruni/built-in/json';
-import localstorage from '@biruni/built-in/localstorage';
-import event from '@biruni/built-in/event'; // [!code ++]
-
-type CounterStore = {
-	count: number;
-};
-
-export default biruni<CounterStore>()
-	.plug(json())
-	.plug(event()) // [!code ++]
-	.plug(localstorage('counter-storage-key'))
+	.plug(event())
+	.plug(localstorage())
 	.init(() => ({ count: 1 }));
 ```
 
 ```tsx [add zod validation]
 import { biruni } from 'biruni';
-import json from '@biruni/built-in/json';
-import localstorage from '@biruni/built-in/localstorage';
+import { event, json, localstorage } from '@biruni/built-in';
 import zod from '@biruni/zod'; // [!code ++]
 import { z } from 'zod'; // [!code ++]
 
@@ -74,8 +56,9 @@ type CounterStore = z.infer<typeof CounterSchema>; // [!code ++]
 
 export default biruni<CounterStore>()
 	.plug(json())
+	.plug(event())
+	.plug(localstorage())
 	.plug(zod(CounterSchema)) // [!code ++]
-	.plug(localstorage('counter-storage-key'))
 	.init(() => ({ count: 1 }));
 ```
 
@@ -84,7 +67,7 @@ import CounterStore from './store.ts';
 
 const count = await CoutnerStore.get('count');
 CounterStore.on('preChange', function (payload) {
-	console.log('[ ', payload.oldData, ' ] >--CHANGED--> [ ', payload.newData, ' ]');
+	console.log('[ ', payload.source, ' ] >--CHANGED--> [ ', payload.target, ' ]');
 	// [ { count: 1 } ] >--CHANGED--> [ { count: 5 } ]
 });
 

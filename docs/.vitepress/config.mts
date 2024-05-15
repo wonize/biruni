@@ -32,6 +32,7 @@ export default defineConfig({
 					{ text: 'Installing', link: '/intro/#installation' },
 					{ text: 'Example', link: '/intro/#example' },
 					{ text: 'Features', link: '/intro/#features' },
+					{ text: 'Under the Hood', link: '/intro/how-it-work' },
 				],
 			},
 			{
@@ -62,13 +63,13 @@ export default defineConfig({
 					},
 				],
 			},
-			{
-				text: 'Extra',
-				items: [
-					{ text: 'Typescript', link: '/intro/typescript' },
-					{ text: 'Convantion', link: '/intro/convantion' },
-				],
-			},
+			// {
+			// 	text: 'Extra',
+			// 	items: [
+			// 		{ text: 'Typescript', link: '/intro/typescript' },
+			// 		{ text: 'Convantion', link: '/intro/convantion' },
+			// 	],
+			// },
 		],
 
 		editLink: {
