@@ -60,8 +60,14 @@
 	"dependencies": {
 		"@capacitor/preferences": "6.0.0"
 	},
+	"devDependencies": {
+		"@biruni/core": "workspace:*"
+	},
 	"peerDependenciesMeta": {
 		"@capacitor/preferences": {
+			"optional": false
+		},
+		"@biruni/core": {
 			"optional": false
 		}
 	}
