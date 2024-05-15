@@ -87,6 +87,10 @@ importers:
       '@capacitor/preferences':
         specifier: 6.0.0
         version: 6.0.0(@capacitor/core@6.0.0)
+    devDependencies:
+      '@biruni/core':
+        specifier: workspace:*
+        version: link:../../core
 
   packages/biruni:
     dependencies:
