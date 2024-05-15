@@ -37,7 +37,7 @@ Think of Biruni as a Swiss army knife for data manipulation, providing various t
   }
 </style>
 
-# What Is Do
+## What Is Do
 
 -   Unified API: Biruni provides a simple, consistent and unified API for handling data operations across different storage technologies.
 -   Pluggable Architecture: Developers can easily extend Biruni with custom adapters for new data management solutions or features.
