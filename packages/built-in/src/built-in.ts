@@ -9,4 +9,10 @@ const builtins = <Data extends StoreData>(): Array<BiruniPlugin<Data>> => {
 };
 
 export default builtins;
-export { builtins as BuiltinPlugin, builtins as LocalStorageCollection, builtins };
+export {
+	builtins,
+	builtins as BasicLocalStorage,
+	builtins as BuiltinPlugin,
+	builtins as LocalStorageCollection,
+	builtins as recommended,
+};

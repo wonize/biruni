@@ -1,7 +1,10 @@
 export {
 	BasicLocalStorage,
-	BasicLocalStorage as recommended,
-	BasicLocalStorage as default,
+	BuiltinPlugin,
+	LocalStorageCollection,
+	builtins,
+	builtins as default,
+	recommended,
 } from './built-in';
 export { EventEmitterPlugin, event } from './event/mod';
 export { JsonPlugin, json } from './json/mod';
