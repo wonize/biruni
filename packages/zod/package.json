@@ -2,7 +2,7 @@
 	"$schema": "https://json.schemastore.org/package",
 	"name": "@biruni/zod",
 	"type": "module",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "(Al-Biruni) Zod Integeration Utilities",
 	"keywords": [
 		"wonize",
@@ -60,7 +60,7 @@
 		"zod": "3.23.8"
 	},
 	"peerDependencies": {
-		"@biruni/core": "<=0.0.6",
+		"@biruni/core": "<=0.0.7",
 		"zod": ">=3.23.8"
 	},
 	"peerDependenciesMeta": {

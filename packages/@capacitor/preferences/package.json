@@ -2,7 +2,7 @@
 	"$schema": "https://json.schemastore.org/package",
 	"name": "@biruni/capacitor-preferences",
 	"type": "module",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "(Al-Biruni) @capacitor/preferences utility",
 	"keywords": [
 		"wonize",

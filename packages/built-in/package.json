@@ -2,7 +2,7 @@
 	"$schema": "https://json.schemastore.org/package",
 	"name": "@biruni/built-in",
 	"type": "module",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "(Al-Biruni) Built-in Plugins",
 	"keywords": [
 		"wonize",
@@ -81,7 +81,7 @@
 		"@biruni/core": "workspace:*"
 	},
 	"peerDependencies": {
-		"@biruni/core": "<=0.0.6",
+		"@biruni/core": "<=0.0.7",
 		"events": "^3.3.0"
 	},
 	"peerDependenciesMeta": {
