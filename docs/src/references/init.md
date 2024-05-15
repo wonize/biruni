@@ -111,8 +111,8 @@ biruni('user-settings')
 	.init(() => {
 		return {
 			theme: 'LIGHT',
-			langauge: 'ENG', // ![code --]
-			language: 'FRA', // ![code ++]
+			langauge: 'ENG', // [!code --]
+			language: 'FRA', // [!code ++]
 		};
 	});
 ```
@@ -120,7 +120,7 @@ biruni('user-settings')
 ```json
 {
 	"theme": "LIGHT",
-	"language": "ENG" // ![code focus]
+	"language": "ENG" // [!code focus]
 }
 ```
 
@@ -134,17 +134,17 @@ biruni('user-settings')
 	.init(() => {
 		return {
 			theme: 'LIGHT',
-			langauge: 'ENG', // ![code --]
-			lang: 'ENG', // ![code ++]
+			langauge: 'ENG', // [!code --]
+			lang: 'ENG', // [!code ++]
 		};
 	});
 ```
 
 ```json
 {
-	"theme": "LIGHT", // NO CHANGE ![code highlight]
-	"langauge": "ENG", // ![code --]
-	"lang": "ENG" // ![code ++]
+	"theme": "LIGHT", // NO CHANGE
+	"langauge": "ENG", // [!code --]
+	"lang": "ENG" // [!code ++]
 }
 ```
 
