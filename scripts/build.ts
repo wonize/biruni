@@ -8,6 +8,7 @@ async function main() {
 	await build('packages/biruni');
 	await build('packages/react');
 	await build('packages/zod');
+	await build('packages/@capacitor/preferences');
 }
 
 main().catch(() => {
