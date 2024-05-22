@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Createing and Initializing
 
 ## Biruni Story Builder
