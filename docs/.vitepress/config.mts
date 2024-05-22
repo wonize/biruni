@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-	base: '/biruni/',
+	// base: '/biruni/',
 	title: "Al-Biruni Doc's",
 	description: 'Unified All-in-One Storage Utilities',
 	appearance: 'dark',
@@ -10,7 +10,7 @@ export default defineConfig({
 	srcDir: 'src',
 	cleanUrls: true,
 	sitemap: {
-		hostname: 'https://wonize.github.com/biruni/',
+		hostname: 'https://wonize.github.io/biruni',
 	},
 
 	themeConfig: {
@@ -111,7 +111,7 @@ export default defineConfig({
 	head: [
 		['link', { rel: 'icon', href: '/biruni/assets/logo.svg' }],
 		['meta', { name: 'theme-color', content: '#6B1D1D' }],
-		['meta', { property: 'og:url', content: 'https://wonize.github.io/biruni/' }],
+		['meta', { property: 'og:url', content: 'https://wonize.github.io/biruni' }],
 		['meta', { property: 'og:type', content: 'website' }],
 		['meta', { property: 'og:title', content: "Al-Biruni Doc's" }],
 		[
