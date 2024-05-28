@@ -1,0 +1,72 @@
+{
+	"$schema": "https://json.schemastore.org/package",
+	"name": "@biruni/zustand",
+	"type": "module",
+	"version": "0.0.7",
+	"description": "(Al-Biruni) Zustand Integeration Utilities",
+	"keywords": [
+		"wonize",
+		"biruni",
+		"al-biruni",
+		"zustand"
+	],
+	"author": "mikoloism <mikoloism@gmail.com>",
+	"license": "GPL-3.0-only",
+	"homepage": "https://wonize.github.io/biruni/",
+	"bugs": "https://github.com/wonize/biruni/issues",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wonize/biruni.git",
+		"directory": "packages/zustand"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"require": "./dist/cjs/mod.js",
+			"import": "./dist/esm/mod.js",
+			"types": "./dist/types/mod.d.ts"
+		},
+		"./mod": {
+			"require": "./dist/cjs/mod.js",
+			"import": "./dist/esm/mod.js",
+			"types": "./dist/types/mod.d.ts"
+		},
+		"./*": {
+			"require": "./dist/cjs/*.js",
+			"import": "./dist/esm/*.js",
+			"types": "./dist/types/*.d.ts"
+		}
+	},
+	"main": "dist/cjs/mod.js",
+	"module": "dist/esm/mod.js",
+	"browser": "dist/umd/mod.global.js",
+	"types": "dist/types/mod.d.ts",
+	"files": [
+		"dist",
+		"LICENSE",
+		"README.md",
+		"package.json"
+	],
+	"packageManager": "pnpm@9.1.1",
+	"engines": {
+		"node": ">=18"
+	},
+	"scripts": {},
+	"devDependencies": {
+		"@biruni/core": "workspace:*"
+	},
+	"peerDependencies": {
+		"@biruni/core": "<=0.0.7"
+	},
+	"peerDependenciesMeta": {
+		"@biruni/core": {
+			"optional": true
+		}
+	},
+	"dependencies": {
+		"zustand": "4.5.2"
+	}
+}
