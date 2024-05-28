@@ -1,7 +1,7 @@
 {
 	"name": "@repo/docs",
 	"private": true,
-	"packageManager": "pnpm@9.1.0",
+	"packageManager": "pnpm@9.1.1",
 	"scripts": {
 		"vitepress": "vitepress",
 		"docs:dev": "vitepress dev",
