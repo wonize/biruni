@@ -153,6 +153,18 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/mocks:
+    dependencies:
+      '@biruni/built-in':
+        specifier: workspace:*
+        version: link:../built-in
+      '@biruni/core':
+        specifier: workspace:*
+        version: link:../core
+      biruni:
+        specifier: workspace:*
+        version: link:../biruni
+
   packages/pullstate:
     dependencies:
       pullstate:
