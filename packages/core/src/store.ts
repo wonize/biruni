@@ -33,7 +33,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 	// @ts-expect-error the typescript confused `get` accessor of `data` with `get` method
 	get: Getter.Overloads<Data> = async (first?: unknown, second?: unknown) => {
-		if (Getter.isByEntire<Data>(first)) {
+		if (Getter.isByEntire(first)) {
 			return this.getByEntire();
 		} else if (Getter.isKeyOfData<Data>(first)) {
 			if (Getter.isByKeyMapper<Data>(second)) {
