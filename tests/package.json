@@ -8,6 +8,7 @@
 		"test:watch": "vitest --watch --clearScreen"
 	},
 	"dependencies": {
-		"biruni": "workspace:*"
+		"biruni": "workspace:*",
+		"@repo/mocks": "workspace:*"
 	}
 }
