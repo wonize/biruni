@@ -1,6 +1,7 @@
 {
 	"name": "@repo/tests",
 	"private": true,
+	"type": "module",
 	"packageManager": "pnpm@9.1.1",
 	"scripts": {
 		"test": "vitest run",
