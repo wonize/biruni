@@ -1,6 +1,7 @@
 import { clone, mergeFresh, type StoreData } from './helpers/mod';
 import * as Plugin from './plugin/mod';
 
+import { hasOwnPropertyPath, type HasOwnPropertyPath } from './has/mod';
 import * as Getter from './get/mod';
 import * as Listener from './listener/mod';
 import * as Setter from './set/mod';
@@ -25,14 +26,10 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		this.#data = data;
 	}
 
-	// @ts-expect-error the keyof `Data` should be `string`
-	has = (key: string): key is keyof Data => {
-		if (Object.prototype['hasOwnProperty']?.call(this.data, key)) return true;
-		if (Object['hasOwnProperty']?.call(this.data, key)) return true;
-		if (Object['keys']?.(this.data)?.indexOf(key) != -1) return true;
-		if (Object['hasOwn']?.(this.data, key)) return true;
-		return key in this.data;
-	};
+	has: HasOwnPropertyPath<Data> = hasOwnPropertyPath.bind(
+		this,
+		this.data
+	) as unknown as HasOwnPropertyPath<Data>;
 
 	// @ts-expect-error the typescript confused `get` accessor of `data` with `get` method
 	get: Getter.Overloads<Data> = async (first?: unknown, second?: unknown) => {
