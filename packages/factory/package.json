@@ -38,6 +38,11 @@
 			"import": "./dist/esm/factory.js",
 			"types": "./dist/types/factory.d.ts"
 		},
+		"./builder": {
+			"require": "./dist/cjs/builder.js",
+			"import": "./dist/esm/builder.js",
+			"types": "./dist/types/builder.d.ts"
+		},
 		"./*": {
 			"require": "./dist/cjs/*.js",
 			"import": "./dist/esm/*.js",
