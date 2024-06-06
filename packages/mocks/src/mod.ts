@@ -2,10 +2,15 @@ import type { PluginStack } from '@biruni/core/plugin/stack';
 import { Store } from '@biruni/core/store';
 import { makePlugin } from '@biruni/factory/builder';
 
-const mock_listener = function mock_listener_impl(_event: string, _listener: unknown) {};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mock_listener = function mock_listener_impl(_event: string, _listener: unknown) {
+	return void 0;
+};
+
 const mock_process = async function mock_process_impl(data: MockData): Promise<MockData> {
 	return data;
 };
+
 const mockPluginStack: PluginStack<MockData> = [
 	makePlugin<MockData>('mock/persister')
 		.withType('persister')
