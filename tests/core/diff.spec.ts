@@ -1,4 +1,4 @@
-import { diff, type Diff } from '@/core/listener/diff.ts';
+import { diff, type Diff } from '@biruni/core/listener/diff';
 import type { MockData } from '__mocks__/mock-store.ts';
 import { describe, expect, test } from 'vitest';
 

@@ -1,4 +1,4 @@
-import { mergeFresh as merge } from '@/core/helpers/merge.ts';
+import { mergeFresh as merge } from '@biruni/core/helpers/merge';
 import { describe, expect, test } from 'vitest';
 
 describe.todo('Core/Helper/MergeFresh', () => {

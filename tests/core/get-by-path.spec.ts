@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, test } from 'vitest';
-import { getByPath } from '@/core/get/by-path-value.ts';
-import type * as Path from '@/core/helpers/path-key.ts';
+import { getByPath } from '@biruni/core/get/by-path-value';
+import type * as Path from '@biruni/core/helpers/path-key';
 
 describe.todo('Core/getByPath()', () => {
 	interface FakeObject {
