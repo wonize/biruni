@@ -4,7 +4,8 @@ import { defineConfig, configDefaults } from 'vitest/config';
 export default defineConfig({
 	plugins: [
 		tsconfigPaths({
-			projects: ['tests/tsconfig.json'],
+			ignoreConfigErrors: true,
+			projects: ['./tests/tsconfig.json', './tsconfig.json'],
 		}),
 	],
 	test: {
