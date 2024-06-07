@@ -56,6 +56,16 @@ const mockData: MockData = {
 	},
 };
 
+interface ExactMockData {
+	theme: 'DARK';
+	lang: 'EN';
+	value: 2;
+	currency: {
+		code: 'USD';
+		amount: number;
+	};
+}
+
 const mockInitializer = function mock_initialize_impl(): MockData {
 	return mockData;
 };
@@ -63,4 +73,4 @@ const mockInitializer = function mock_initialize_impl(): MockData {
 const mockStore = new Store(mockInitializer, mockPluginStack);
 
 export { mockData, mockInitializer, mockStore };
-export type { MockData };
+export type { MockData, ExactMockData };
