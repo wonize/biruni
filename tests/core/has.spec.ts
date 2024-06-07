@@ -1,34 +1,47 @@
-import { expectTypeOf, describe, it, expect } from 'vitest';
-import { biruni } from 'biruni';
-import { recommended } from 'biruni/built-in';
-import { hasOwnPropertyPath } from '@biruni/core/has/mod';
+import type { StoreInterface } from '@biruni/core';
+import type * as Path from '@biruni/core/helpers/path-key';
+import { mockStore, type MockData } from '@repo/mocks';
+import { describe, expect, expectTypeOf, it, vi } from 'vitest';
 
-// TODO: replace the actual `biruni` with mocked plain object: `{ has: hasOwnPropertyByPath.bind(null, data); }`
+describe('Biruni Has/Have Methods', () => {
+	const spy_has = vi.spyOn(mockStore, 'has');
 
-describe.only('Core/Has', function () {
-	interface MockData {
-		parent: {
-			child: 'value-1' | 'value-2';
-		};
-		sibling: 'value-a' | 'value-b';
-	}
+	describe('Verify <mockStore>', () => {
+		it('should match the type of StoreInterface<MockData>', async () => {
+			expectTypeOf(mockStore).toMatchTypeOf<StoreInterface<MockData>>();
+		});
+	});
 
-	it('should accept string as first index of string', function () {
-		const store = biruni<MockData, 'mock-namespace'>('mock-namespace')
-			.plug(recommended())
-			.init(function initialize() {
-				return {
-					parent: {
-						child: 'value-1',
-					},
-					sibling: 'value-b',
-				};
-			});
+	it('should have the <has> method and be a function', () => {
+		expect(mockStore).toHaveProperty('has');
+		expect(mockStore.has).toBeTypeOf('function');
+		expectTypeOf(mockStore.has).toBeFunction();
+		expectTypeOf(mockStore.has).parameter(0).toBeString();
+		expectTypeOf(mockStore.has).parameter(0).toMatchTypeOf<Path.From<MockData>>();
+	});
 
-		expect(store.has).toBeTypeOf('function');
-		expectTypeOf(store.has).toBeFunction();
-		expect(store.has('parent.child')).toBeTypeOf('boolean');
-		expectTypeOf(store.has('parent.child')).toBeBoolean();
-		expect(store.has('parent.child')).toStrictEqual(true);
+	it('should return true for existing path key', () => {
+		const result = mockStore.has('currency.amount');
+		expect(result).toBeTypeOf('boolean');
+		expectTypeOf(result).toBeBoolean();
+		expect(result).toBeTruthy();
+		expect(result).toEqual(true);
+		expect(spy_has).toHaveBeenCalled();
+		expect(spy_has).toHaveBeenCalledWith('currency.amount');
+		expect(spy_has).toHaveReturned();
+		expect(spy_has).toHaveReturnedWith(true);
+	});
+
+	it('should return false for non-existing path key', () => {
+		// @ts-expect-error wrong path-key for edge case
+		const result = mockStore.has('wrong.nonexists.key');
+		expect(result).toBeTypeOf('boolean');
+		expectTypeOf(result).toBeBoolean();
+		expect(result).toBeFalsy();
+		expect(result).toEqual(false);
+		expect(spy_has).toHaveBeenCalled();
+		expect(spy_has).toHaveBeenCalledWith('currency.amount');
+		expect(spy_has).toHaveReturned();
+		expect(spy_has).toHaveReturnedWith(false);
 	});
 });
