@@ -2,7 +2,7 @@
 	"name": "@repo/tests",
 	"private": true,
 	"type": "module",
-	"packageManager": "pnpm@9.1.1",
+	"packageManager": "pnpm@9.2.0",
 	"scripts": {
 		"test": "vitest run",
 		"test:watch": "vitest --watch --clearScreen"
