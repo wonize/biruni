@@ -2,6 +2,10 @@ import type { PluginStack } from '@biruni/core/plugin/stack';
 import { Store } from '@biruni/core/store';
 import { makePlugin } from '@biruni/factory/builder';
 
+const MOCK_NAMESPACE = 'mock-biruni-namespace' as const;
+
+const mockInMemoryStorage = new Map<PropertyKey, MockData>();
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mock_listener = function mock_listener_impl(_event: string, _listener: unknown) {
 	return void 0;
@@ -11,11 +15,21 @@ const mock_process = async function mock_process_impl(data: MockData): Promise<M
 	return data;
 };
 
+const mock_persist_set = async function mock_persist_set_impl(data: MockData): Promise<MockData> {
+	mockInMemoryStorage.set(MOCK_NAMESPACE, data);
+	return data;
+};
+
+const mock_persist_get = async function mock_persist_get_impl(data: MockData): Promise<MockData> {
+	const retrieved = mockInMemoryStorage.get(MOCK_NAMESPACE);
+	return retrieved ?? data;
+};
+
 const mockPluginStack: PluginStack<MockData> = [
 	makePlugin<MockData>('mock/persister')
 		.withType('persister')
-		.withPostProcess(mock_process)
-		.withPreProcess(mock_process)
+		.withPostProcess(mock_persist_set)
+		.withPreProcess(mock_persist_get)
 		.make(),
 	makePlugin<MockData>('mock/parser')
 		.withType('parser')
@@ -72,5 +86,12 @@ const mockInitializer = function mock_initialize_impl(): MockData {
 
 const mockStore = new Store(mockInitializer, mockPluginStack);
 
-export { mockData, mockInitializer, mockStore };
-export type { MockData, ExactMockData };
+export {
+	MOCK_NAMESPACE,
+	mockData,
+	mockInitializer,
+	mockStore,
+	mockInMemoryStorage,
+	mockInMemoryStorage as mockStorage,
+};
+export type { ExactMockData, MockData };
