@@ -4,6 +4,8 @@ import { makePlugin } from '@biruni/factory/builder';
 
 const MOCK_NAMESPACE = 'mock-biruni-namespace' as const;
 
+// FIXME: clear persisted data for each `it` block test case
+
 const mockInMemoryStorage = new Map<PropertyKey, MockData>();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
