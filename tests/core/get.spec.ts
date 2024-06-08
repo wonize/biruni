@@ -1,6 +1,6 @@
 import type { StoreInterface } from '@biruni/core';
 import { mockData, mockStore, type MockData } from '@repo/mocks';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, expectTypeOf, it, vi } from 'vitest';
 
 describe('Biruni Getter Methods', () => {
 	describe('Verify <mockStore>', () => {
