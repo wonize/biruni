@@ -83,7 +83,10 @@
 	"engines": {
 		"node": ">=18"
 	},
-	"scripts": {},
+	"scripts": {
+		"local:test": "vitest run",
+		"local:test:watch": "vitest --watch --clearScreen"
+	},
 	"dependencies": {
 		"dot-prop": "8.0.2"
 	},
