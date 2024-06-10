@@ -1,12 +1,48 @@
 import type { PluginStack } from '@biruni/core/plugin/stack';
 import { Store } from '@biruni/core/store';
 import { makePlugin } from '@biruni/factory/builder';
+import { vi } from 'vitest';
 
 const MOCK_NAMESPACE = 'mock-biruni-namespace' as const;
 
-// FIXME: clear persisted data for each `it` block test case
+interface MockData {
+	theme: 'DARK' | 'LIGHT';
+	lang: 'FR' | 'EN' | 'ES';
+	value: 1 | 2 | 3;
+	currency: {
+		amount: number;
+		code: 'USD' | 'EUR' | 'GBP';
+	};
+}
 
-const mockInMemoryStorage = new Map<PropertyKey, MockData>();
+interface ExactMockData {
+	theme: 'DARK';
+	lang: 'EN';
+	value: 2;
+	currency: {
+		code: 'USD';
+		amount: number;
+	};
+}
+
+const mockData: MockData = {
+	theme: 'DARK',
+	lang: 'EN',
+	value: 2,
+	currency: {
+		code: 'USD',
+		amount: 1000,
+	},
+};
+
+const mockInitializer = function mock_initialize_impl(): MockData {
+	return mockData;
+};
+
+const mockInMemoryStorage = new Map<PropertyKey, MockData>(
+	Object.entries({ [MOCK_NAMESPACE]: mockData })
+);
+const spyInMemoryStorage = vi.spyOn(mockInMemoryStorage, 'set');
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mock_listener = function mock_listener_impl(_event: string, _listener: unknown) {
@@ -52,40 +88,6 @@ const mockPluginStack: PluginStack<MockData> = [
 		.make(),
 ];
 
-interface MockData {
-	theme: 'DARK' | 'LIGHT';
-	lang: 'FR' | 'EN' | 'ES';
-	value: 1 | 2 | 3;
-	currency: {
-		amount: number;
-		code: 'USD' | 'EUR' | 'GBP';
-	};
-}
-
-const mockData: MockData = {
-	theme: 'DARK',
-	lang: 'EN',
-	value: 2,
-	currency: {
-		code: 'USD',
-		amount: 1000,
-	},
-};
-
-interface ExactMockData {
-	theme: 'DARK';
-	lang: 'EN';
-	value: 2;
-	currency: {
-		code: 'USD';
-		amount: number;
-	};
-}
-
-const mockInitializer = function mock_initialize_impl(): MockData {
-	return mockData;
-};
-
 const mockStore = new Store(mockInitializer, mockPluginStack);
 
 export {
@@ -95,5 +97,6 @@ export {
 	mockStore,
 	mockInMemoryStorage,
 	mockInMemoryStorage as mockStorage,
+	spyInMemoryStorage,
 };
 export type { ExactMockData, MockData };
