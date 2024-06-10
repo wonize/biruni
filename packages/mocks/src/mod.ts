@@ -93,10 +93,10 @@ const mockStore = new Store(mockInitializer, mockPluginStack);
 export {
 	MOCK_NAMESPACE,
 	mockData,
-	mockInitializer,
-	mockStore,
 	mockInMemoryStorage,
+	mockInitializer,
 	mockInMemoryStorage as mockStorage,
+	mockStore,
 	spyInMemoryStorage,
 };
 export type { ExactMockData, MockData };
