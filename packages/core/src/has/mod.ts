@@ -1,6 +1,6 @@
 import { hasProperty } from 'dot-prop';
-import type * as Path from '../helpers/path-key';
 import type { StoreData } from '../helpers/type-utility';
+import type { Path } from '../path/mod';
 
 function hasOwnPropertyPath<Data extends StoreData, PathKey extends Path.From<Data>>(
 	data: Data,
