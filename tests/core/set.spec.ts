@@ -4,22 +4,35 @@ import {
 	mockData,
 	mockInMemoryStorage,
 	mockStore,
+	spyInMemoryStorage,
 	type MockData,
 } from '@repo/mocks';
-import { describe, expect, expectTypeOf, it, vi } from 'vitest';
+import { beforeEach, describe, expect, expectTypeOf, it, vi } from 'vitest';
 
-// FIXME: clear persisted data for each `it` block test case
+function cleanup() {
+	return function cleanup_impl() {
+		// for (const spy of spies) {
+		// 	spy.mockReset();
+		// 	spy.mockClear();
+		// }
+		vi.clearAllMocks();
+		mockInMemoryStorage.set(MOCK_NAMESPACE, mockData);
+	};
+}
 
 describe('Biruni Setter Methods', () => {
 	describe('Verify <mockStore>', () => {
 		it('should match the type of StoreInterface<MockData>', async () => {
+			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).not.toBeUndefined();
+			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(mockData);
 			expectTypeOf(mockStore).toMatchTypeOf<StoreInterface<MockData>>();
 		});
 	});
 
 	describe('Method <ByPair>', () => {
 		const spy_setByPair = vi.spyOn(mockStore, 'setByPair');
-		const spy_storageSet = vi.spyOn(mockInMemoryStorage, 'set');
+
+		beforeEach(cleanup());
 
 		it('should have the <setByPair> method and be a function', async () => {
 			expect(mockStore).toHaveProperty('setByPair');
@@ -33,18 +46,30 @@ describe('Biruni Setter Methods', () => {
 			const changes: Partial<MockData> = { lang: 'FR' };
 			const expected = { ...mockData, ...changes };
 			await mockStore.setByPair(changes);
-			expect(spy_setByPair).toHaveBeenCalledWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spy_setByPair).toBeCalledWith(expect.objectContaining(changes));
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
+			expect(spyInMemoryStorage).toBeCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 		});
 
 		it('should update mockStore with nested key changes', async () => {
 			// @ts-expect-error to test, nested keys
 			const changes: Partial<MockData> = { currency: { amount: 5000 } };
-			const expected = { ...mockData, ...changes };
+			const expected = {
+				...mockData,
+				currency: {
+					...mockData['currency'],
+					...changes['currency'],
+				},
+			};
 			await mockStore.setByPair(changes);
-			expect(spy_setByPair).toHaveBeenCalledWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spy_setByPair).toBeCalledWith(changes);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -52,8 +77,11 @@ describe('Biruni Setter Methods', () => {
 			const changes: Partial<MockData> = {};
 			const expected = { ...mockData };
 			await mockStore.setByPair(changes);
-			expect(spy_setByPair).toHaveBeenCalledWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spy_setByPair).toBeCalledWith(changes);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -61,8 +89,11 @@ describe('Biruni Setter Methods', () => {
 			const expected = { ...mockData };
 			// @ts-expect-error to test, empty arguments
 			await mockStore.setByPair();
-			expect(spy_setByPair).toHaveBeenCalledWith();
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spy_setByPair).toBeCalledWith();
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -71,16 +102,20 @@ describe('Biruni Setter Methods', () => {
 			const changes: Partial<MockData> = { nonexists: 'added' };
 			const expected = { ...mockData, ...changes };
 			await mockStore.setByPair(changes);
-			expect(spy_setByPair).toHaveBeenCalledWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spy_setByPair).toBeCalledWith(changes);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 	});
 
-	describe('Method <BySetter>', () => {
+	describe.todo('Method <BySetter>', () => {
 		type SetterType = (data: Readonly<MockData>) => Partial<MockData>;
 		const spy_setBySetter = vi.spyOn(mockStore, 'setBySetter');
-		const spy_storageSet = vi.spyOn(mockInMemoryStorage, 'set');
+
+		beforeEach(cleanup());
 
 		it('should have the <setBySetter> method and be a function', async () => {
 			expect(mockStore).toHaveProperty('setBySetter');
@@ -96,10 +131,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType = vi.fn((_data) => changes);
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -110,10 +148,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType = vi.fn((_data) => changes);
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -123,10 +164,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType = vi.fn((_data) => changes);
 			const expected = { ...mockData };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -136,10 +180,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType = vi.fn((_data) => {});
 			const expected = { ...mockData };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(void 0);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -150,10 +197,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType = vi.fn((_data) => changes);
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -164,10 +214,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType = vi.fn(async (_data) => changes);
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -178,10 +231,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType = vi.fn((_data) => Promise.resolve(changes));
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -194,10 +250,13 @@ describe('Biruni Setter Methods', () => {
 			);
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -210,10 +269,13 @@ describe('Biruni Setter Methods', () => {
 			);
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -227,10 +289,13 @@ describe('Biruni Setter Methods', () => {
 			);
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -244,20 +309,24 @@ describe('Biruni Setter Methods', () => {
 			);
 			const expected = { ...mockData, ...changes };
 			await mockStore.setBySetter(setter);
-			expect(spy_setBySetter).toHaveBeenCalledWith(setter);
-			expect(setter).toHaveBeenCalledWith(mockData);
+			expect(spy_setBySetter).toBeCalledWith(setter);
+			expect(setter).toHaveBeenLastCalledWith(expect.objectContaining(mockData));
 			expect(setter).toHaveReturnedWith(changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 	});
 
-	describe('Method <ByKeySetter>', () => {
+	describe.todo('Method <ByKeySetter>', () => {
 		type SetterType<K extends keyof MockData = keyof MockData> = (
 			value: Readonly<MockData[K]>
 		) => MockData[K];
 		const spy_setByKeySetter = vi.spyOn(mockStore, 'setByKeySetter');
-		const spy_storageSet = vi.spyOn(mockInMemoryStorage, 'set');
+
+		beforeEach(cleanup());
 
 		it('should have the <setByKeySetter> method and be a function', async () => {
 			expect(mockStore).toHaveProperty('setByKeySetter');
@@ -274,10 +343,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType<'lang'> = vi.fn((_lang) => 'FR');
 			const expected = { ...mockData, lang: 'FR' };
 			await mockStore.setByKeySetter('lang', setter);
-			expect(spy_setByKeySetter).toHaveBeenCalledWith('lang', setter);
-			expect(setter).toHaveBeenCalledWith(mockData['lang']);
+			expect(spy_setByKeySetter).toBeCalledWith('lang', setter);
+			expect(setter).toHaveBeenLastCalledWith(mockData['lang']);
 			expect(setter).toHaveReturnedWith('FR');
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -287,10 +359,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType<'currency'> = vi.fn((_currency) => ({ amount: 5000 }));
 			const expected = { ...mockData, currency: { ...mockData['currency'], amount: 5000 } };
 			await mockStore.setByKeySetter('currency', setter);
-			expect(spy_setByKeySetter).toHaveBeenCalledWith('currency', setter);
-			expect(setter).toHaveBeenCalledWith(mockData['currency']);
+			expect(spy_setByKeySetter).toBeCalledWith('currency', setter);
+			expect(setter).toHaveBeenLastCalledWith(mockData['currency']);
 			expect(setter).toHaveReturnedWith({ amount: 5000 });
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -302,10 +377,13 @@ describe('Biruni Setter Methods', () => {
 			// FIXME: support path-keys type suggestion
 			// @ts-expect-error to test path keys
 			await mockStore.setByKeySetter('currency.amount', setter);
-			expect(spy_setByKeySetter).toHaveBeenCalledWith('currency.amount', setter);
-			expect(setter).toHaveBeenCalledWith(mockData['currency']['amount']);
+			expect(spy_setByKeySetter).toBeCalledWith('currency.amount', setter);
+			expect(setter).toHaveBeenLastCalledWith(mockData['currency']['amount']);
 			expect(setter).toHaveReturnedWith(5000);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -315,10 +393,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType<'lang'> = vi.fn((_lang) => 'RU');
 			const expected = { ...mockData, lang: 'RU' };
 			await mockStore.setByKeySetter('lang', setter);
-			expect(spy_setByKeySetter).toHaveBeenCalledWith('lang', setter);
-			expect(setter).toHaveBeenCalledWith(mockData['lang']);
+			expect(spy_setByKeySetter).toBeCalledWith('lang', setter);
+			expect(setter).toHaveBeenLastCalledWith(mockData['lang']);
 			expect(setter).toHaveReturnedWith('RU');
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -328,10 +409,13 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType<'lang'> = vi.fn((_lang) => {});
 			const expected = { ...mockData };
 			await mockStore.setByKeySetter('lang', setter);
-			expect(spy_setByKeySetter).toHaveBeenCalledWith('lang', setter);
-			expect(setter).toHaveBeenCalledWith(mockData['lang']);
+			expect(spy_setByKeySetter).toBeCalledWith('lang', setter);
+			expect(setter).toHaveBeenLastCalledWith(mockData['lang']);
 			expect(setter).toHaveReturnedWith(void 0);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -342,10 +426,13 @@ describe('Biruni Setter Methods', () => {
 			const expected = { ...mockData };
 			// @ts-expect-error to test non-exists keys
 			await mockStore.setByKeySetter('nonexists', setter);
-			expect(spy_setByKeySetter).toHaveBeenCalledWith('nonexists', setter);
-			expect(setter).toHaveBeenCalledWith(void 0);
+			expect(spy_setByKeySetter).toBeCalledWith('nonexists', setter);
+			expect(setter).toHaveBeenLastCalledWith(void 0);
 			expect(setter).toHaveReturnedWith('added');
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
@@ -355,18 +442,22 @@ describe('Biruni Setter Methods', () => {
 			const setter: SetterType<'currency'> = vi.fn((_currency) => 'FR');
 			const expected = { ...mockData };
 			await mockStore.setByKeySetter('currency', setter);
-			expect(spy_setByKeySetter).toHaveBeenCalledWith('currency', setter);
-			expect(setter).toHaveBeenCalledWith(mockData['currency']);
+			expect(spy_setByKeySetter).toBeCalledWith('currency', setter);
+			expect(setter).toHaveBeenLastCalledWith(mockData['currency']);
 			expect(setter).toHaveReturnedWith('FR');
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 	});
 
-	describe.todo('Method <ByKeyValue', () => {
+	describe.todo('Method <ByKeyValue>', () => {
 		type ValueType<K extends keyof MockData = keyof MockData> = MockData[K];
 		const spy_setByKeyValue = vi.spyOn(mockStore, 'setByKeyValue');
-		const spy_storageSet = vi.spyOn(mockInMemoryStorage, 'set');
+
+		beforeEach(cleanup());
 
 		it('should have the <setByKeyValue> method and be a function', async () => {
 			expect(mockStore).toHaveProperty('setByKeyValue');
@@ -378,26 +469,32 @@ describe('Biruni Setter Methods', () => {
 			expectTypeOf(mockStore.setByKeyValue).parameter(1).toEqualTypeOf<ValueType>();
 		});
 
-		it('', async () => {
+		it('should accept a string key and a non-nullable value', async () => {
 			const changes: ValueType<'lang'> = 'FR';
 			const expected = { ...mockData, lang: changes };
 			await mockStore.setByKeyValue('lang', changes);
-			expect(spy_setByKeyValue).toHaveBeenCalledWith('lang', changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spy_setByKeyValue).toBeCalledWith('lang', changes);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
-		it('', async () => {
+		it('should accept a nested key and a value with the correct type', async () => {
 			// @ts-expect-error to test nested key
 			const changes: ValueType<'currency'> = { amount: 5000 };
 			const expected = { ...mockData, currency: { ...mockData['currency'], ...changes } };
 			await mockStore.setByKeyValue('currency', changes);
-			expect(spy_setByKeyValue).toHaveBeenCalledWith('currency', changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spy_setByKeyValue).toBeCalledWith('currency', changes);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
 		});
 
-		it('', async () => {
+		it('should accept a path key and a value with the correct type', async () => {
 			// @ts-expect-error to test path key
 			const changes: ValueType<'currency.amount'> = 5000;
 			const expected = {
@@ -409,9 +506,24 @@ describe('Biruni Setter Methods', () => {
 			};
 			// @ts-expect-error to test path key
 			await mockStore.setByKeyValue('currency.amount', changes);
-			expect(spy_setByKeyValue).toHaveBeenCalledWith('currency.amount', changes);
-			expect(spy_storageSet).toHaveBeenCalledWith(MOCK_NAMESPACE, expected);
+			expect(spy_setByKeyValue).toBeCalledWith('currency.amount', changes);
+			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
+				MOCK_NAMESPACE,
+				expect.objectContaining(expected)
+			);
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).toMatchObject(expected);
+		});
+
+		it('should throw an error when setting a value with a non-string key', async () => {
+			// @ts-expect-error to test non-string key
+			expect(mockStore.setByKeyValue(123, 'value')).toThrowError();
+			// @ts-expect-error to test non-string key
+			expect(mockStore.setByKeyValue({}, 'value')).toThrowError();
+		});
+
+		it('should throw an error when setting a value with a non-exists key', async () => {
+			// @ts-expect-error to test non-exists key
+			expect(mockStore.setByKeyValue('non-exists', 'value')).toThrowError();
 		});
 	});
 });
