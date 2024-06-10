@@ -1,4 +1,4 @@
-import type { StoreInterface } from '@biruni/core';
+import type { StoreInterface } from '@/store.ts';
 import {
 	MOCK_NAMESPACE,
 	mockData,

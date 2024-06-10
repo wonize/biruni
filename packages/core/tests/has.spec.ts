@@ -1,5 +1,5 @@
-import type { StoreInterface } from '@biruni/core';
-import type * as Path from '@biruni/core/helpers/path-key';
+import type * as Path from '@/path/mod.ts';
+import type { StoreInterface } from '@/store.ts';
 import { mockStore, type MockData } from '@repo/mocks';
 import { describe, expect, expectTypeOf, it, vi } from 'vitest';
 

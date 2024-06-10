@@ -1,4 +1,4 @@
-import type { StoreInterface } from '@biruni/core';
+import type { StoreInterface } from '@/store.ts';
 import { mockData, mockStore, type MockData } from '@repo/mocks';
 import { describe, expect, expectTypeOf, it, vi } from 'vitest';
 
