@@ -11,13 +11,13 @@ interface SetByKeyValue<Data extends StoreData> {
 
 const isKeyOfData = <Data extends StoreData>(
 	input: unknown
-): input is keyof Data | Path.From<Data> => {
+): input is Path.From<Data> => {
 	return typeof input === 'string';
 };
 
 const isByKeyValue = <Data extends StoreData>(
 	input: unknown
-): input is Data[keyof Data] | Path.At<Data, Path.From<Data>> => {
+): input is Path.At<Data, Path.From<Data>> => {
 	return true;
 };
 
