@@ -6,6 +6,10 @@ function hasOwnPropertyPath<Data extends StoreData, PathKey extends Path.From<Da
 	data: Data,
 	path: PathKey
 ): boolean {
+	if (typeof data !== 'object' || data === null) {
+		throw 'Error';
+	}
+
 	return hasProperty(data, path as unknown as string);
 }
 
