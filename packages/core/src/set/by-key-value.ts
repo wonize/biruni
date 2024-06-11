@@ -39,7 +39,7 @@ function setByKeyValue<
 		return setProperty(clonedInputData, key.toString(), value);
 	}
 
-	const previous_nested_value = getProperty(data, key.toString());
+	const previous_nested_value = getProperty(clonedInputData, key.toString());
 
 	if (previous_nested_value === null || typeof previous_nested_value === 'undefined') {
 		throw 'Error';
@@ -47,9 +47,10 @@ function setByKeyValue<
 
 	let new_nested_value = clone(previous_nested_value);
 	for (const keyof_new_value of deepKeys(value)) {
-		const valueof_new_value = clone(getProperty(value, keyof_new_value)!);
+		const valueof_new_value = getProperty(value, keyof_new_value);
 		new_nested_value = setProperty(previous_nested_value, keyof_new_value, valueof_new_value);
 	}
+
 	return setProperty(clonedInputData, key.toString(), new_nested_value);
 }
 
