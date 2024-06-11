@@ -63,7 +63,7 @@ describe('set/by-key-value.ts', () => {
 			expect(expected).not.toMatchObject(mockData);
 		});
 
-		it.todo('should accept a nested key and a value with the correct type', () => {
+		it('should accept a nested key and a value with the correct type', () => {
 			const fn = vi.fn(setByKeyValue);
 			const expected = { ...mockData, currency: { ...mockData['currency'], amount: 5000 } };
 			/// ts-expect-error to test nested key
