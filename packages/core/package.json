@@ -85,7 +85,8 @@
 	},
 	"scripts": {
 		"local:test": "vitest run",
-		"local:test:watch": "vitest --watch --clearScreen"
+		"local:test:watch": "vitest --watch --clearScreen",
+		"local:build": "tsx ./scripts/build.ts"
 	},
 	"dependencies": {
 		"dot-prop": "8.0.2"
