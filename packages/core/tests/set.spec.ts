@@ -1,4 +1,5 @@
 import type { StoreInterface } from '@/store.ts';
+import type { Path } from '@/path/mod.ts';
 import {
 	MOCK_NAMESPACE,
 	mockData,
@@ -177,7 +178,7 @@ describe('Biruni Setter Methods', () => {
 		it('should set data with empty setter', async () => {
 			// @ts-expect-error to test empty setter
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-			const setter: SetterType = vi.fn((_data) => {});
+			const setter: SetterType = vi.fn((_data) => { });
 			const expected = { ...mockData };
 			await mockStore.setBySetter(setter);
 			expect(spy_setBySetter).toBeCalledWith(setter);
@@ -321,9 +322,7 @@ describe('Biruni Setter Methods', () => {
 	});
 
 	describe.todo('Method <ByKeySetter>', () => {
-		type SetterType<K extends keyof MockData = keyof MockData> = (
-			value: Readonly<MockData[K]>
-		) => MockData[K];
+		type SetterType<K extends Path.From<MockData> = Path.From<MockData>> = (value: Readonly<Path.At<MockData, K>>) => Path.At<MockData, K>;
 		const spy_setByKeySetter = vi.spyOn(mockStore, 'setByKeySetter');
 
 		beforeEach(cleanup());
@@ -333,7 +332,7 @@ describe('Biruni Setter Methods', () => {
 			expect(mockStore.setByKeySetter).toBeTypeOf('function');
 			expectTypeOf(mockStore.setByKeySetter).toBeFunction();
 			expectTypeOf(mockStore.setByKeySetter).parameter(0).toBeString();
-			expectTypeOf(mockStore.setByKeySetter).parameter(0).toEqualTypeOf<keyof MockData>();
+			expectTypeOf(mockStore.setByKeySetter).parameter(0).toEqualTypeOf<Path.From<MockData>>();
 			expectTypeOf(mockStore.setByKeySetter).parameter(1).toBeFunction();
 			expectTypeOf(mockStore.setByKeySetter).parameter(1).toEqualTypeOf<SetterType>();
 		});
@@ -370,11 +369,9 @@ describe('Biruni Setter Methods', () => {
 		});
 
 		it('should set data to a path key', async () => {
-			// @ts-expect-error to test path keys
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const setter: SetterType = vi.fn((_currency_amount) => 5000);
 			const expected = { ...mockData, currency: { ...mockData['currency'], amount: 5000 } };
-			// FIXME: support path-keys type suggestion
 			// @ts-expect-error to test path keys
 			await mockStore.setByKeySetter('currency.amount', setter);
 			expect(spy_setByKeySetter).toBeCalledWith('currency.amount', setter);
@@ -406,7 +403,7 @@ describe('Biruni Setter Methods', () => {
 		it('should handle empty setter when update data', async () => {
 			// @ts-expect-error to test empty setter
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-			const setter: SetterType<'lang'> = vi.fn((_lang) => {});
+			const setter: SetterType<'lang'> = vi.fn((_lang) => { });
 			const expected = { ...mockData };
 			await mockStore.setByKeySetter('lang', setter);
 			expect(spy_setByKeySetter).toBeCalledWith('lang', setter);
@@ -454,7 +451,7 @@ describe('Biruni Setter Methods', () => {
 	});
 
 	describe.todo('Method <ByKeyValue>', () => {
-		type ValueType<K extends keyof MockData = keyof MockData> = MockData[K];
+		type ValueType<K extends Path.From<MockData> = Path.From<MockData>> = Path.At<MockData, K>;
 		const spy_setByKeyValue = vi.spyOn(mockStore, 'setByKeyValue');
 
 		beforeEach(cleanup());
@@ -464,7 +461,7 @@ describe('Biruni Setter Methods', () => {
 			expect(mockStore.setByKeyValue).toBeTypeOf('function');
 			expectTypeOf(mockStore.setByKeyValue).toBeFunction();
 			expectTypeOf(mockStore.setByKeyValue).parameter(0).toBeString();
-			expectTypeOf(mockStore.setByKeyValue).parameter(0).toEqualTypeOf<keyof MockData>();
+			expectTypeOf(mockStore.setByKeyValue).parameter(0).toEqualTypeOf<Path.From<MockData>>();
 			expectTypeOf(mockStore.setByKeyValue).parameter(1).not.toBeNullable();
 			expectTypeOf(mockStore.setByKeyValue).parameter(1).toEqualTypeOf<ValueType>();
 		});
@@ -495,7 +492,6 @@ describe('Biruni Setter Methods', () => {
 		});
 
 		it('should accept a path key and a value with the correct type', async () => {
-			// @ts-expect-error to test path key
 			const changes: ValueType<'currency.amount'> = 5000;
 			const expected = {
 				...mockData,
@@ -504,7 +500,6 @@ describe('Biruni Setter Methods', () => {
 					amount: changes,
 				},
 			};
-			// @ts-expect-error to test path key
 			await mockStore.setByKeyValue('currency.amount', changes);
 			expect(spy_setByKeyValue).toBeCalledWith('currency.amount', changes);
 			expect(spyInMemoryStorage).toHaveBeenLastCalledWith(
