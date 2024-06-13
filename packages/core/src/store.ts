@@ -7,6 +7,8 @@ import * as Listener from './listener/mod';
 import * as Setter from './set/mod';
 
 class Store<Data extends StoreData> implements StoreInterface<Data> {
+	public has: HasOwnPropertyPath<Data>;
+
 	public constructor(
 		initializer: () => Data,
 		protected pluginStack: Plugin.Stack<Data>
@@ -16,7 +18,10 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 			const data = mergeFresh<Readonly<Data>>(persisted_data, comming_data);
 			this.setByEntire(data);
 		});
+
+		this.has = hasOwnPropertyPath.bind(null, this.data) as unknown as HasOwnPropertyPath<Data>;
 	}
+
 
 	#data!: Data;
 	get data(): Readonly<Data> {
@@ -26,10 +31,6 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		this.#data = data;
 	}
 
-	has: HasOwnPropertyPath<Data> = hasOwnPropertyPath.bind(
-		this,
-		this.data
-	) as unknown as HasOwnPropertyPath<Data>;
 
 	// @ts-expect-error the typescript confused `get` accessor of `data` with `get` method
 	get: Getter.Overloads<Data> = async (first?: unknown, second?: unknown) => {
