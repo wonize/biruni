@@ -35,6 +35,7 @@
 		"@repo/configs": "workspace:*",
 		"@repo/mocks": "workspace:*",
 		"@types/node": "20.14.2",
+		"bedo": "0.0.4",
 		"biruni": "workspace:*",
 		"jsdom": "24.1.0",
 		"tasuku": "2.0.1",
