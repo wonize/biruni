@@ -158,7 +158,9 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 interface StoreInterface<Data extends StoreData>
 	extends Listener.Methods<Data>,
-		Getter.Methods<Data>,
-		Setter.Methods<Data> {}
+	Getter.Methods<Data>,
+	Setter.Methods<Data> {
+	has: HasOwnPropertyPath<Data>
+}
 
 export { Store, type StoreInterface };
