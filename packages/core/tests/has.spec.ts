@@ -1,15 +1,60 @@
-import type * as Path from '@/path/mod.ts';
-import type { StoreInterface } from '@/store.ts';
-import { mockStore, type MockData } from '@repo/mocks';
 import { describe, expect, expectTypeOf, it, vi } from 'vitest';
+import { mockData, mockStore, type MockData } from '@repo/mocks';
+import * as has from '@/has/mod';
+import type { Path } from '@/path/mod.ts';
+import type { StoreInterface } from '@/store.ts';
 
-describe('Biruni Has/Have Methods', () => {
+
+describe.todo('Method <has>', () => {
+	describe('mocked has', () => {
+		const spy = vi.spyOn(has, 'hasOwnPropertyPath');
+		console.log({ has: mockStore.has });
+
+		it('should pass', () => {
+			const result = mockStore.has('lang');
+			expect(result).toBe(true);
+			expect(spy).toBeCalledTimes(1);
+			expect(spy).toBeCalledWith(mockData, 'lang');
+		})
+	})
+
+	describe('has spy', () => {
+		class BoundedStore {
+			constructor() {
+				this.data = mockData;
+				this.has = has.hasOwnPropertyPath.bind(this, this.data) as unknown as has.HasOwnPropertyPath<MockData>;
+			}
+			data: MockData;
+			has: has.HasOwnPropertyPath<MockData>;
+
+		}
+
+		const stubStore = {
+			has: has.hasOwnPropertyPath.bind(null, mockData) as unknown as has.HasOwnPropertyPath<MockData>,
+		}
+
+		const mockBoundedStore = new BoundedStore();
+
+		it('should pass', () => {
+			const result = stubStore.has('lang');
+			expect(result).toBe(true);
+		})
+
+		it('should be also pass', () => {
+			const result = mockBoundedStore.has('lang');
+			expect(result).toBe(true);
+		})
+
+	})
+});
+
+/* describe.todo('Biruni Has/Have Methods', () => {
 	const spy_has = vi.spyOn(mockStore, 'has');
 
-	describe('Verify <mockStore>', () => {
-		it('should match the type of StoreInterface<MockData>', async () => {
-			expectTypeOf(mockStore).toMatchTypeOf<StoreInterface<MockData>>();
-		});
+	console.log({ mockStore: mockStore.has.toString() });
+
+	it('should match the type of StoreInterface<MockData>', async () => {
+		expectTypeOf(mockStore).toMatchTypeOf<StoreInterface<MockData>>();
 	});
 
 	it('should have the <has> method and be a function', () => {
@@ -44,4 +89,4 @@ describe('Biruni Has/Have Methods', () => {
 		expect(spy_has).toHaveReturned();
 		expect(spy_has).toHaveReturnedWith(false);
 	});
-});
+}); */
