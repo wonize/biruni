@@ -2,7 +2,7 @@ import { hasProperty } from 'dot-prop';
 import type { StoreData } from '../helpers/type-utility';
 import type { Path } from '../path/mod';
 
-function hasOwnPropertyPath<Data extends StoreData, PathKey extends Path.From<Data>>(
+function hasOwnPropertyPath<Data extends StoreData, PathKey extends Path.From<Data> = Path.From<Data>>(
 	data: Data,
 	path: PathKey
 ): boolean {
