@@ -9,10 +9,9 @@ export default defineConfig({
     environment: 'jsdom',
     mockReset: false,
     exclude: configDefaults.exclude.concat('_ignored_'),
-    /* coverage: {
-       "provider": "v8",
-       "reporter": ["html", "json", "text", "clover"],
-       // vitest run --coverage
-     } */
+    coverage: {
+      "provider": "v8",
+      "reporter": ["html", "json", "text", "clover"],
+    }
   },
 });
