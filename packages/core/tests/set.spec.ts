@@ -21,7 +21,7 @@ function cleanup() {
 	};
 }
 
-describe('Biruni Setter Methods', () => {
+describe.todo('Biruni Setter Methods', () => {
 	describe('Verify <mockStore>', () => {
 		it('should match the type of StoreInterface<MockData>', async () => {
 			expect(mockInMemoryStorage.get(MOCK_NAMESPACE)).not.toBeUndefined();

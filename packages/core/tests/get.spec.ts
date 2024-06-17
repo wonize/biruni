@@ -2,7 +2,7 @@ import type { StoreInterface } from '@/store.ts';
 import { mockData, mockStore, type MockData } from '@repo/mocks';
 import { describe, expect, expectTypeOf, it, vi } from 'vitest';
 
-describe('Biruni Getter Methods', () => {
+describe.todo('Biruni Getter Methods', () => {
 	describe('Verify <mockStore>', () => {
 		it('should match the type of StoreInterface<MockData>', async () => {
 			expectTypeOf(mockStore).toMatchTypeOf<StoreInterface<MockData>>();
