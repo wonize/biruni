@@ -8,7 +8,6 @@ import type { StoreInterface } from '@/store.ts';
 describe.todo('Method <has>', () => {
 	describe('mocked has', () => {
 		const spy = vi.spyOn(has, 'hasOwnPropertyPath');
-		console.log({ has: mockStore.has });
 
 		it('should pass', () => {
 			const result = mockStore.has('lang');
