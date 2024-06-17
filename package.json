@@ -35,6 +35,7 @@
 		"@repo/configs": "workspace:*",
 		"@repo/mocks": "workspace:*",
 		"@types/node": "20.14.2",
+		"@vitest/coverage-v8": "1.6.0",
 		"bedo": "0.0.4",
 		"biruni": "workspace:*",
 		"jsdom": "24.1.0",
@@ -45,7 +46,7 @@
 		"typescript": "5.4.5",
 		"vite-tsconfig-paths": "4.3.2",
 		"vitepress": "1.2.3",
-		"vitest": "1.5.3",
+		"vitest": "1.6.0",
 		"vitest-localstorage-mock": "0.1.2",
 		"zx": "8.1.2"
 	},
