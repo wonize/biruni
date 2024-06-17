@@ -84,12 +84,23 @@
 		"node": ">=18"
 	},
 	"scripts": {
+		"local:coverage": "vitest run --coverage",
 		"local:test": "vitest run",
 		"local:test:watch": "vitest --watch --clearScreen",
 		"local:build": "tsx ./scripts/build.ts"
 	},
 	"dependencies": {
-		"dot-prop": "8.0.2"
+		"dot-prop": "8.0.2",
+		"lodash.clone": "4.5.0",
+		"lodash.clonedeep": "4.5.0",
+		"lodash.merge": "4.6.2",
+		"lodash.mergewith": "4.6.2"
 	},
-	"peerDependenciesMeta": {}
+	"peerDependenciesMeta": {},
+	"devDependencies": {
+		"@types/lodash.clone": "4.5.9",
+		"@types/lodash.clonedeep": "4.5.9",
+		"@types/lodash.merge": "4.6.9",
+		"@types/lodash.mergewith": "4.6.9"
+	}
 }
