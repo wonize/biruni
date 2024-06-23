@@ -1,6 +1,5 @@
-import merge from 'lodash.merge';
 import clone from 'lodash.clone';
-import { deepKeys, hasProperty } from 'dot-prop';
+import { setByPair } from './by-pair';
 import type { DeepPartial } from '../helpers/deep-partial';
 import type { StoreData } from '../helpers/mod';
 
@@ -21,31 +20,27 @@ function setBySetter<Data extends StoreData, Setter extends SetBySetterFunction<
 	data: Data,
 	setter: Setter
 ): Data {
+	let temp_data = data;
+	let temp_setter = setter;
+
 	if (typeof data !== 'object' || typeof data === 'function') {
-		throw 'Error';
+		temp_data = Object.create({});
 	}
 
-
-	const clonedInputData = clone(data);
-	const value = setter(clonedInputData);
-
-	if (typeof value !== 'object' || typeof value === 'function') {
-		throw 'Error';
+	if (typeof setter !== 'function') {
+		temp_setter = function alternative_setter(param_data) {
+			return param_data;
+		} as Setter
 	}
 
-	let is_match: boolean = true;
-	for (const path of deepKeys(value)) {
-		if (hasProperty(clonedInputData, path) === false) {
-			is_match = false;
-		}
+	const cloned_base = clone(temp_data);
+	const setter_pair = temp_setter(cloned_base);
+
+	if (typeof setter_pair !== 'object' || typeof setter_pair === 'function') {
+		return cloned_base;
 	}
 
-	if (is_match === false) {
-		return clonedInputData;
-	}
-
-	const outputData = merge(clonedInputData, value);
-	return outputData;
+	return setByPair(cloned_base, setter_pair);
 }
 
 export { isBySetter, setBySetter };
