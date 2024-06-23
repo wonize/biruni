@@ -1,8 +1,8 @@
-import { isBySetter, setBySetter, type SetBySetter, type SetBySetterFunction } from '@/set/by-setter';
 import { mockData, type MockData } from '@repo/mocks';
 import lodash_merge from 'lodash.merge';
 import lodash_clone from 'lodash.clonedeep';
 import { describe, it, vi, expect, expectTypeOf } from 'vitest';
+import { isBySetter, setBySetter, type SetBySetter, type SetBySetterFunction } from '@/set/by-setter';
 
 describe('set/by-setter.ts', () => {
 	describe('Verify Signature', () => {
@@ -33,72 +33,81 @@ describe('set/by-setter.ts', () => {
 	});
 
 	describe('Test Functionality', () => {
-		it('should call the setter with merge returned values', () => {
+		it('should merge base object to object from setter return single pair', () => {
 			const setter = vi.fn().mockReturnValue({ lang: 'FR' });
 			const expected = { ...mockData, lang: 'FR' };
 			const result = setBySetter(mockData, setter);
-			// FIXME: should pass cloned `mockData` to `setter` but pass `{ ...mockData, lang: "FR" }`
-			// // BUT, in `console.log` the `lang: 'FR'` not detected. what???
-			// expect(setter).toBeCalledWith(expect.objectContaining(mockData));
 			expect(setter).toBeCalledTimes(1);
+			expect(setter).toBeCalledWith(expect.objectContaining(mockData));
 			expect(setter).toReturnWith({ lang: 'FR' });
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
 		})
 
-		it('should call the setter with nested merge returned values', () => {
+		it('should merge base object to oject from setter return nested pair', () => {
 			const setter = vi.fn().mockReturnValue({ currency: { amount: 5000 } });
 			const expected = { ...mockData, currency: { ...mockData['currency'], amount: 5000 } };
 			const result = setBySetter(mockData, setter);
-			expect(setter).toBeCalledWith(expect.objectContaining(mockData));
 			expect(setter).toBeCalledTimes(1);
+			expect(setter).toBeCalledWith(expect.objectContaining(mockData));
 			expect(setter).toReturnWith({ currency: { amount: 5000 } });
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
 		})
 
-		it('should return original base when setter return empty object', () => {
+		it('should return base object when setter return emtpy object', () => {
 			const setter = vi.fn().mockReturnValue({});
 			const expected = { ...mockData };
 			const result = setBySetter(mockData, setter);
-			expect(setter).toBeCalledWith(expect.objectContaining(mockData));
 			expect(setter).toBeCalledTimes(1);
+			expect(setter).toBeCalledWith(expect.objectContaining(mockData));
 			expect(setter).toReturnWith({});
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
 		})
 
-		it('should throw for non-object base', () => {
+		it('should return object from setter return when base is non-object', () => {
+			const setter = vi.fn().mockReturnValue(mockData);
+			const expected = { ...mockData };
 			// @ts-expect-error to test non-object base
-			expect(() => setBySetter('non-object', vi.fn())).toThrowError();
+			const result = setBySetter('non-object', setter);
+			expect(setter).toBeCalledTimes(1);
+			expect(setter).toBeCalledWith({});
+			expect(setter).toReturnWith(expect.objectContaining(mockData));
+			expect(result).toMatchObject(expected);
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		})
 
-		it('should throw for non-object return setter', () => {
-			const strg_fn = vi.fn(() => 'non-object');
+		it('should return base object when setter return non-object', () => {
+			const expected = { ...mockData };
+			let result;
 
+			const setter_string = vi.fn(() => 'non-object');
 			// @ts-expect-error to test non-object value from setter
-			expect(() => setBySetter(mockData, strg_fn)).toThrowError();
-			expect(strg_fn).toBeCalledWith(mockData);
-			expect(strg_fn).toBeCalledTimes(1);
+			result = setBySetter(mockData, setter_string);
+			expect(setter_string).toBeCalledTimes(1);
+			expect(setter_string).toBeCalledWith(expect.objectContaining(mockData));
+			expect(result).toMatchObject(expected);
 
-			const func_fn = vi.fn(() => () => ({ lang: "FR" }));
-
+			const setter_function = vi.fn(() => () => ({ lang: "FR" }));
 			// @ts-expect-error to test non-object value from setter
-			expect(() => setBySetter(mockData, func_fn)).toThrowError();
-			expect(func_fn).toBeCalledWith(mockData);
-			expect(func_fn).toBeCalledTimes(1);
+			result = setBySetter(mockData, setter_function);
+			expect(setter_function).toBeCalledTimes(1);
+			expect(setter_function).toBeCalledWith(expect.objectContaining(mockData));
+			expect(result).toMatchObject(expected);
 		})
 
-		it('should keep no change when object are non-exist keys shape', () => {
-			const setter = vi.fn().mockReturnValue({ 'nonexistskey': { 'deepnonexistskey': 'value' } });
+		it('should return base object when setter return non-exist keys in base', () => {
+			const setter = vi.fn().mockReturnValue({ 'nonexists': { 'deepnonexists': 'value' } });
 			const expected = { ...mockData };
 			const result = setBySetter(mockData, setter);
 			expect(setter).toBeCalledTimes(1);
 			expect(setter).toBeCalledWith(expect.objectContaining(mockData));
-			expect(setter).toReturnWith({ 'nonexistskey': { 'deepnonexistskey': 'value' } });
+			expect(setter).toReturnWith({ 'nonexists': { 'deepnonexists': 'value' } });
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
