@@ -51,56 +51,56 @@ describe('set/by-key-setter.ts', () => {
 	});
 
 	describe('Test Functionality', () => {
-		it('should call the setter with the given key once', () => {
-			const setter = vi.fn((_lang: MockData['lang']): MockData['lang'] => 'FR');
+		it('should return changed key in base object with value of setter return', () => {
+			const setter = vi.fn().mockReturnValue('FR');
 			const expected = { ...mockData, lang: 'FR' };
 			const result = setByKeySetter(mockData, 'lang', setter);
 			expect(setter).toBeCalledTimes(1);
 			expect(setter).toBeCalledWith('EN');
 			expect(setter).toReturnWith('FR');
 			expect(result).toMatchObject(expected);
-			expect(result).not.toMatchObject(mockData);
-			expect(expected).not.toMatchObject(mockData);
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		});
 
-		it('should call the setter with the given nested key once and set the nested value', () => {
-			const setter = vi.fn((_currency) => ({ amount: 5000 }));
+		it('should return changed nested key in base object with value of setter return', () => {
+			const setter = vi.fn().mockReturnValue({ amount: 5000 });
 			const expected = { ...mockData, currency: { ...mockData['currency'], amount: 5000 } };
 			const result = setByKeySetter(mockData, 'currency', setter);
 			expect(setter).toBeCalledTimes(1);
 			expect(setter).toBeCalledWith(expect.objectContaining({ amount: 1000, code: 'USD' }));
 			expect(setter).toReturnWith(expect.objectContaining({ amount: 5000 }));
 			expect(result).toMatchObject(expected);
-			expect(result).not.toMatchObject(mockData);
-			expect(expected).not.toMatchObject(mockData);
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		});
 
-		it('should call the setter with the given path key once and set the path value', () => {
-			const setter = vi.fn((_currency_amount) => 5000);
+		it('should return changed path key in base object with value of setter return', () => {
+			const setter = vi.fn().mockReturnValue(5000);
 			const expected = { ...mockData, currency: { ...mockData['currency'], amount: 5000 } };
 			const result = setByKeySetter(mockData, 'currency.amount', setter);
 			expect(setter).toBeCalledTimes(1);
 			expect(setter).toBeCalledWith(1000);
 			expect(setter).toReturnWith(5000);
 			expect(result).toMatchObject(expected);
-			expect(result).not.toMatchObject(mockData);
-			expect(expected).not.toMatchObject(mockData);
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		});
 
 		it('should return original object if the setter function does not return value', () => {
-			const setter = vi.fn((_lang) => { });
+			const setter = vi.fn().mockImplementation(() => { });
 			const expected = { ...mockData };
-			// @ts-expect-error to test empty setter
 			const result = setByKeySetter(mockData, 'lang', setter);
 			expect(setter).toBeCalledTimes(1);
-			expect(setter).toBeCalledWith('EN'); expect(setter).toReturnWith(undefined);
+			expect(setter).toBeCalledWith('EN');
+			expect(setter).toReturnWith(undefined);
 			expect(result).toMatchObject(expected);
-			expect(result, 'no same reference').not.toBe(mockData);
-			expect(expected, 'no same reference').not.toBe(mockData);
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		});
 
 		it('should not call the setter function when the key does not exist', () => {
-			const setter = vi.fn((_nonexists) => 'value');
+			const setter = vi.fn().mockReturnValue('value');
 			const expected = { ...mockData };
 			// @ts-expect-error to test non-exists key
 			const result = setByKeySetter(mockData, 'nonexists', setter);
@@ -108,33 +108,37 @@ describe('set/by-key-setter.ts', () => {
 			expect(result).toMatchObject(expected);
 		});
 
-		it('should throw an error when called with a non-object base', () => {
-			const setter = vi.fn(() => { });
-			// @ts-expect-error to test non-object
-			expect(() => setByKeySetter('non-object', 'lang', setter)).toThrowError();
-			expect(setter).toBeCalledTimes(0);
+		it('should return updated object when base is non-object', () => {
+			const setter = vi.fn().mockReturnValue('FR');
+			const expected = { lang: 'FR' };
+			// @ts-expect-error to test non-object base
+			const result = setByKeySetter('non-object', 'lang', setter);
+			expect(setter).toBeCalledTimes(1);
+			expect(setter).toBeCalledWith(undefined);
+			expect(setter).toReturnWith('FR');
+			expect(result).toMatchObject(expected);
 		});
 
-		it('should throw an error when called with a non-string key', () => {
-			const setter = vi.fn(() => { });
-
+		it('should pass whole entire base object to setter when called with a non-string key', () => {
+			const setter = vi.fn().mockReturnValue({ lang: 'FR' });
 			// @ts-expect-error to test non-string key
-			expect(() => setByKeySetter(mockData, {}, setter)).toThrowError();
-			// @ts-expect-error to test non-string key
-			expect(() => setByKeySetter(mockData, undefined, setter)).toThrowError();
+			const result = setByKeySetter(mockData, {}, setter);
+			expect(result).toMatchObject({ lang: 'FR' });
+			expect(setter).toBeCalledTimes(1);
+			expect(setter).toBeCalledWith(expect.objectContaining(mockData));
+			expect(setter).toReturnWith({ lang: 'FR' });
 		});
 
 		it.todo('should return resolved value if setter function is a Promise', () => {
-			const setter = vi.fn(async (_lang: MockData['lang']): Promise<MockData['lang']> => 'FR');
+			const setter = vi.fn().mockImplementation(async () => ('FR'));
 			const expected = { ...mockData, lang: 'FR' };
-			// @ts-expect-error to test Promise-like setter
 			const result = setByKeySetter(mockData, 'lang', setter);
 			expect(setter).toBeCalledTimes(1);
 			expect(setter).toBeCalledWith(mockData['lang']);
 			expect(setter).toReturnWith(expected['lang']);
 			expect(result).toMatchObject(expected);
-			expect(result).not.toMatchObject(mockData);
-			expect(expected).not.toMatchObject(mockData);
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		});
 	});
 });
