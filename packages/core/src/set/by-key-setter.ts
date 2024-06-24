@@ -1,6 +1,10 @@
-import { deepKeys, getProperty, hasProperty, setProperty } from 'dot-prop';
-import { clone, type StoreData } from '../helpers/mod';
+import { getProperty, hasProperty, setProperty } from 'dot-prop';
+import clone from 'lodash.clonedeep';
+import type { DeepPartial } from '../helpers/deep-partial';
+import type { StoreData } from '../helpers/mod';
 import type { Path } from '../path/mod';
+import { setByPair } from './by-pair';
+import { setBySetter, type SetBySetterFunction } from './by-setter';
 
 interface SetByKeySetter<Data extends StoreData> {
 	<Key extends Path.From<Data>, Setter extends SetByKeySetterFunction<Path.At<Data, Key>, Data>>(
@@ -27,40 +31,33 @@ function setByKeySetter<
 	Key extends Path.From<Data> = Path.From<Data>,
 	Setter extends SetByKeySetterFunction<Path.At<Data, Key>, Data> = SetByKeySetterFunction<Path.At<Data, Key>, Data>,
 >(data: Data, key: Key, setter: Setter): Data {
-	if (typeof data !== 'object' && typeof data !== null) {
-		throw 'Error';
+	let temp_data = data;
+	let temp_setter = setter;
+
+	if (typeof data !== 'object') {
+		temp_data = Object.create({});
 	}
-	if (typeof key !== 'string') {
-		throw 'Error';
-	}
+
 	if (typeof setter !== 'function') {
-		throw 'Error';
+		temp_setter = function alternative_setter(param_data) {
+			return param_data;
+		} as Setter
 	}
 
-	const clonedInputData = clone(data);
+	const cloned_base = clone(temp_data);
 
-	if (hasProperty(clonedInputData, key.toString()) === false) {
-		return clonedInputData;
+	if (typeof key !== 'string') {
+		return setBySetter(cloned_base, setter as unknown as SetBySetterFunction<Data>);
 	}
 
-	const previous_nested_value = getProperty(clonedInputData, key.toString())!;
-	const new_nested_value = setter(previous_nested_value);
-
-	if (typeof new_nested_value === 'undefined' || new_nested_value === null) {
-		return clonedInputData;
+	if (typeof data === 'object' && hasProperty(cloned_base, key.toString()) === false) {
+		return cloned_base;
 	}
 
-	if (typeof previous_nested_value !== 'object') {
-		return setProperty(clonedInputData, key.toString(), new_nested_value);
-	}
-
-	let newest_nested_value = clone(previous_nested_value);
-	for (const keyof_new_value of deepKeys(new_nested_value)) {
-		const valueof_new_value = getProperty(new_nested_value, keyof_new_value);
-		newest_nested_value = setProperty(newest_nested_value, keyof_new_value, valueof_new_value);
-	}
-
-	return setProperty(clonedInputData, key.toString(), newest_nested_value);
+	const target_pair = getProperty(cloned_base, key.toString())!;
+	const setter_pair = temp_setter(target_pair);
+	const merge_pair = setProperty({}, key.toString(), setter_pair) as DeepPartial<Data>;
+	return setByPair(cloned_base, merge_pair);
 }
 
 export { isByKeySetter, setByKeySetter };
