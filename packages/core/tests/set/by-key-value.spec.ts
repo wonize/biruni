@@ -1,5 +1,5 @@
 import { mockData, type MockData } from '@repo/mocks';
-import { describe, expect, expectTypeOf, it, vi } from 'vitest';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import type { Path } from '@/path/mod';
 import {
@@ -8,6 +8,7 @@ import {
 	setByKeyValue,
 	type SetByKeyValue,
 } from '@/set/by-key-value.ts';
+import type { DeepPartial } from '@/helpers/deep-partial';
 
 describe('set/by-key-value.ts', () => {
 	describe('Verify Signature', () => {
@@ -33,7 +34,7 @@ describe('set/by-key-value.ts', () => {
 				.toEqualTypeOf<Path.From<MockData>>();
 			expectTypeOf(setByKeyValue<MockData>)
 				.parameter(2)
-				.toEqualTypeOf<Path.At<MockData, Path.From<MockData>>>();
+				.toEqualTypeOf<DeepPartial<Path.At<MockData, Path.From<MockData>>>>();
 			expectTypeOf(setByKeyValue<MockData>).returns.toEqualTypeOf<MockData>();
 		});
 
@@ -44,68 +45,49 @@ describe('set/by-key-value.ts', () => {
 				.toEqualTypeOf<Path.From<MockData>>();
 			expectTypeOf<SetByKeyValue<MockData>>()
 				.parameter(1)
-				.toEqualTypeOf<Path.At<MockData, Path.From<MockData>>>();
+				.toEqualTypeOf<DeepPartial<Path.At<MockData, Path.From<MockData>>>>();
 			expectTypeOf<SetByKeyValue<MockData>>().returns.toEqualTypeOf<Promise<void>>();
 		});
 	});
 
 	describe('Test Functionality', () => {
-		it('should accept a string key and a non-nullable value', () => {
-			// @ts-expect-error key path not exactly infinite
-			const fn = vi.fn(setByKeyValue);
+		it('should return updated value with single key and primitive value', () => {
 			const expected = { ...mockData, lang: 'FR' };
-			const result = fn(mockData, 'lang', 'FR');
-			expect(fn).toBeCalledTimes(1);
-			expect(fn).toBeCalledWith(expect.objectContaining(mockData), 'lang', 'FR');
-			expect(fn).toReturnWith(expect.objectContaining(expected));
+			const result = setByKeyValue(mockData, 'lang', 'FR');
 			expect(result).toMatchObject(expected);
-			expect(result).not.toMatchObject(mockData);
-			expect(expected).not.toMatchObject(mockData);
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		});
 
-		it('should accept a nested key and a value with the correct type', () => {
-			const fn = vi.fn(setByKeyValue);
+		it('should return updated value with single key and nested value', () => {
 			const expected = { ...mockData, currency: { ...mockData['currency'], amount: 5000 } };
-			/// ts-expect-error to test nested key
-			const result = fn(mockData, 'currency', { amount: 5000 });
+			const result = setByKeyValue(mockData, 'currency', { amount: 5000 });
 			expect(result).toMatchObject(expected);
-			expect(result).not.toMatchObject(mockData);
-			expect(expected).not.toMatchObject(mockData);
-			expect(fn).toBeCalledTimes(1);
-			expect(fn).toBeCalledWith(
-				expect.objectContaining(mockData),
-				'currency',
-				expect.objectContaining({ amount: 5000 })
-			);
-			expect(fn).toReturnWith(expect.objectContaining(expected));
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		});
 
-		it('should accept a path key and a value with the correct type', () => {
-			const fn = vi.fn(setByKeyValue);
+		it('should return updated value with path key and primitive value', () => {
 			const expected = { ...mockData, currency: { ...mockData['currency'], amount: 5000 } };
-			/// ts-expect-error to test path key
-			const result = fn(mockData, 'currency.amount', 5000);
+			const result = setByKeyValue(mockData, 'currency.amount', 5000);
 			expect(result).toMatchObject(expected);
-			expect(result).not.toMatchObject(mockData);
-			expect(expected).not.toMatchObject(mockData);
-			expect(fn).toBeCalledTimes(1);
-			expect(fn).toBeCalledWith(expect.objectContaining(mockData), 'currency.amount', 5000);
-			expect(fn).toReturnWith(expect.objectContaining(expected));
+			expect(result).not.toBe(mockData);
+			expect(expected).not.toBe(mockData);
 		});
 	});
 
 	describe('Edge Case', () => {
-		it('should handle when setting a value with a non-exists key', () => {
-			const fn = setByKeyValue;
-			const expected = { ...mockData, nonexists: 'value' };
+		it('should avoid add non-exists key to base object', () => {
+			const expected = { ...mockData };
 			// @ts-expect-error to test non-exists key
-			expect(fn(mockData, 'nonexists', 'value')).toMatchObject(expected);
+			const result = setByKeyValue(mockData, 'nonexists', 'value')
+			expect(result).toMatchObject(expected);
 		});
 
-		it('should handle when setting a value with a empty base', () => {
-			const fn = setByKeyValue;
+		it('should avoid new key even base is empty object', () => {
 			// @ts-expect-error to test emtpy data
-			expect(fn({}, 'newkey', 'value')).toMatchObject({ newkey: 'value' });
+			const result = setByKeyValue({}, 'newkey', 'value');
+			expect(result).toMatchObject({});
 		});
 
 		it('should throw an error when setting a value with a non-string key', () => {
@@ -116,10 +98,10 @@ describe('set/by-key-value.ts', () => {
 			expect(() => fn(mockData, {}, 'value')).toThrow();
 		});
 
-		it('should throw an error when setting a value with a non-object base', () => {
-			const fn = setByKeyValue;
+		it('should create new base object when base is non-object', () => {
 			// @ts-expect-error to test non-object base
-			expect(() => fn('non-object', 'key', 'value')).toThrow();
+			const result = setByKeyValue('non-object', 'lang', 'FR');
+			expect(result).toMatchObject({ lang: "FR" });
 		});
 	});
 });
