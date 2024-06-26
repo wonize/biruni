@@ -1,11 +1,14 @@
-import { deepKeys, getProperty, setProperty } from 'dot-prop';
-import { clone, type StoreData } from '../helpers/mod';
+import { deepKeys, getProperty, hasProperty, setProperty } from 'dot-prop';
+import clone from 'lodash.clonedeep';
+import type { DeepPartial } from '../helpers/deep-partial';
+import type { StoreData } from '../helpers/mod';
 import type { Path } from '../path/mod';
+import { setByPair } from './by-pair';
 
 interface SetByKeyValue<Data extends StoreData> {
 	<Key extends Path.From<Data>, Value extends Path.At<Data, Key>>(
 		key: Key,
-		value: Value
+		value: DeepPartial<Value>
 	): Promise<void>;
 }
 
@@ -25,33 +28,25 @@ function setByKeyValue<
 	Data extends StoreData,
 	Key extends Path.From<Data> = Path.From<Data>,
 	Value extends Path.At<Data, Key> = Path.At<Data, Key>,
->(data: Data, key: Key, value: Value): Data {
-	if (typeof data !== 'object' && typeof data !== null) {
-		throw 'Error';
+>(data: Data, key: Key, value: DeepPartial<Value>): Data {
+	let temp_base = data;
+
+	if (typeof data !== 'object' && data !== null) {
+		temp_base = Object.create({});
 	}
+
 	if (typeof key !== 'string') {
 		throw 'Error';
 	}
 
-	const clonedInputData = clone(data);
+	const cloned_base = clone(temp_base);
 
-	if (typeof value !== 'object') {
-		return setProperty(clonedInputData, key.toString(), value);
+	if (typeof data === 'object' && hasProperty(cloned_base, key.toString()) === false) {
+		return cloned_base;
 	}
 
-	const previous_nested_value = getProperty(clonedInputData, key.toString());
-
-	if (previous_nested_value === null || typeof previous_nested_value === 'undefined') {
-		throw 'Error';
-	}
-
-	let new_nested_value = clone(previous_nested_value);
-	for (const keyof_new_value of deepKeys(value)) {
-		const valueof_new_value = getProperty(value, keyof_new_value);
-		new_nested_value = setProperty(previous_nested_value, keyof_new_value, valueof_new_value);
-	}
-
-	return setProperty(clonedInputData, key.toString(), new_nested_value);
+	const merge_pair = setProperty({}, key.toString(), value) as DeepPartial<Data>;
+	return setByPair(cloned_base, merge_pair);
 }
 
 export { isByKeyValue, isKeyOfData, setByKeyValue };
