@@ -15,7 +15,7 @@ interface SetByKeyValue<Data extends StoreData> {
 const isKeyOfData = <Data extends StoreData>(
 	input: unknown
 ): input is Path.From<Data> => {
-	return typeof input === 'string';
+	return typeof input === 'string' || input instanceof String;
 };
 
 const isByKeyValue = <Data extends StoreData>(
