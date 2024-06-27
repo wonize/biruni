@@ -1,4 +1,5 @@
-import { clone, type StoreData } from '../helpers/mod';
+import clone from 'lodash.clonedeep';
+import type { StoreData } from '../helpers/mod';
 
 interface GetByEntire<Data extends StoreData> {
 	(): Promise<GetByEntireReturnType<Data>>;
@@ -11,7 +12,13 @@ const isByEntire = (input: unknown): input is null | undefined => {
 };
 
 function getByEntire<Data extends StoreData>(data: Data): GetByEntireReturnType<Data> {
-	return clone(data);
+	let temp_base = data;
+
+	if (typeof data !== 'object' || data === null) {
+		temp_base = Object.create({});
+	}
+
+	return clone(temp_base);
 }
 
 export { getByEntire, isByEntire };
