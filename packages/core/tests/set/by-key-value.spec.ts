@@ -50,6 +50,26 @@ describe('set/by-key-value.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is string', () => {
+			expect(isKeyOfData('')).toBeTruthy();
+			expect(isKeyOfData('')).not.toBeFalsy();
+			expect(isKeyOfData(new String())).toBeTruthy();
+			expect(isKeyOfData(new String())).not.toBeFalsy();
+			expect(isKeyOfData(String())).toBeTruthy();
+			expect(isKeyOfData(String())).not.toBeFalsy();
+
+			expect(isByKeyValue(null), 'is always return true').toBeTruthy();
+		})
+
+		it('should return false when input is not string', () => {
+			expect(isKeyOfData(() => { })).toBeFalsy();
+			expect(isKeyOfData(() => { })).not.toBeTruthy();
+			expect(isKeyOfData({})).toBeFalsy();
+			expect(isKeyOfData({})).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should return updated value with single key and primitive value', () => {
 			const expected = { ...mockData, lang: 'FR' };

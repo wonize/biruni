@@ -32,6 +32,20 @@ describe('set/by-setter.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is setter function', () => {
+			const setter = vi.fn().mockImplementation((data) => data);
+			expect(isBySetter(setter)).toBeTruthy();
+			expect(isBySetter(setter)).not.toBeFalsy();
+			expect(setter).toBeCalledTimes(0);
+		})
+
+		it('should return false when input is not function', () => {
+			expect(isBySetter({})).toBeFalsy();
+			expect(isBySetter({})).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should merge base object to object from setter return single pair', () => {
 			const setter = vi.fn().mockReturnValue({ lang: 'FR' });
@@ -57,6 +71,9 @@ describe('set/by-setter.ts', () => {
 			expect(expected).not.toBe(mockData);
 		})
 
+	})
+
+	describe('Edge Case', () => {
 		it('should return base object when setter return emtpy object', () => {
 			const setter = vi.fn().mockReturnValue({});
 			const expected = { ...mockData };
@@ -111,6 +128,13 @@ describe('set/by-setter.ts', () => {
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
+		})
+
+		it('should return base object when setter is non-function', () => {
+			const expected = { ...mockData };
+			// @ts-expect-error to test non-function setter
+			const result = setBySetter(mockData, 'non-function');
+			expect(result).toStrictEqual(expect.objectContaining(expected));
 		})
 	});
 })

@@ -50,6 +50,22 @@ describe('set/by-key-setter.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is setter function', () => {
+			const setter = vi.fn().mockImplementation((data) => data);
+			expect(isByKeySetter(setter)).toBeTruthy();
+			expect(isByKeySetter(setter)).not.toBeFalsy();
+			expect(setter).toBeCalledTimes(0);
+		})
+
+		it('should return false when input is not function', () => {
+			expect(isByKeySetter({})).toBeFalsy();
+			expect(isByKeySetter({})).not.toBeTruthy();
+			expect(isByKeySetter('string')).toBeFalsy();
+			expect(isByKeySetter('string')).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should return changed key in base object with value of setter return', () => {
 			const setter = vi.fn().mockReturnValue('FR');
@@ -140,5 +156,14 @@ describe('set/by-key-setter.ts', () => {
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
 		});
+	});
+
+	describe('Edge Case', () => {
+		it('should return base object when setter is non-function', () => {
+			const expected = { ...mockData };
+			// @ts-expect-error to test non-function setter
+			const result = setByKeySetter(mockData, 'lang', 'non-function');
+			expect(result).toStrictEqual(expect.objectContaining(expected));
+		})
 	});
 });

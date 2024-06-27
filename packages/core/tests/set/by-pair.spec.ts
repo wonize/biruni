@@ -31,6 +31,20 @@ describe('set/by-pair.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is object', () => {
+			expect(isByPair({})).toBeTruthy();
+			expect(isByPair({})).not.toBeFalsy();
+		})
+
+		it('should return false when input is not object', () => {
+			expect(isByPair('')).toBeFalsy();
+			expect(isByPair('')).not.toBeTruthy();
+			expect(isByPair(null)).toBeFalsy();
+			expect(isByPair(null)).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should merge base object to single pair object', () => {
 			const expected = { ...mockData, lang: 'FR' };
