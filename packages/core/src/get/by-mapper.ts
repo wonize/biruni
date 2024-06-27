@@ -19,11 +19,18 @@ const isByMapper = <Data extends StoreData>(input: unknown): input is GetByMappe
 	return typeof input === 'function';
 };
 
-function getByMapper<Data extends StoreData, Mapper extends GetByMapperFunction<Data>>(
-	data: Data,
-	mapper: Mapper
-) {
-	return mapper(data);
+function getByMapper<
+	Data extends StoreData,
+	Mapper extends GetByMapperFunction<Data> = GetByMapperFunction<Data>,
+>(data: Data, mapper: Mapper) {
+	let temp_mapper = mapper;
+	if (typeof mapper !== 'function') {
+		temp_mapper = function alternative_mapper(value) {
+			return value;
+		} as Mapper;
+	}
+
+	return temp_mapper(data);
 }
 
 export { getByMapper, isByMapper };
