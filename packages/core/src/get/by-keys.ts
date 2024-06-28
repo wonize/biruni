@@ -33,14 +33,20 @@ function getByKeys<
 	KeyList extends Array<Path.From<Data>> = Array<Path.From<Data>>,
 >(data: Data, keys: Partial<KeyList>) {
 	let temp_base = data;
+	let temp_keys = keys;
 	if (typeof data !== 'object' || data === null) {
 		temp_base = Object.create({});
+		temp_keys = [] as KeyList;
+	}
+
+	if (typeof keys !== 'object' && ((keys as any) instanceof Array === false)) {
+		temp_keys = [] as KeyList;
 	}
 
 	const cloned_base = cloneDeep(temp_base);
 
 	let result = Object.create({});
-	for (const key of keys) {
+	for (const key of temp_keys) {
 		const value = getProperty(cloned_base, key!.toString());
 		if (key?.toString().indexOf('.') !== -1) {
 			const parts = key!.toString().split('.');
@@ -56,7 +62,7 @@ function getByKeys<
 		}
 	}
 
-	type Result = GetByKeysReturnType<Data, typeof keys>;
+	type Result = GetByKeysReturnType<Data, typeof temp_keys>;
 	return result as unknown as Result;
 }
 
