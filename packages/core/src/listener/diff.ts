@@ -37,8 +37,8 @@ type DiffData<
 	Data extends any = StoreData,
 > = RemoveNever<{
 	[P in keyof Data]: Source[P] extends Target[P]
-		? never
-		: { source: Source[P]; target: Target[P] };
+	? never
+	: { source: Source[P]; target: Target[P] };
 }>;
 
 interface Diff<Source extends Data, Target extends Data, Data extends any = StoreData> {
