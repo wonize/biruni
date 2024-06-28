@@ -6,8 +6,8 @@ import type { Path } from '../path/mod';
 
 type TruthyMap<T extends object> = DeepPartial<{
 	[K in Path.From<T>]: Path.At<T, K> extends object
-		? TruthyMap<Path.At<T, K>> | boolean
-		: boolean;
+	? TruthyMap<Path.At<T, K>> | boolean
+	: boolean;
 }>;
 
 interface GetByTruthy<Data extends StoreData> {
@@ -20,14 +20,14 @@ type GetByTruthyReturnType<
 > = Readonly<
 	RemoveNever<{
 		[SelectedKey in keyof Truthy]: Truthy[SelectedKey] extends false
-			? never
-			: // @ts-expect-error the `SelectedKey` is keyof `Data`
-				Data[SelectedKey];
+		? never
+		: // @ts-expect-error the `SelectedKey` is keyof `Data`
+		Data[SelectedKey];
 	}>
 >;
 
 const isByTruthy = <Data extends StoreData>(input: unknown): input is TruthyMap<Data> => {
-	return typeof input === 'object' && input !== null;
+	return typeof input === 'object' && input !== null && (input instanceof Array === false) && input instanceof Object === true;
 };
 
 function getByTruthy<Data extends StoreData, Truthy extends TruthyMap<Data> = TruthyMap<Data>>(

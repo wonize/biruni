@@ -9,7 +9,7 @@ interface GetByKey<Data extends StoreData> {
 type GetByKeyReturnType<Data extends StoreData, Key extends Path.From<Data>> = Path.At<Data, Key>;
 
 const isKeyOfData = <Data extends StoreData>(input: unknown): input is Path.From<Data> => {
-	return typeof input === 'string';
+	return typeof input === 'string' || input instanceof String;
 };
 
 const isByKey = <Data extends StoreData>(
