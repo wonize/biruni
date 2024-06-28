@@ -93,5 +93,24 @@ describe('get/by-keys.ts', () => {
 			const result = getByKeys(base, []);
 			expect(result).toStrictEqual({});
 		});
+
+		it('should return empty object when base is non-object and keys is empty', () => {
+			// @ts-expect-error to test non-object base
+			const result = getByKeys('non-object', []);
+			expect(result).toStrictEqual({});
+		});
+
+		it('should return empty object when base is non-object and keys is not empty', () => {
+			// @ts-expect-error to test non-object base
+			const result = getByKeys('non-object', ['lang']);
+			expect(result).toStrictEqual({});
+		});
+
+		it('should return empty object when keys is non-array', () => {
+			const base = mockData;
+			// @ts-expect-error to test non-object base
+			const result = getByKeys(base, 'lang');
+			expect(result).toStrictEqual({});
+		});
 	});
 });
