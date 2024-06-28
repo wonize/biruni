@@ -52,12 +52,12 @@ describe('set/by-key-value.ts', () => {
 
 	describe('Test Type-Gaurd', () => {
 		it('should return true when input is string', () => {
-			expect(isKeyOfData('')).toBeTruthy();
-			expect(isKeyOfData('')).not.toBeFalsy();
-			expect(isKeyOfData(new String())).toBeTruthy();
-			expect(isKeyOfData(new String())).not.toBeFalsy();
-			expect(isKeyOfData(String())).toBeTruthy();
-			expect(isKeyOfData(String())).not.toBeFalsy();
+			expect(isKeyOfData('string')).toBeTruthy();
+			expect(isKeyOfData('string')).not.toBeFalsy();
+			expect(isKeyOfData(new String('string'))).toBeTruthy();
+			expect(isKeyOfData(new String('string'))).not.toBeFalsy();
+			expect(isKeyOfData(String('string'))).toBeTruthy();
+			expect(isKeyOfData(String('string'))).not.toBeFalsy();
 
 			expect(isByKeyValue(null), 'is always return true').toBeTruthy();
 		})
