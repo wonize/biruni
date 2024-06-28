@@ -84,6 +84,7 @@
 		"node": ">=18"
 	},
 	"scripts": {
+		"local:coverage:watch": "vitest --watch --clearScreen --coverage",
 		"local:coverage": "vitest run --coverage",
 		"local:test": "vitest run",
 		"local:test:watch": "vitest --watch --clearScreen",
