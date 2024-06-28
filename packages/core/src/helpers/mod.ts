@@ -1,6 +1,7 @@
-export { clone } from './clone';
+export { default as clone } from 'lodash.clonedeep'
+export { hasProperty as hasOwn } from 'dot-prop';
+
 export { shouldFreshInitializing } from './fresh-initialize';
-export { hasOwn } from './hasOwn';
 export { isEmptyObject } from './is-empty-object';
 export { keyOf } from './keyOf';
 export { mergeFresh } from './merge';
