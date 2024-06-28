@@ -41,6 +41,22 @@ describe('get/by-entire.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is nullable', () => {
+			expect(isByEntire(undefined)).toBeTruthy();
+			expect(isByEntire(undefined)).not.toBeFalsy();
+			expect(isByEntire(null)).toBeTruthy();
+			expect(isByEntire(null)).not.toBeFalsy();
+		})
+
+		it('should return false when input is not nullable', () => {
+			expect(isByEntire('string')).toBeFalsy();
+			expect(isByEntire('string')).not.toBeTruthy();
+			expect(isByEntire(mockData)).toBeFalsy();
+			expect(isByEntire(mockData)).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should return cloned base object when is exists and object', () => {
 			const base = mockData;
@@ -57,7 +73,9 @@ describe('get/by-entire.ts', () => {
 			expect(result).not.toBe(base);
 			expect(JSON.stringify(result)).toHaveLength(2);
 		});
+	})
 
+	describe('Edge Case', () => {
 		it('should return empty object when base is non-object', () => {
 			const base = 'non-object';
 			// @ts-expect-error to test non-object base

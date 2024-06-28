@@ -25,6 +25,30 @@ describe('get/by-keys.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is an Array (indexed object)', () => {
+			expect(isByKeys(['index0', 'index1'])).toBeTruthy();
+			expect(isByKeys(['index0', 'index1'])).not.toBeFalsy();
+			expect(isByKeys(new Array(['index0', 'index1']))).toBeTruthy();
+			expect(isByKeys(new Array(['index0', 'index1']))).not.toBeFalsy();
+			expect(isByKeys(Array(['index0', 'index1']))).toBeTruthy();
+			expect(isByKeys(Array(['index0', 'index1']))).not.toBeFalsy();
+		})
+
+		it('should return false when input is not Array (indexed object)', () => {
+			expect(isByKeys(null)).toBeFalsy();
+			expect(isByKeys(null)).not.toBeTruthy();
+			expect(isByKeys(mockData)).toBeFalsy();
+			expect(isByKeys(mockData)).not.toBeTruthy();
+			expect(isByKeys('string')).toBeFalsy();
+			expect(isByKeys('string')).not.toBeTruthy();
+			expect(isByKeys(new String('string'))).toBeFalsy();
+			expect(isByKeys(new String('string'))).not.toBeTruthy();
+			expect(isByKeys(String('string'))).toBeFalsy();
+			expect(isByKeys(String('string'))).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should return single key from base object', () => {
 			const base = mockData;

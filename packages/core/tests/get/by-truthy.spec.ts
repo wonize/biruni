@@ -24,6 +24,26 @@ describe('get/by-truthy.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is an object', () => {
+			expect(isByTruthy(mockData)).toBeTruthy();
+			expect(isByTruthy(mockData)).not.toBeFalsy();
+		})
+
+		it('should return false when input is not object', () => {
+			expect(isByTruthy(['index0', 'index1'])).toBeFalsy();
+			expect(isByTruthy(['index0', 'index1'])).not.toBeTruthy();
+			expect(isByTruthy(new Array(['index0', 'index1']))).toBeFalsy();
+			expect(isByTruthy(new Array(['index0', 'index1']))).not.toBeTruthy();
+			expect(isByTruthy(Array(['index0', 'index1']))).toBeFalsy();
+			expect(isByTruthy(Array(['index0', 'index1']))).not.toBeTruthy();
+			expect(isByTruthy(null)).toBeFalsy();
+			expect(isByTruthy(null)).not.toBeTruthy();
+			expect(isByTruthy('string')).toBeFalsy();
+			expect(isByTruthy('string')).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should return single key when is true key', () => {
 			const base = mockData;

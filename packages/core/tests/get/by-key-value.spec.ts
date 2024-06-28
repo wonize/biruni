@@ -35,6 +35,26 @@ describe('get/by-key-value.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is string', () => {
+			expect(isKeyOfData('string')).toBeTruthy();
+			expect(isKeyOfData('string')).not.toBeFalsy();
+			expect(isKeyOfData(new String('string'))).toBeTruthy();
+			expect(isKeyOfData(new String('string'))).not.toBeFalsy();
+			expect(isKeyOfData(String('string'))).toBeTruthy();
+			expect(isKeyOfData(String('string'))).not.toBeFalsy();
+
+			expect(isByKey(null), 'is always return true').toBeTruthy();
+		})
+
+		it('should return false when input is not string', () => {
+			expect(isKeyOfData(null)).toBeFalsy();
+			expect(isKeyOfData(null)).not.toBeTruthy();
+			expect(isKeyOfData(mockData)).toBeFalsy();
+			expect(isKeyOfData(mockData)).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should return single key from base object', () => {
 			const base = mockData;

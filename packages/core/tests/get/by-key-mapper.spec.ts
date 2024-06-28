@@ -32,6 +32,22 @@ describe('get/by-key-mapper.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is function', () => {
+			const mapper = vi.fn();
+			expect(isByKeyMapper(mapper)).toBeTruthy();
+			expect(isByKeyMapper(mapper)).not.toBeFalsy();
+			expect(mapper).toBeCalledTimes(0);
+		})
+
+		it('should return false when input is not function', () => {
+			expect(isByKeyMapper('string')).toBeFalsy();
+			expect(isByKeyMapper('string')).not.toBeTruthy();
+			expect(isByKeyMapper(mockData)).toBeFalsy();
+			expect(isByKeyMapper(mockData)).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should return same argument of mapper in single key', () => {
 			const base = mockData;

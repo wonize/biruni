@@ -24,6 +24,22 @@ describe('get/by-mapper.ts', () => {
 		});
 	});
 
+	describe('Test Type-Gaurd', () => {
+		it('should return true when input is function', () => {
+			const mapper = vi.fn();
+			expect(isByMapper(mapper)).toBeTruthy();
+			expect(isByMapper(mapper)).not.toBeFalsy();
+			expect(mapper).toBeCalledTimes(0);
+		})
+
+		it('should return false when input is not function', () => {
+			expect(isByMapper('string')).toBeFalsy();
+			expect(isByMapper('string')).not.toBeTruthy();
+			expect(isByMapper(mockData)).toBeFalsy();
+			expect(isByMapper(mockData)).not.toBeTruthy();
+		})
+	})
+
 	describe('Test Functionality', () => {
 		it('should return mapper argument', () => {
 			const base = mockData;
