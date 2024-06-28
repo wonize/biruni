@@ -8,10 +8,19 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     mockReset: false,
-    exclude: configDefaults.exclude.concat('_ignored_'),
+    exclude: configDefaults.exclude
+      .concat('_ignored_')
+      .concat('**/dist/**')
+      .concat('**/build/**')
+      .concat('**/scripts/**'),
     coverage: {
       "provider": "v8",
       "reporter": ["html", "json", "text", "clover"],
+      exclude: configDefaults.exclude
+        .concat('_ignored_')
+        .concat('**/dist/**')
+        .concat('**/build/**')
+        .concat('**/scripts/**'),
     }
   },
 });
