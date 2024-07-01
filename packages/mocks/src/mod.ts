@@ -100,6 +100,7 @@ export {
 	mockData,
 	mockInMemoryStorage,
 	mockInitializer,
+	mockPluginStack,
 	mockInMemoryStorage as mockStorage,
 	mockStore,
 	spyInMemoryStorage,
