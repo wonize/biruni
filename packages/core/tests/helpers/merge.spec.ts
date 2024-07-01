@@ -22,4 +22,25 @@ describe('helpers/merge.ts', () => {
 		const result = mergeFresh(source, target);
 		expect(result).toStrictEqual(expect.objectContaining({ ...mockData, additionkey: 'value' }));
 	})
+
+	it('should produce object from <source> and <target> by update value of key when switched to primitive in <target>', () => {
+		const source = { ...mockData };
+		const target = { ...mockData, currency: '1000 USD' };
+		const result = mergeFresh(source, target);
+		expect(result).toStrictEqual(expect.objectContaining({ ...mockData, currency: '1000 USD' }));
+	})
+
+	it('should produce object from <source> and <target> by update value of key when switched from primitive in <target>', () => {
+		const source = { ...mockData };
+		const target = { ...mockData, theme: { mode: 'DARK' } };
+		const result = mergeFresh(source, target);
+		expect(result).toStrictEqual(expect.objectContaining({ ...mockData, theme: { mode: 'DARK' } }));
+	})
+
+	it('should produce object from <source> and <target> when <target> is empty', () => {
+		const source = { ...mockData };
+		const target = {};
+		const result = mergeFresh(source, target);
+		expect(result).toStrictEqual(expect.objectContaining({ ...mockData }));
+	})
 });
