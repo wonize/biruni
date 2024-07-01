@@ -104,5 +104,14 @@ describe('get/by-key-mapper.ts', () => {
 			const result = getByKeyMapper(base, 'lang', 'non-function');
 			expect(result).toStrictEqual('EN');
 		});
+
+		it('should return base object when key is not exists in base', () => {
+			const base = mockData;
+			const mapper = vi.fn().mockImplementation((lang) => lang);
+			// @ts-expect-error to test non-exists key in base
+			const result = getByKeyMapper(base, 'nonexists', mapper);
+			expect(mapper).toBeCalledTimes(0);
+			expect(result).toStrictEqual(expect.objectContaining(mockData));
+		});
 	});
 });
