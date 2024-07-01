@@ -41,7 +41,6 @@ function getByTruthy<Data extends StoreData, Truthy extends TruthyMap<Data> = Tr
 
 	let result = {};
 	for (const key of deepKeys(truthy)) {
-		if (hasProperty(truthy, key) === false) continue;
 		const target = getProperty(truthy, key);
 		if (typeof target === 'object' && target !== null) {
 			const target_base = getProperty(base, key);
