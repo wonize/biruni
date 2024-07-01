@@ -88,10 +88,15 @@ const mockPluginStack: PluginStack<MockData> = [
 		.make(),
 ];
 
-const mockStore = new Store(mockInitializer, mockPluginStack);
+const makeMockStore = function make_mock_store() {
+	return new Store(mockInitializer, mockPluginStack);
+}
+
+const mockStore = makeMockStore();
 
 export {
 	MOCK_NAMESPACE,
+	makeMockStore,
 	mockData,
 	mockInMemoryStorage,
 	mockInitializer,
