@@ -116,8 +116,35 @@ describe('get/by-truthy.ts', () => {
 		});
 	});
 
-	describe.todo('Edge Case', () => {
-		it('should return key include <dot> symbol', () => {
+	describe('Edge Case', () => {
+		it('should return emtpy object when base is non-object', () => {
+			const base = 'non-object';
+			// @ts-expect-error to test non-object base
+			const result = getByTruthy(base, { lang: 'FR' });
+			expect(result).toStrictEqual(expect.objectContaining({}));
+		});
+
+		it('should return empty object when truthy is non-object', () => {
+			const base = { ...mockData };
+			// @ts-expect-error to test non-object truthy
+			const result = getByTruthy(base, 'non-object');
+			expect(result).toStrictEqual(expect.objectContaining({}));
+		});
+
+		it('should return empty object when truthy is key is not exists in base', () => {
+			const base = { ...mockData };
+			// @ts-expect-error to test non-exist truthy key
+			const result = getByTruthy(base, { nonexists: true });
+			expect(result).toStrictEqual(expect.objectContaining({}));
+		});
+
+		it('should return empty object when truthy is empty object', () => {
+			const base = { ...mockData, deep: { key: 'value' } };
+			const result = getByTruthy(base, { deep: {} });
+			expect(result).toStrictEqual(expect.objectContaining({}));
+		});
+
+		it.todo('should return key include <dot> symbol', () => {
 			const base = { ...mockData, 'deep.key': 'value' };
 			const result = getByTruthy(base, { 'deep.key': true });
 			expect(result).toMatchObject({ 'deep.key': 'value' });
