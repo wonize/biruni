@@ -1,4 +1,3 @@
-export { default as clone } from 'lodash.clonedeep'
 export { hasProperty as hasOwn } from 'dot-prop';
 
 export { shouldFreshInitializing } from './fresh-initialize';
