@@ -8,7 +8,7 @@ interface SetByPair<Data extends StoreData> {
 	(data: DeepPartial<Data>): Promise<void>;
 }
 
-const isByPair = <Data extends StoreData>(input: unknown): input is Partial<Data> | DeepPartial<Data> => {
+const isByPair = <Data extends StoreData>(input: unknown): input is DeepPartial<Data> => {
 	return typeof input === 'object' && input !== null;
 };
 
