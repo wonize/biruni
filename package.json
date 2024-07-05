@@ -38,6 +38,7 @@
     "@repo/mocks": "workspace:*",
     "@types/node": "20.14.2",
     "@vitest/coverage-v8": "1.6.0",
+    "@vitest/ui": "1.6.0",
     "bedo": "0.0.4",
     "biruni": "workspace:*",
     "jsdom": "24.1.0",
