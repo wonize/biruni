@@ -12,7 +12,10 @@ export default defineConfig({
       .concat('_ignored_')
       .concat('**/dist/**')
       .concat('**/build/**')
-      .concat('**/scripts/**'),
+      .concat('**/scripts/**')
+      .concat('**/docs/**')
+      .concat('**/examples/**')
+      .concat('**/node_modules/**'),
     coverage: {
       "provider": "v8",
       "reporter": ["html", "json", "text", "clover"],
@@ -20,7 +23,10 @@ export default defineConfig({
         .concat('_ignored_')
         .concat('**/dist/**')
         .concat('**/build/**')
-        .concat('**/scripts/**'),
+        .concat('**/scripts/**')
+        .concat('**/docs/**')
+        .concat('**/examples/**')
+        .concat('**/node_modules/**'),
     }
   },
 });
