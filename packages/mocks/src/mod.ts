@@ -1,5 +1,5 @@
 import type { PluginStack } from '@biruni/core/plugin/stack';
-import { Store } from '@biruni/core/store';
+import { Store, type StoreInterface } from '@biruni/core/store';
 import { makePlugin } from '@biruni/factory/builder';
 import { vi } from 'vitest';
 
@@ -39,10 +39,12 @@ const mockInitializer = function mock_initialize_impl(): MockData {
 	return mockData;
 };
 
-const mockInMemoryStorage = new Map<PropertyKey, MockData>(
-	Object.entries({ [MOCK_NAMESPACE]: mockData })
-);
-const spyInMemoryStorage = vi.spyOn(mockInMemoryStorage, 'set');
+const mockSet = vi.fn<[PropertyKey, unknown], void>();
+const mockGet = vi.fn<[PropertyKey], MockData | undefined>();
+const mockInMemoryStorage = {
+	set: mockSet,
+	get: mockGet,
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mock_listener = function mock_listener_impl(_event: string, _listener: unknown) {
@@ -88,21 +90,33 @@ const mockPluginStack: PluginStack<MockData> = [
 		.make(),
 ];
 
-const makeMockStore = function make_mock_store() {
+const makeMockStore = function make_mock_store(): StoreInterface<MockData> {
 	return new Store(mockInitializer, mockPluginStack);
-}
+};
 
-const mockStore = makeMockStore();
+const mockStore: StoreInterface<MockData> = makeMockStore();
+
+const clearMockStorage = function clear_mock_storage() {
+	vi.clearAllMocks();
+	vi.clearAllTimers();
+	mockSet.mockReset();
+	mockSet.mockClear();
+	mockGet.mockReset();
+	mockGet.mockClear();
+	return void 0;
+};
 
 export {
 	MOCK_NAMESPACE,
+	clearMockStorage,
 	makeMockStore,
 	mockData,
+	mockGet,
 	mockInMemoryStorage,
 	mockInitializer,
 	mockPluginStack,
+	mockSet,
 	mockInMemoryStorage as mockStorage,
 	mockStore,
-	spyInMemoryStorage,
 };
 export type { ExactMockData, MockData };
