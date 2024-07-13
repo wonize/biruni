@@ -1,0 +1,30 @@
+{
+	"extends": [
+		"../tsconfig.json"
+	],
+	"compilerOptions": {
+		"lib": [
+			"ESNext",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"types": [
+			"@types/node",
+			"vitest/globals",
+			"vitest/jsdom"
+		],
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"../src/*"
+			],
+			"@/*.ts": [
+				"../src/*"
+			]
+		}
+	},
+	"include": [
+		"./**/*.ts",
+		"./**/*.spec.ts"
+	]
+}
