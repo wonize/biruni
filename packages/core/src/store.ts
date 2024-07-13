@@ -1,4 +1,5 @@
-import { clone, mergeFresh, type StoreData } from './helpers/mod';
+import { mergeFresh, type StoreData } from './helpers/mod';
+import clone from 'lodash.clonedeep';
 import * as Plugin from './plugin/mod';
 
 import { hasOwnPropertyPath, type HasOwnPropertyPath } from './has/mod';
@@ -22,15 +23,13 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 		this.has = hasOwnPropertyPath.bind(null, this.data) as unknown as HasOwnPropertyPath<Data>;
 	}
 
-
-	#data!: Data;
+	private _data!: Data;
 	get data(): Readonly<Data> {
-		return clone(this.#data);
+		return clone(this?._data ?? {});
 	}
 	set data(data: Data) {
-		this.#data = data;
+		this._data = data;
 	}
-
 
 	// @ts-expect-error the typescript confused `get` accessor of `data` with `get` method
 	get: Getter.Overloads<Data> = async (first?: unknown, second?: unknown) => {
@@ -62,7 +61,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 	getByKey: Getter.ByKey<Data> = async (key) => {
 		this.data = await Plugin.preprocess(this.data, this.pluginStack);
-		return Getter.getByKey(this.data, key);
+		return Getter.getByKey(this.data, key) as Getter.ByKeyReturnType<Data, typeof key>;
 	};
 
 	getByKeyMapper: Getter.ByKeyMapper<Data> = async (key, mapper) => {
@@ -90,7 +89,7 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 			if (Setter.isByKeySetter<Data>(second)) {
 				return this.setByKeySetter(first, second);
 			} else if (Setter.isByKeyValue<Data>(second)) {
-				return this.setByKeyValue(first, second);
+				return this.setByKeyValue(first, second as never);
 			}
 		} else if (Setter.isBySetter<Data>(first)) {
 			return this.setBySetter(first);
@@ -159,9 +158,9 @@ class Store<Data extends StoreData> implements StoreInterface<Data> {
 
 interface StoreInterface<Data extends StoreData>
 	extends Listener.Methods<Data>,
-	Getter.Methods<Data>,
-	Setter.Methods<Data> {
-	has: HasOwnPropertyPath<Data>
+		Getter.Methods<Data>,
+		Setter.Methods<Data> {
+	has: HasOwnPropertyPath<Data>;
 }
 
 export { Store, type StoreInterface };
