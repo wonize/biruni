@@ -26,7 +26,6 @@ export default defineConfig({
 		environment: 'jsdom',
 		mockReset: false,
 		exclude: exclude,
-		reporters: reporter.slice(0, 1),
 		coverage: {
 			provider: 'v8',
 			reporter: reporter,
