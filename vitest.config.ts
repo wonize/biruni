@@ -9,12 +9,10 @@ const include = configDefaults.include
 
 const exclude = configDefaults.exclude
 	.concat('_ignored_')
-	.concat('**/dist/**')
 	.concat('**/build/**')
 	.concat('**/scripts/**')
 	.concat('**/docs/**')
-	.concat('**/examples/**')
-	.concat('**/node_modules/**');
+	.concat('**/examples/**');
 
 const reporter = ['html', 'json', 'text', 'clover'];
 
@@ -29,8 +27,8 @@ export default defineConfig({
 		coverage: {
 			provider: 'v8',
 			reporter: reporter,
-			include: include,
-			exclude: exclude,
+			// FIXME: include: include,
+			exclude: exclude.concat('**/tests/**'),
 		},
 	},
 });
