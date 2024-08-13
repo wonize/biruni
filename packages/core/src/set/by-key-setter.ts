@@ -10,7 +10,7 @@ interface SetByKeySetter<Data extends StoreData> {
 	<Key extends Path.From<Data>, Setter extends SetByKeySetterFunction<Path.At<Data, Key>, Data>>(
 		key: Key,
 		setter: Setter
-	): Promise<void>;
+	): void;
 }
 
 interface SetByKeySetterFunction<

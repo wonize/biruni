@@ -7,7 +7,7 @@ interface GetByKeyMapper<Data extends StoreData> {
 	<Key extends Path.From<Data>, Mapper extends GetByKeyMapperFunction<Data, Key>>(
 		key: Key,
 		mapper: Mapper
-	): Promise<GetByKeyMapperReturnType<Data, Key, Mapper>>;
+	): GetByKeyMapperReturnType<Data, Key, Mapper>;
 }
 
 type GetByKeyMapperReturnType<

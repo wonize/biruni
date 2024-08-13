@@ -5,7 +5,7 @@ import type { StoreData } from '../helpers/mod';
 import type { DeepPartial } from '../helpers/deep-partial';
 
 interface SetByPair<Data extends StoreData> {
-	(data: DeepPartial<Data>): Promise<void>;
+	(data: DeepPartial<Data>): void;
 }
 
 const isByPair = <Data extends StoreData>(input: unknown): input is DeepPartial<Data> => {

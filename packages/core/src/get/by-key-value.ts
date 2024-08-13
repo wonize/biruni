@@ -3,7 +3,7 @@ import type { Path } from '../path/mod';
 import type { StoreData } from '../helpers/mod';
 
 interface GetByKey<Data extends StoreData> {
-	<Key extends Path.From<Data>>(key: Key): Promise<GetByKeyReturnType<Data, Key>>;
+	<Key extends Path.From<Data>>(key: Key): GetByKeyReturnType<Data, Key>;
 }
 
 type GetByKeyReturnType<Data extends StoreData, Key extends Path.From<Data>> = Path.At<Data, Key>;

@@ -2,7 +2,7 @@ import clone from 'lodash.clonedeep';
 import type { StoreData } from '../helpers/mod';
 
 interface GetByEntire<Data extends StoreData> {
-	(): Promise<GetByEntireReturnType<Data>>;
+	(): GetByEntireReturnType<Data>;
 }
 
 type GetByEntireReturnType<Data extends StoreData> = Readonly<Data>;

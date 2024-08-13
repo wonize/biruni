@@ -4,7 +4,7 @@ import type { DeepPartial } from '../helpers/deep-partial';
 import type { StoreData } from '../helpers/mod';
 
 interface SetBySetter<Data extends StoreData> {
-	<Setter extends SetBySetterFunction<Data>>(setter: Setter): Promise<void>;
+	<Setter extends SetBySetterFunction<Data>>(setter: Setter): void;
 }
 
 interface SetBySetterFunction<Data extends StoreData> {

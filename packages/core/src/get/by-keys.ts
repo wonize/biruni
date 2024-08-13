@@ -8,7 +8,7 @@ import type { StoreData } from '../helpers/mod';
 interface GetByKeys<Data extends StoreData> {
 	<KeyList extends Array<Path.From<Data>>>(
 		keys: Partial<KeyList>
-	): Promise<GetByKeysReturnType<Data, KeyList>>;
+	): GetByKeysReturnType<Data, KeyList>;
 }
 
 type GetByKeysReturnType<

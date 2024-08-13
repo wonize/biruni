@@ -3,7 +3,7 @@ import type { StoreData } from '../helpers/mod';
 interface GetByMapper<Data extends StoreData> {
 	<Mapper extends GetByMapperFunction<Data>>(
 		mapper: Mapper
-	): Promise<GetByMapperReturnType<Data, Mapper>>;
+	): GetByMapperReturnType<Data, Mapper>;
 }
 
 type GetByMapperReturnType<Data extends StoreData, Mapper extends GetByMapperFunction<Data>> =

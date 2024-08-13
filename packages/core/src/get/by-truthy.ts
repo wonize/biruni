@@ -1,4 +1,4 @@
-import { deepKeys, getProperty, hasProperty, setProperty } from 'dot-prop';
+import { deepKeys, getProperty, setProperty } from 'dot-prop';
 import cloneDeep from 'lodash.clonedeep';
 import type { DeepPartial } from '../helpers/deep-partial';
 import type { RemoveNever, StoreData } from '../helpers/mod';
@@ -11,7 +11,7 @@ type TruthyMap<T extends object> = DeepPartial<{
 }>;
 
 interface GetByTruthy<Data extends StoreData> {
-	<Truthy extends TruthyMap<Data>>(truthy: Truthy): Promise<GetByTruthyReturnType<Data, Truthy>>;
+	<Truthy extends TruthyMap<Data>>(truthy: Truthy): GetByTruthyReturnType<Data, Truthy>;
 }
 
 type GetByTruthyReturnType<

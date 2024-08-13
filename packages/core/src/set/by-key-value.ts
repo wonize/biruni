@@ -9,7 +9,7 @@ interface SetByKeyValue<Data extends StoreData> {
 	<Key extends Path.From<Data>, Value extends Path.At<Data, Key>>(
 		key: Key,
 		value: DeepPartial<Value>
-	): Promise<void>;
+	): void;
 }
 
 const isKeyOfData = <Data extends StoreData>(
