@@ -8,7 +8,7 @@ import { hasOwnPropertyPath, type HasOwnPropertyPath } from './has/mod';
 
 class GetAccessor<Data extends StoreData> extends Plugin<Data> {
 	public constructor() {
-		super('getter');
+		super('accessor.getter');
 	}
 
 	public override setup(core: Core<Data, string>): void {
@@ -60,7 +60,7 @@ class GetAccessor<Data extends StoreData> extends Plugin<Data> {
 
 class SetAccessor<Data extends StoreData> extends Plugin<Data> {
 	public constructor() {
-		super('setter');
+		super('accessor.setter');
 	}
 
 	public override setup(core: Core<Data, string>): void {
@@ -97,9 +97,9 @@ class SetAccessor<Data extends StoreData> extends Plugin<Data> {
 	};
 }
 
-class HasAcessor<Data extends StoreData> extends Plugin<Data> {
+class HasAccessor<Data extends StoreData> extends Plugin<Data> {
 	public constructor() {
-		super('has');
+		super('accessor.has');
 	}
 
 	public override setup(core: Core<Data, string>): void {
@@ -114,4 +114,4 @@ class HasAcessor<Data extends StoreData> extends Plugin<Data> {
 	};
 }
 
-export { GetAccessor, HasAcessor, SetAccessor };
+export { GetAccessor, HasAccessor, SetAccessor };
