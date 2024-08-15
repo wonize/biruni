@@ -1,7 +1,6 @@
 import type { MockData } from '@repo/mocks';
-import { Store, type StoreInterface } from '@/store';
 
-describe.todo('core/store.ts', () => {
+describe.todo('core/accessor.ts', () => {
 	it('should be same signature with interface', () => {
 		expectTypeOf<Store<MockData>>().toMatchTypeOf<StoreInterface<MockData>>();
 	});
