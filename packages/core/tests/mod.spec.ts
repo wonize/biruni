@@ -1,19 +1,27 @@
-import * as coreBarrel from '@/mod';
+import { Core } from '@/core';
+import * as mod from '@/mod';
+import { Plugin } from '@/plugin';
 
 describe('core/mod.ts', () => {
-	it('export <Setter> namespace', () => {
-		expect(coreBarrel).toHaveProperty('Setter');
-	})
+	it('export <Core> class', () => {
+		expect(mod).toHaveProperty('Core');
+		const core = expectTypeOf(mod).toHaveProperty('Core');
+		core.instance.toEqualTypeOf<Core<object>>();
+	});
 
-	it('export <Getter> namespace', () => {
-		expect(coreBarrel).toHaveProperty('Getter');
-	})
+	it('export <Plugin> abstract class', () => {
+		expect(mod).toHaveProperty('Plugin');
+		const plugin = expectTypeOf(mod).toHaveProperty('Plugin');
+		plugin.toHaveProperty('prototype').toEqualTypeOf<Plugin<any>>();
+	});
 
-	it('export <Store> class', () => {
-		expect(coreBarrel).toHaveProperty('Store');
-	})
+	it('export <DataFlow> enum', () => {
+		expect(mod).toHaveProperty('DataFlow');
+		expectTypeOf(mod).toHaveProperty('DataFlow');
+	});
 
-	it('export <default> same as <Store> class', () => {
-		expect(coreBarrel.default).toStrictEqual(coreBarrel.Store);
-	})
-})
+	it('export <default> same as <Core> class', () => {
+		expect(mod.default).toStrictEqual(mod.Core);
+		expectTypeOf(mod.default).toEqualTypeOf<typeof mod.Core>();
+	});
+});
