@@ -13,6 +13,7 @@ class GetAccessor<Data extends StoreData> extends Plugin<Data> {
 
 	public override setup(core: Core<Data, string>): void {
 		super.setup(core);
+		core.bound('get', this.get.bind(this));
 		core.bound('getByKey', this.getByKey.bind(this));
 		core.bound('getByKeys', this.getByKeys.bind(this));
 		core.bound('getByMapper', this.getByMapper.bind(this));
@@ -20,6 +21,28 @@ class GetAccessor<Data extends StoreData> extends Plugin<Data> {
 		core.bound('getByTruthy', this.getByTruthy.bind(this));
 		core.bound('getByKeyMapper', this.getByKeyMapper.bind(this));
 	}
+
+	public get: Getter.Overloads<Data> = (first?: unknown, second?: unknown) => {
+		if (Getter.isByEntire(first)) {
+			return this.getByEntire();
+		} else if (Getter.isKeyOfData<Data>(first)) {
+			if (Getter.isByKeyMapper<Data>(second)) {
+				return this.getByKeyMapper(first, second);
+			} else if (Getter.isByKey<Data>(second)) {
+				return this.getByKey(first);
+			} else {
+				throw 'Core.get not match to any overloads (+6)';
+			}
+		} else if (Getter.isByMapper<Data>(first)) {
+			return this.getByMapper(first);
+		} else if (Getter.isByKeys<Data>(first)) {
+			return this.getByKeys(first);
+		} else if (Getter.isByTruthy<Data>(first)) {
+			return this.getByTruthy(first);
+		} else {
+			throw 'Core.get not match to any overlaods (+6)';
+		}
+	};
 
 	public getByKey: Getter.ByKey<Data> = (key) => {
 		return this.core.process(DataFlow.OUTPUT, function by_key(data) {
@@ -65,12 +88,29 @@ class SetAccessor<Data extends StoreData> extends Plugin<Data> {
 
 	public override setup(core: Core<Data, string>): void {
 		super.setup(core);
+		core.bound('set', this.set.bind(this));
 		core.bound('setByPair', this.setByPair.bind(this));
 		core.bound('setBySetter', this.setBySetter.bind(this));
 		core.bound('setByKey', this.setByKeyValue.bind(this));
 		core.bound('setByKeyValue', this.setByKeyValue.bind(this));
 		core.bound('setByKeySetter', this.setByKeySetter.bind(this));
 	}
+
+	public set: Setter.Overloads<Data> = (first: unknown, second?: unknown) => {
+		if (Setter.isKeyOfData<Data>(first)) {
+			if (Setter.isByKeySetter<Data>(second)) {
+				return this.setByKeySetter(first, second);
+			} else if (Setter.isByKeyValue<Data>(second)) {
+				return this.setByKeyValue(first, second as never);
+			}
+		} else if (Setter.isBySetter<Data>(first)) {
+			return this.setBySetter(first);
+		} else if (Setter.isByPair<Data>(first)) {
+			return this.setByPair(first);
+		} else {
+			throw 'Core.set not match to any overlaods (+4)';
+		}
+	};
 
 	public setByPair: Setter.ByPair<Data> = (pair) => {
 		return this.core.process(DataFlow.INPUT, function by_pair(data) {
