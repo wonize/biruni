@@ -1,7 +1,7 @@
-import { Plugin } from './plugin';
-import { DataFlow } from './flow';
-import type { StoreData } from './helpers/mod';
-import type { Core } from './core';
+import { Plugin } from '@biruni/core/plugin';
+import { DataFlow } from '@biruni/core/flow';
+import type { StoreData } from '@biruni/core/helpers';
+import type { Core } from '@biruni/core';
 import * as Getter from './get/mod';
 import * as Setter from './set/mod';
 import { hasOwnPropertyPath, type HasOwnPropertyPath } from './has/mod';

@@ -1,5 +1,5 @@
 import clone from 'lodash.clonedeep';
-import type { StoreData } from '../helpers/mod';
+import type { StoreData } from '@core/mod';
 
 interface GetByEntire<Data extends StoreData> {
 	(): GetByEntireReturnType<Data>;

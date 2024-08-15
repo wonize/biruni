@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-constraint, @typescript-eslint/no-explicit-any */
 
-import type { RemoveNever, StoreData } from '../helpers/type-utility';
+import type { RemoveNever, DataObject } from '../../../core/src/helpers/type-utility';
 
-export function diff<Source extends Data, Target extends Data, Data extends any = StoreData>(
+export function diff<Source extends Data, Target extends Data, Data extends any = DataObject>(
 	source_data: Source,
 	target_data: Target
 ): Diff<Source, Target, Data> {
@@ -34,14 +34,14 @@ export function diff<Source extends Data, Target extends Data, Data extends any 
 type DiffData<
 	Source extends Data,
 	Target extends Data,
-	Data extends any = StoreData,
+	Data extends any = DataObject,
 > = RemoveNever<{
 	[P in keyof Data]: Source[P] extends Target[P]
-	? never
-	: { source: Source[P]; target: Target[P] };
+		? never
+		: { source: Source[P]; target: Target[P] };
 }>;
 
-interface Diff<Source extends Data, Target extends Data, Data extends any = StoreData> {
+interface Diff<Source extends Data, Target extends Data, Data extends any = DataObject> {
 	diff: DiffData<Source, Target, Data>;
 	keys: Array<keyof DiffData<Source, Target, Data>>;
 	source: Source;

@@ -1,13 +1,13 @@
-import type { StoreData } from '../helpers/mod';
+import type { DataObject } from '../../../core/src/helpers/mod';
 import type { EventName } from './event';
 import type { ListenerFunction } from './listener';
 
-interface RemoveListenerMethods<Data extends StoreData> {
+interface RemoveListenerMethods<Data extends DataObject> {
 	readonly off: RemoveListener<Data>;
 	readonly removeListener: RemoveListener<Data>;
 }
 
-interface RemoveListener<Data extends StoreData> {
+interface RemoveListener<Data extends DataObject> {
 	(event: EventName, listener: ListenerFunction<Data>): void;
 }
 
