@@ -1,6 +1,5 @@
-import type { MockData } from '@repo/mocks';
 import type { DeepPartial } from '@/helpers/deep-partial';
-import { it, describe, expectTypeOf } from 'vitest';
+import type { MockData } from '@repo/mocks';
 
 describe('helpers/deep-partial.ts', () => {
 	it('should reproduce object deeply partial(optional) type', () => {
@@ -11,7 +10,7 @@ describe('helpers/deep-partial.ts', () => {
 			currency?: {
 				amount?: MockData['currency']['amount'];
 				code?: MockData['currency']['code'];
-			}
+			};
 		}>();
 
 		const currency_amount = { currency: { amount: 1000 } };
@@ -22,5 +21,5 @@ describe('helpers/deep-partial.ts', () => {
 		fn(currency_amount);
 		expect(fn).toBeCalledWith(currency_amount);
 		expectTypeOf<typeof fn>().parameter(0).toEqualTypeOf<DeepPartial<MockData>>();
-	})
-})
+	});
+});
