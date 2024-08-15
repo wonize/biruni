@@ -1,12 +1,13 @@
+import cloneDeep from 'lodash.clonedeep';
 import { Boundary } from './boundary';
 import { DataFlow } from './flow';
-import type { StoreData } from './helpers/type-utility';
+import type { DataObject } from './helpers/type-utility';
 import type { Plugin } from './plugin';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Fn = (...args: any[]) => any;
 
-class Core<Data extends StoreData, Namespace extends string = string> {
+class Core<Data extends DataObject, Namespace extends string = string> {
 	public constructor(namespace: Namespace) {
 		this.#namespace = namespace;
 		this.plugins = new Map();
@@ -95,14 +96,21 @@ class Core<Data extends StoreData, Namespace extends string = string> {
 
 	#data!: Data;
 	private get data(): Data {
-		return this.#data;
+		return cloneDeep(this.#data);
 	}
 	private set data(data: Data) {
 		this.#data = data;
 	}
 
-	public initBy(data: Data) {
-		this.data = data;
+	public initBy<D extends Data>(initialize: () => D) {
+		// TODO: implement fresh-initializing
+		/* function fresh(persisted_data) {
+			const comming_data = initializer();
+			const data = mergeFresh<Readonly<Data>>(persisted_data, comming_data);
+			this.setByEntire(data);
+		} */
+
+		this.data = initialize();
 		return this.boundary.eject();
 	}
 }

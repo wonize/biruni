@@ -1,8 +1,8 @@
 import { Core } from './core';
 import { DataFlow } from './flow';
-import type { StoreData } from './helpers/mod';
+import type { DataObject } from './helpers/mod';
 
-export abstract class Plugin<Data extends StoreData> {
+export abstract class Plugin<Data extends DataObject> {
 	public readonly flow: DataFlow = DataFlow.NONE;
 	public constructor(public readonly name: string) {}
 

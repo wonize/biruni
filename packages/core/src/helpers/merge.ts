@@ -1,5 +1,5 @@
 import { keyOf } from './keyOf';
-import type { StoreData } from './type-utility';
+import type { DataObject } from './type-utility';
 
 const isObject = (input: unknown): input is object => {
 	return (
@@ -11,7 +11,7 @@ const isObject = (input: unknown): input is object => {
 const o = <TReturn extends object>(...objects: object[]): TReturn => Object.assign({}, ...objects);
 const hasOwn = Object.hasOwn;
 
-function mergeFresh<TData extends StoreData>(source: object, target: object): TData {
+function mergeFresh<TData extends DataObject>(source: object, target: object): TData {
 	const $source = o(source);
 	const $target = o(target);
 	let $result = o<TData>($source);
