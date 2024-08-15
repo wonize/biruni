@@ -75,10 +75,19 @@
 	},
 	"scripts": {},
 	"dependencies": {
-		"events": "3.3.0"
+		"events": "3.3.0",
+		"dot-prop": "8.0.2",
+		"lodash.clone": "4.5.0",
+		"lodash.clonedeep": "4.5.0",
+		"lodash.merge": "4.6.2",
+		"lodash.mergewith": "4.6.2"
 	},
 	"devDependencies": {
-		"@biruni/core": "workspace:*"
+		"@biruni/core": "workspace:*",
+		"@types/lodash.clone": "4.5.9",
+		"@types/lodash.clonedeep": "4.5.9",
+		"@types/lodash.merge": "4.6.9",
+		"@types/lodash.mergewith": "4.6.9"
 	},
 	"peerDependencies": {
 		"@biruni/core": "<=0.0.7",
