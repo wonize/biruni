@@ -1,7 +1,5 @@
 {
   /* <<< FORMATTER >>> */
-  "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "file",
   "prettier.enable": true,
   "prettier.useEditorConfig": true,
   "prettier.configPath": "prettier.config.mjs",
@@ -37,7 +35,6 @@
   /* <<< LINTER >>> */
   "eslint.enable": true,
   "eslint.lintTask.enable": true,
-  "eslint.run": "onSave",
   "eslint.lintTask.options": "--config='../eslint.config.js' --color --format='stylish' .",
   "eslint.experimental.useFlatConfig": true,
   "eslint.workingDirectories": [
