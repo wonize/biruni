@@ -1,30 +1,13 @@
 {
-	"extends": [
-		"../tsconfig.json"
-	],
+	"extends": ["../tsconfig.json"],
 	"compilerOptions": {
-		"lib": [
-			"ESNext",
-			"DOM",
-			"DOM.Iterable"
-		],
-		"types": [
-			"@types/node",
-			"vitest/globals",
-			"vitest/jsdom"
-		],
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"types": ["@types/node", "vitest/globals", "vitest/jsdom"],
 		"baseUrl": ".",
 		"paths": {
-			"@/*": [
-				"../src/*"
-			],
-			"@/*.ts": [
-				"../src/*"
-			]
+			"@/*": ["../src/*"],
+			"@/*.ts": ["../src/*"]
 		}
 	},
-	"include": [
-		"./**/*.ts",
-		"./**/*.spec.ts"
-	]
+	"include": ["./**/*.ts", "./**/*.spec.ts"]
 }

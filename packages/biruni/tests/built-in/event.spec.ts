@@ -1,11 +1,11 @@
-import * as mod from '@/built-in/event'
+import * as mod from '@/built-in/event';
 
 describe('biruni/build-in/event.ts', () => {
 	it('should export <event> plugin', () => {
-		expect(mod).toHaveProperty('event')
-	})
+		expect(mod).toHaveProperty('event');
+	});
 
 	it('should export <EventEmitterPlugin> alias', () => {
-		expect(mod).toHaveProperty('EventEmitterPlugin')
-	})
-})
+		expect(mod).toHaveProperty('EventEmitterPlugin');
+	});
+});

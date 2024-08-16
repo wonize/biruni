@@ -4,6 +4,6 @@
 
 ### Patch Changes
 
-- - support `has` method api to `biruni/core`
-  - support `@capacitor/preferences` as plugin
-  - update built-ins named exprots
+-   -   support `has` method api to `biruni/core`
+    -   support `@capacitor/preferences` as plugin
+    -   update built-ins named exprots
