@@ -78,8 +78,9 @@
 		"local:coverage": "vitest run --coverage",
 		"local:test": "vitest run",
 		"local:test:watch": "vitest --watch --clearScreen",
-		"local:test:typecheck": "vitest run --typecheck",
-		"local:test:typecheck:watch": "vitest --typecheck --watch --clearScreen",
+		"local:typecheck": "vitest run --typecheck",
+		"local:typecheck:watch": "vitest --typecheck --watch --clearScreen",
+		"local:test:full": "vitest --watch --clearScreen --coverage --typecheck --ui",
 		"local:build": "tsx ./scripts/build.ts"
 	},
 	"dependencies": {
