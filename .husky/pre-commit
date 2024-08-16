@@ -1,0 +1,2 @@
+node_modules/.bin/nr lint-staged
+git update-index --again
