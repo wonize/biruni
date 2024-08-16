@@ -1,8 +1,12 @@
+import {
+	isBySetter,
+	setBySetter,
+	type SetBySetter,
+	type SetBySetterFunction,
+} from '@/set/by-setter';
 import { mockData, type MockData } from '@repo/mocks';
-import lodash_merge from 'lodash.merge';
 import lodash_clone from 'lodash.clonedeep';
-import { describe, it, vi, expect, expectTypeOf } from 'vitest';
-import { isBySetter, setBySetter, type SetBySetter, type SetBySetterFunction } from '@/set/by-setter';
+import lodash_merge from 'lodash.merge';
 
 describe('set/by-setter.ts', () => {
 	describe('Verify Signature', () => {
@@ -28,7 +32,7 @@ describe('set/by-setter.ts', () => {
 			expectTypeOf<SetBySetter<MockData>>()
 				.parameter(0)
 				.toEqualTypeOf<SetBySetterFunction<MockData>>();
-			expectTypeOf<SetBySetter<MockData>>().returns.toEqualTypeOf<Promise<void>>();
+			expectTypeOf<SetBySetter<MockData>>().returns.toEqualTypeOf<void>();
 		});
 	});
 
@@ -38,13 +42,13 @@ describe('set/by-setter.ts', () => {
 			expect(isBySetter(setter)).toBeTruthy();
 			expect(isBySetter(setter)).not.toBeFalsy();
 			expect(setter).toBeCalledTimes(0);
-		})
+		});
 
 		it('should return false when input is not function', () => {
 			expect(isBySetter({})).toBeFalsy();
 			expect(isBySetter({})).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should merge base object to object from setter return single pair', () => {
@@ -57,7 +61,7 @@ describe('set/by-setter.ts', () => {
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
-		})
+		});
 
 		it('should merge base object to oject from setter return nested pair', () => {
 			const setter = vi.fn().mockReturnValue({ currency: { amount: 5000 } });
@@ -69,9 +73,8 @@ describe('set/by-setter.ts', () => {
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
-		})
-
-	})
+		});
+	});
 
 	describe('Edge Case', () => {
 		it('should return base object when setter return emtpy object', () => {
@@ -84,12 +87,11 @@ describe('set/by-setter.ts', () => {
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
-		})
+		});
 
 		it('should return object from setter return when base is non-object', () => {
 			const setter = vi.fn().mockReturnValue(mockData);
 			const expected = { ...mockData };
-			// @ts-expect-error to test non-object base
 			const result = setBySetter('non-object', setter);
 			expect(setter).toBeCalledTimes(1);
 			expect(setter).toBeCalledWith({});
@@ -97,47 +99,45 @@ describe('set/by-setter.ts', () => {
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
-		})
+		});
 
 		it('should return base object when setter return non-object', () => {
 			const expected = { ...mockData };
 			let result;
 
 			const setter_string = vi.fn(() => 'non-object');
-			// @ts-expect-error to test non-object value from setter
 			result = setBySetter(mockData, setter_string);
 			expect(setter_string).toBeCalledTimes(1);
 			expect(setter_string).toBeCalledWith(expect.objectContaining(mockData));
 			expect(result).toMatchObject(expected);
 
-			const setter_function = vi.fn(() => () => ({ lang: "FR" }));
-			// @ts-expect-error to test non-object value from setter
+			const setter_function = vi.fn(() => () => ({ lang: 'FR' }));
 			result = setBySetter(mockData, setter_function);
 			expect(setter_function).toBeCalledTimes(1);
 			expect(setter_function).toBeCalledWith(expect.objectContaining(mockData));
 			expect(result).toMatchObject(expected);
-		})
+		});
 
 		it('should return base object when setter return non-exist keys in base', () => {
-			const setter = vi.fn().mockReturnValue({ 'nonexists': { 'deepnonexists': 'value' } });
+			const setter = vi.fn().mockReturnValue({ nonexists: { deepnonexists: 'value' } });
 			const expected = { ...mockData };
 			const result = setBySetter(mockData, setter);
 			expect(setter).toBeCalledTimes(1);
 			expect(setter).toBeCalledWith(expect.objectContaining(mockData));
-			expect(setter).toReturnWith({ 'nonexists': { 'deepnonexists': 'value' } });
+			expect(setter).toReturnWith({ nonexists: { deepnonexists: 'value' } });
 			expect(result).toMatchObject(expected);
 			expect(result).not.toBe(mockData);
 			expect(expected).not.toBe(mockData);
-		})
+		});
 
 		it('should return base object when setter is non-function', () => {
 			const expected = { ...mockData };
 			// @ts-expect-error to test non-function setter
 			const result = setBySetter(mockData, 'non-function');
 			expect(result).toStrictEqual(expect.objectContaining(expected));
-		})
+		});
 	});
-})
+});
 
 describe('Verify Lodash <clonedeep> and <merge> Functionality', () => {
 	const base = { lang: 'EN', currency: { amount: 1000, code: 'USD' } };
@@ -150,7 +150,7 @@ describe('Verify Lodash <clonedeep> and <merge> Functionality', () => {
 		expect(result).toMatchObject(expected);
 		expect(result).not.toBe(base);
 		expect(result).not.toBe(source);
-	})
+	});
 
 	it('should merge deep <source> to <base>', () => {
 		const cloned_base = lodash_clone(base);
@@ -160,5 +160,5 @@ describe('Verify Lodash <clonedeep> and <merge> Functionality', () => {
 		expect(result).toMatchObject(expected);
 		expect(result).not.toBe(base);
 		expect(result).not.toBe(source);
-	})
+	});
 });

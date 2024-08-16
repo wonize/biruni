@@ -1,6 +1,5 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
-import { mockData, type MockData } from '@repo/mocks';
 import { getByMapper, isByMapper } from '@/get/by-mapper';
+import { mockData, type MockData } from '@repo/mocks';
 
 describe('get/by-mapper.ts', () => {
 	describe('Verify Signature', () => {
@@ -30,15 +29,15 @@ describe('get/by-mapper.ts', () => {
 			expect(isByMapper(mapper)).toBeTruthy();
 			expect(isByMapper(mapper)).not.toBeFalsy();
 			expect(mapper).toBeCalledTimes(0);
-		})
+		});
 
 		it('should return false when input is not function', () => {
 			expect(isByMapper('string')).toBeFalsy();
 			expect(isByMapper('string')).not.toBeTruthy();
 			expect(isByMapper(mockData)).toBeFalsy();
 			expect(isByMapper(mockData)).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should return mapper argument', () => {
@@ -58,7 +57,7 @@ describe('get/by-mapper.ts', () => {
 			expect(mapper).toBeCalledTimes(1);
 			expect(mapper).toBeCalledWith(expect.objectContaining(mockData));
 			expect(mapper).toReturnWith('EN');
-			expect(result).toMatchObject('EN');
+			expect(result).toStrictEqual('EN');
 		});
 	});
 

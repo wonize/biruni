@@ -1,14 +1,12 @@
-import { mockData, type MockData } from '@repo/mocks';
-import { describe, expect, expectTypeOf, it, vi } from 'vitest';
-
 import type { Path } from '@/path/mod';
 import {
 	isByKeySetter,
-	type SetByKeySetterFunction,
 	setByKeySetter,
 	type SetByKeySetter,
+	type SetByKeySetterFunction,
 } from '@/set/by-key-setter.ts';
 import { isKeyOfData } from '@/set/by-key-value.ts';
+import { mockData, type MockData } from '@repo/mocks';
 
 describe('set/by-key-setter.ts', () => {
 	describe('Verify Signature', () => {
@@ -34,7 +32,9 @@ describe('set/by-key-setter.ts', () => {
 				.toEqualTypeOf<Path.From<MockData>>();
 			expectTypeOf(setByKeySetter<MockData>)
 				.parameter(2)
-				.toEqualTypeOf<SetByKeySetterFunction<Path.At<MockData, Path.From<MockData>>, MockData>>();
+				.toEqualTypeOf<
+					SetByKeySetterFunction<Path.At<MockData, Path.From<MockData>>, MockData>
+				>();
 			expectTypeOf(setByKeySetter<MockData>).returns.toEqualTypeOf<MockData>();
 		});
 
@@ -45,8 +45,10 @@ describe('set/by-key-setter.ts', () => {
 				.toEqualTypeOf<Path.From<MockData>>();
 			expectTypeOf<SetByKeySetter<MockData>>()
 				.parameter(1)
-				.toEqualTypeOf<SetByKeySetterFunction<Path.At<MockData, Path.From<MockData>>, MockData>>();
-			expectTypeOf<SetByKeySetter<MockData>>().returns.toEqualTypeOf<Promise<void>>();
+				.toEqualTypeOf<
+					SetByKeySetterFunction<Path.At<MockData, Path.From<MockData>>, MockData>
+				>();
+			expectTypeOf<SetByKeySetter<MockData>>().returns.toEqualTypeOf<void>();
 		});
 	});
 
@@ -56,15 +58,15 @@ describe('set/by-key-setter.ts', () => {
 			expect(isByKeySetter(setter)).toBeTruthy();
 			expect(isByKeySetter(setter)).not.toBeFalsy();
 			expect(setter).toBeCalledTimes(0);
-		})
+		});
 
 		it('should return false when input is not function', () => {
 			expect(isByKeySetter({})).toBeFalsy();
 			expect(isByKeySetter({})).not.toBeTruthy();
 			expect(isByKeySetter('string')).toBeFalsy();
 			expect(isByKeySetter('string')).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should return changed key in base object with value of setter return', () => {
@@ -104,7 +106,7 @@ describe('set/by-key-setter.ts', () => {
 		});
 
 		it('should return original object if the setter function does not return value', () => {
-			const setter = vi.fn().mockImplementation(() => { });
+			const setter = vi.fn().mockImplementation(() => {});
 			const expected = { ...mockData };
 			const result = setByKeySetter(mockData, 'lang', setter);
 			expect(setter).toBeCalledTimes(1);
@@ -146,7 +148,7 @@ describe('set/by-key-setter.ts', () => {
 		});
 
 		it.todo('should return resolved value if setter function is a Promise', () => {
-			const setter = vi.fn().mockImplementation(async () => ('FR'));
+			const setter = vi.fn().mockImplementation(async () => 'FR');
 			const expected = { ...mockData, lang: 'FR' };
 			const result = setByKeySetter(mockData, 'lang', setter);
 			expect(setter).toBeCalledTimes(1);
@@ -164,6 +166,6 @@ describe('set/by-key-setter.ts', () => {
 			// @ts-expect-error to test non-function setter
 			const result = setByKeySetter(mockData, 'lang', 'non-function');
 			expect(result).toStrictEqual(expect.objectContaining(expected));
-		})
+		});
 	});
 });

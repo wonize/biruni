@@ -1,4 +1,3 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
 import { mockData, type MockData } from '@repo/mocks';
 
 import {
@@ -30,9 +29,7 @@ describe('get/by-entire.ts', () => {
 		it('Verify the Type Signature of the <SetByPair> Method Interface', () => {
 			expectTypeOf<GetByEntire<MockData>>().toBeFunction();
 			expectTypeOf<GetByEntire<MockData>>().parameter(0).toBeVoid();
-			expectTypeOf<GetByEntire<MockData>>().returns.toEqualTypeOf<
-				Promise<Readonly<MockData>>
-			>();
+			expectTypeOf<GetByEntire<MockData>>().returns.toEqualTypeOf<Readonly<MockData>>();
 		});
 
 		it('Verify the Return Type Signature of the <SetByPair> Method Interface', () => {
@@ -47,15 +44,15 @@ describe('get/by-entire.ts', () => {
 			expect(isByEntire(undefined)).not.toBeFalsy();
 			expect(isByEntire(null)).toBeTruthy();
 			expect(isByEntire(null)).not.toBeFalsy();
-		})
+		});
 
 		it('should return false when input is not nullable', () => {
 			expect(isByEntire('string')).toBeFalsy();
 			expect(isByEntire('string')).not.toBeTruthy();
 			expect(isByEntire(mockData)).toBeFalsy();
 			expect(isByEntire(mockData)).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should return cloned base object when is exists and object', () => {
@@ -73,12 +70,11 @@ describe('get/by-entire.ts', () => {
 			expect(result).not.toBe(base);
 			expect(JSON.stringify(result)).toHaveLength(2);
 		});
-	})
+	});
 
 	describe('Edge Case', () => {
 		it('should return empty object when base is non-object', () => {
 			const base = 'non-object';
-			// @ts-expect-error to test non-object base
 			const result = getByEntire(base);
 			expect(result).toMatchObject({});
 			expect(JSON.stringify(result)).toHaveLength(2);

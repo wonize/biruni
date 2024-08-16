@@ -1,7 +1,6 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
-import { mockData, type MockData } from '@repo/mocks';
 import { getByKey, isByKey, isKeyOfData } from '@/get/by-key-value';
 import type { Path } from '@/path/mod';
+import { mockData, type MockData } from '@repo/mocks';
 
 describe('get/by-key-value.ts', () => {
 	describe('Verify Signature', () => {
@@ -45,15 +44,15 @@ describe('get/by-key-value.ts', () => {
 			expect(isKeyOfData(String('string'))).not.toBeFalsy();
 
 			expect(isByKey(null), 'is always return true').toBeTruthy();
-		})
+		});
 
 		it('should return false when input is not string', () => {
 			expect(isKeyOfData(null)).toBeFalsy();
 			expect(isKeyOfData(null)).not.toBeTruthy();
 			expect(isKeyOfData(mockData)).toBeFalsy();
 			expect(isKeyOfData(mockData)).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should return single key from base object', () => {

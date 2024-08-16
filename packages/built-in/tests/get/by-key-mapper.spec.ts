@@ -1,6 +1,5 @@
-import { describe, expect, expectTypeOf, it, vi } from 'vitest';
-import { mockData, type MockData } from '@repo/mocks';
 import { getByKeyMapper, isByKeyMapper, type GetByKeyMapper } from '@/get/by-key-mapper';
+import { mockData, type MockData } from '@repo/mocks';
 
 describe('get/by-key-mapper.ts', () => {
 	describe('Verify Signature', () => {
@@ -28,7 +27,7 @@ describe('get/by-key-mapper.ts', () => {
 			expectTypeOf<GetByKeyMapper<MockData>>().toBeFunction();
 			expectTypeOf<GetByKeyMapper<MockData>>().parameter(0).toBeString();
 			expectTypeOf<GetByKeyMapper<MockData>>().parameter(1).toBeFunction();
-			expectTypeOf<GetByKeyMapper<MockData>>().returns.toEqualTypeOf<Promise<unknown>>();
+			expectTypeOf<GetByKeyMapper<MockData>>().returns.toEqualTypeOf<unknown>();
 		});
 	});
 
@@ -38,15 +37,15 @@ describe('get/by-key-mapper.ts', () => {
 			expect(isByKeyMapper(mapper)).toBeTruthy();
 			expect(isByKeyMapper(mapper)).not.toBeFalsy();
 			expect(mapper).toBeCalledTimes(0);
-		})
+		});
 
 		it('should return false when input is not function', () => {
 			expect(isByKeyMapper('string')).toBeFalsy();
 			expect(isByKeyMapper('string')).not.toBeTruthy();
 			expect(isByKeyMapper(mockData)).toBeFalsy();
 			expect(isByKeyMapper(mockData)).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should return same argument of mapper in single key', () => {

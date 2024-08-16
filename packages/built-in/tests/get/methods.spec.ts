@@ -1,13 +1,12 @@
-import { expectTypeOf, describe, it } from 'vitest';
-import type { MockData } from '@repo/mocks';
+import type { GetByEntire } from '@/get/by-entire';
+import type { GetByKeyMapper } from '@/get/by-key-mapper';
+import type { GetByKey } from '@/get/by-key-value';
+import type { GetByKeys } from '@/get/by-keys';
+import type { GetByMapper } from '@/get/by-mapper';
+import type { GetByTruthy } from '@/get/by-truthy';
 import type { GetInterface } from '@/get/methods';
 import type { GetOverloads } from '@/get/overloads';
-import type { GetByEntire } from '@/get/by-entire';
-import type { GetByKey } from '@/get/by-key-value';
-import type { GetByKeyMapper } from '@/get/by-key-mapper';
-import type { GetByMapper } from '@/get/by-mapper';
-import type { GetByKeys } from '@/get/by-keys';
-import type { GetByTruthy } from '@/get/by-truthy';
+import type { MockData } from '@repo/mocks';
 
 describe('get/methods.ts', () => {
 	it('should have 5 method related started with "get" keyword', () => {
@@ -27,7 +26,9 @@ describe('get/methods.ts', () => {
 	it('should match <getByEntire> signature method', () => {
 		expectTypeOf<GetInterface<MockData>>().toHaveProperty('getByEntire');
 		expectTypeOf<GetInterface<MockData>['getByEntire']>().toBeFunction();
-		expectTypeOf<GetInterface<MockData>['getByEntire']>().toEqualTypeOf<GetByEntire<MockData>>();
+		expectTypeOf<GetInterface<MockData>['getByEntire']>().toEqualTypeOf<
+			GetByEntire<MockData>
+		>();
 	});
 
 	it('should match <getByKeyValue> signature method', () => {
@@ -39,13 +40,17 @@ describe('get/methods.ts', () => {
 	it('should match <getByKeyMapper> signature method', () => {
 		expectTypeOf<GetInterface<MockData>>().toHaveProperty('getByKeyMapper');
 		expectTypeOf<GetInterface<MockData>['getByKeyMapper']>().toBeFunction();
-		expectTypeOf<GetInterface<MockData>['getByKeyMapper']>().toEqualTypeOf<GetByKeyMapper<MockData>>();
+		expectTypeOf<GetInterface<MockData>['getByKeyMapper']>().toEqualTypeOf<
+			GetByKeyMapper<MockData>
+		>();
 	});
 
 	it('should match <getByMapper> signature method', () => {
 		expectTypeOf<GetInterface<MockData>>().toHaveProperty('getByMapper');
 		expectTypeOf<GetInterface<MockData>['getByMapper']>().toBeFunction();
-		expectTypeOf<GetInterface<MockData>['getByMapper']>().toEqualTypeOf<GetByMapper<MockData>>();
+		expectTypeOf<GetInterface<MockData>['getByMapper']>().toEqualTypeOf<
+			GetByMapper<MockData>
+		>();
 	});
 
 	it('should match <getByKeys> signature method', () => {
@@ -57,6 +62,8 @@ describe('get/methods.ts', () => {
 	it('should match <getByTruthy> signature method', () => {
 		expectTypeOf<GetInterface<MockData>>().toHaveProperty('getByTruthy');
 		expectTypeOf<GetInterface<MockData>['getByTruthy']>().toBeFunction();
-		expectTypeOf<GetInterface<MockData>['getByTruthy']>().toEqualTypeOf<GetByTruthy<MockData>>();
+		expectTypeOf<GetInterface<MockData>['getByTruthy']>().toEqualTypeOf<
+			GetByTruthy<MockData>
+		>();
 	});
 });

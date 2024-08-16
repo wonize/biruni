@@ -1,11 +1,10 @@
-import { expectTypeOf, describe, it } from 'vitest';
-import type { MockData } from '@repo/mocks';
+import type { SetByKeySetter } from '@/set/by-key-setter';
+import type { SetByKeyValue } from '@/set/by-key-value';
+import type { SetByPair } from '@/set/by-pair';
+import type { SetBySetter } from '@/set/by-setter';
 import type { SetInterface } from '@/set/methods';
 import type { SetOverloads } from '@/set/overloads';
-import type { SetByPair } from '@/set/by-pair';
-import type { SetByKeyValue } from '@/set/by-key-value';
-import type { SetByKeySetter } from '@/set/by-key-setter';
-import type { SetBySetter } from '@/set/by-setter';
+import type { MockData } from '@repo/mocks';
 
 describe('set/methods.ts', () => {
 	it('should have 5 method related started with "set" keyword', () => {
@@ -31,18 +30,24 @@ describe('set/methods.ts', () => {
 	it('should match <setByKeyValue> signature method', () => {
 		expectTypeOf<SetInterface<MockData>>().toHaveProperty('setByKeyValue');
 		expectTypeOf<SetInterface<MockData>['setByKeyValue']>().toBeFunction();
-		expectTypeOf<SetInterface<MockData>['setByKeyValue']>().toEqualTypeOf<SetByKeyValue<MockData>>();
+		expectTypeOf<SetInterface<MockData>['setByKeyValue']>().toEqualTypeOf<
+			SetByKeyValue<MockData>
+		>();
 	});
 
 	it('should match <setByKeySetter> signature method', () => {
 		expectTypeOf<SetInterface<MockData>>().toHaveProperty('setByKeySetter');
 		expectTypeOf<SetInterface<MockData>['setByKeySetter']>().toBeFunction();
-		expectTypeOf<SetInterface<MockData>['setByKeySetter']>().toEqualTypeOf<SetByKeySetter<MockData>>();
+		expectTypeOf<SetInterface<MockData>['setByKeySetter']>().toEqualTypeOf<
+			SetByKeySetter<MockData>
+		>();
 	});
 
 	it('should match <setBySetter> signature method', () => {
 		expectTypeOf<SetInterface<MockData>>().toHaveProperty('setBySetter');
 		expectTypeOf<SetInterface<MockData>['setBySetter']>().toBeFunction();
-		expectTypeOf<SetInterface<MockData>['setBySetter']>().toEqualTypeOf<SetBySetter<MockData>>();
+		expectTypeOf<SetInterface<MockData>['setBySetter']>().toEqualTypeOf<
+			SetBySetter<MockData>
+		>();
 	});
 });

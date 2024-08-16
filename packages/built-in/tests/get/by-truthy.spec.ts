@@ -1,6 +1,5 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
-import { mockData, type MockData } from '@repo/mocks';
 import { getByTruthy, isByTruthy } from '@/get/by-truthy';
+import { mockData, type MockData } from '@repo/mocks';
 
 describe('get/by-truthy.ts', () => {
 	describe('Verify Signature', () => {
@@ -13,14 +12,11 @@ describe('get/by-truthy.ts', () => {
 		});
 
 		it('Verify the Type Signature of the <getByTruthy> Helper Function', () => {
-			expectTypeOf(getByTruthy<MockData>).toBeFunction();
-			expectTypeOf(getByTruthy<MockData>)
-				.parameter(0)
-				.toEqualTypeOf<MockData>();
-			expectTypeOf(getByTruthy<MockData>)
-				.parameter(1)
-				.toBeObject();
-			expectTypeOf(getByTruthy<MockData>).returns.toBeObject();
+			const truthy = expectTypeOf(getByTruthy<MockData>);
+			truthy.toBeFunction();
+			truthy.parameter(0).toEqualTypeOf<MockData>();
+			truthy.parameter(1).toEqualTypeOf<object>();
+			truthy.returns.toEqualTypeOf<object>();
 		});
 	});
 
@@ -28,7 +24,7 @@ describe('get/by-truthy.ts', () => {
 		it('should return true when input is an object', () => {
 			expect(isByTruthy(mockData)).toBeTruthy();
 			expect(isByTruthy(mockData)).not.toBeFalsy();
-		})
+		});
 
 		it('should return false when input is not object', () => {
 			expect(isByTruthy(['index0', 'index1'])).toBeFalsy();
@@ -41,8 +37,8 @@ describe('get/by-truthy.ts', () => {
 			expect(isByTruthy(null)).not.toBeTruthy();
 			expect(isByTruthy('string')).toBeFalsy();
 			expect(isByTruthy('string')).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should return single key when is true key', () => {
@@ -119,21 +115,18 @@ describe('get/by-truthy.ts', () => {
 	describe('Edge Case', () => {
 		it('should return emtpy object when base is non-object', () => {
 			const base = 'non-object';
-			// @ts-expect-error to test non-object base
 			const result = getByTruthy(base, { lang: 'FR' });
 			expect(result).toStrictEqual(expect.objectContaining({}));
 		});
 
 		it('should return empty object when truthy is non-object', () => {
 			const base = { ...mockData };
-			// @ts-expect-error to test non-object truthy
 			const result = getByTruthy(base, 'non-object');
 			expect(result).toStrictEqual(expect.objectContaining({}));
 		});
 
 		it('should return empty object when truthy is key is not exists in base', () => {
 			const base = { ...mockData };
-			// @ts-expect-error to test non-exist truthy key
 			const result = getByTruthy(base, { nonexists: true });
 			expect(result).toStrictEqual(expect.objectContaining({}));
 		});

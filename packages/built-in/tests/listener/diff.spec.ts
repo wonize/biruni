@@ -1,17 +1,20 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
-import { mockData, type MockData } from '@repo/mocks';
 import { diff, type Diff } from '@/listener/diff';
+import { mockData, type MockData } from '@repo/mocks';
 
 describe('listener/diff.ts', () => {
 	describe('Verify Signature', () => {
 		it('Verify Parameters and Returns', () => {
 			expect(diff<MockData, MockData>).toBeTypeOf('function');
 			expectTypeOf(diff<MockData, MockData>).toBeFunction();
-			expectTypeOf(diff<MockData, MockData>).parameter(0).toBeObject();
-			expectTypeOf(diff<MockData, MockData>).parameter(1).toBeObject();
+			expectTypeOf(diff<MockData, MockData>)
+				.parameter(0)
+				.toBeObject();
+			expectTypeOf(diff<MockData, MockData>)
+				.parameter(1)
+				.toBeObject();
 			expectTypeOf(diff<MockData, MockData>).returns.toBeObject();
-		})
-	})
+		});
+	});
 
 	it('should detect chenged key and produce diff return object', () => {
 		const source = { ...mockData } satisfies MockData;

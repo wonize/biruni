@@ -1,7 +1,6 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
-import { mockData, type MockData } from '@repo/mocks';
 import { getByKeys, isByKeys } from '@/get/by-keys';
 import type { Path } from '@/path/mod';
+import { mockData, type MockData } from '@repo/mocks';
 
 describe('get/by-keys.ts', () => {
 	describe('Verify Signature', () => {
@@ -33,7 +32,7 @@ describe('get/by-keys.ts', () => {
 			expect(isByKeys(new Array(['index0', 'index1']))).not.toBeFalsy();
 			expect(isByKeys(Array(['index0', 'index1']))).toBeTruthy();
 			expect(isByKeys(Array(['index0', 'index1']))).not.toBeFalsy();
-		})
+		});
 
 		it('should return false when input is not Array (indexed object)', () => {
 			expect(isByKeys(null)).toBeFalsy();
@@ -46,8 +45,8 @@ describe('get/by-keys.ts', () => {
 			expect(isByKeys(new String('string'))).not.toBeTruthy();
 			expect(isByKeys(String('string'))).toBeFalsy();
 			expect(isByKeys(String('string'))).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should return single key from base object', () => {
@@ -95,7 +94,6 @@ describe('get/by-keys.ts', () => {
 		});
 
 		it('should return empty object when base is non-object and keys is empty', () => {
-			// @ts-expect-error to test non-object base
 			const result = getByKeys('non-object', []);
 			expect(result).toStrictEqual({});
 		});

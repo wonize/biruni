@@ -1,6 +1,3 @@
-import { mockData, type MockData } from '@repo/mocks';
-import { describe, expect, expectTypeOf, it } from 'vitest';
-
 import type { Path } from '@/path/mod';
 import {
 	isByKeyValue,
@@ -8,7 +5,8 @@ import {
 	setByKeyValue,
 	type SetByKeyValue,
 } from '@/set/by-key-value.ts';
-import type { DeepPartial } from '@/helpers/deep-partial';
+import type { DeepPartial } from '@biruni/core/helpers/deep-partial';
+import { mockData, type MockData } from '@repo/mocks';
 
 describe('set/by-key-value.ts', () => {
 	describe('Verify Signature', () => {
@@ -46,7 +44,7 @@ describe('set/by-key-value.ts', () => {
 			expectTypeOf<SetByKeyValue<MockData>>()
 				.parameter(1)
 				.toEqualTypeOf<DeepPartial<Path.At<MockData, Path.From<MockData>>>>();
-			expectTypeOf<SetByKeyValue<MockData>>().returns.toEqualTypeOf<Promise<void>>();
+			expectTypeOf<SetByKeyValue<MockData>>().returns.toEqualTypeOf<void>();
 		});
 	});
 
@@ -60,15 +58,15 @@ describe('set/by-key-value.ts', () => {
 			expect(isKeyOfData(String('string'))).not.toBeFalsy();
 
 			expect(isByKeyValue(null), 'is always return true').toBeTruthy();
-		})
+		});
 
 		it('should return false when input is not string', () => {
-			expect(isKeyOfData(() => { })).toBeFalsy();
-			expect(isKeyOfData(() => { })).not.toBeTruthy();
+			expect(isKeyOfData(() => {})).toBeFalsy();
+			expect(isKeyOfData(() => {})).not.toBeTruthy();
 			expect(isKeyOfData({})).toBeFalsy();
 			expect(isKeyOfData({})).not.toBeTruthy();
-		})
-	})
+		});
+	});
 
 	describe('Test Functionality', () => {
 		it('should return updated value with single key and primitive value', () => {
@@ -100,7 +98,7 @@ describe('set/by-key-value.ts', () => {
 		it('should avoid add non-exists key to base object', () => {
 			const expected = { ...mockData };
 			// @ts-expect-error to test non-exists key
-			const result = setByKeyValue(mockData, 'nonexists', 'value')
+			const result = setByKeyValue(mockData, 'nonexists', 'value');
 			expect(result).toMatchObject(expected);
 		});
 
@@ -121,7 +119,7 @@ describe('set/by-key-value.ts', () => {
 		it('should create new base object when base is non-object', () => {
 			// @ts-expect-error to test non-object base
 			const result = setByKeyValue('non-object', 'lang', 'FR');
-			expect(result).toMatchObject({ lang: "FR" });
+			expect(result).toMatchObject({ lang: 'FR' });
 		});
 	});
 });
