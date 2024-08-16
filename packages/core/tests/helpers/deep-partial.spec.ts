@@ -3,7 +3,25 @@ import type { MockData } from '@repo/mocks';
 
 describe('helpers/deep-partial.ts', () => {
 	it('should reproduce object deeply partial(optional) type', () => {
-		expectTypeOf<DeepPartial<MockData>>().toEqualTypeOf<{
+		const deeply = expectTypeOf<DeepPartial<MockData>>();
+
+		const lang = deeply.toHaveProperty('lang');
+		lang.toEqualTypeOf<MockData['lang'] | undefined>();
+		lang.toBeNullable();
+
+		const value = deeply.toHaveProperty('value');
+		value.toBeNullable();
+		value.toEqualTypeOf<MockData['value'] | undefined>();
+
+		const theme = deeply.toHaveProperty('theme');
+		theme.toBeNullable();
+		theme.toEqualTypeOf<MockData['theme'] | undefined>();
+
+		const currency = deeply.toHaveProperty('currency');
+		currency.toBeNullable();
+		currency.toEqualTypeOf<Partial<MockData['currency']> | undefined>();
+
+		deeply.toEqualTypeOf<{
 			lang?: MockData['lang'];
 			value?: MockData['value'];
 			theme?: MockData['theme'];
