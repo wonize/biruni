@@ -20,7 +20,7 @@ class Core<Data extends DataObject, Namespace extends string = string> {
 	public get namespace(): Namespace {
 		return this.#namespace;
 	}
-	public set namespace(namespace: Namespace) {
+	private set namespace(namespace: Namespace) {
 		this.#namespace = namespace;
 	}
 
@@ -35,12 +35,12 @@ class Core<Data extends DataObject, Namespace extends string = string> {
 		return { [name]: fn } as Record<N, F>;
 	}
 	public invoke<R>(name: string, ...args: unknown[]): R {
-		if (name in this.internal) {
-			const internal = this.internal.get(name) as NonNullable<Fn>;
-			return internal(...args);
+		if (this.internal.has(name) === false) {
+			throw new Error(`The "${name}" internal not exists!`);
 		}
 
-		throw new Error(`The "${name}" internal not exists!`);
+		const internal = this.internal.get(name) as NonNullable<Fn>;
+		return internal(...args);
 	}
 
 	private hooks: Map<DataFlow | string, Set<Fn>>;
@@ -102,14 +102,7 @@ class Core<Data extends DataObject, Namespace extends string = string> {
 		this.#data = data;
 	}
 
-	public initBy<D extends Data>(initialize: () => D) {
-		// TODO: implement fresh-initializing
-		/* function fresh(persisted_data) {
-			const comming_data = initializer();
-			const data = mergeFresh<Readonly<Data>>(persisted_data, comming_data);
-			this.setByEntire(data);
-		} */
-
+	public init<D extends Data>(initialize: () => D) {
 		this.data = initialize();
 		return this.boundary.eject();
 	}
