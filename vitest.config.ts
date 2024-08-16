@@ -1,7 +1,8 @@
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { configDefaults, defineConfig } from 'vitest/config';
 
-const include = configDefaults.include
+const include = /* configDefaults.include */ ([] as string[])
+	.concat('src/**')
 	.concat('packages/core')
 	.concat('packages/factory')
 	.concat('packages/built-in')
@@ -27,7 +28,7 @@ export default defineConfig({
 		coverage: {
 			provider: 'v8',
 			reporter: reporter,
-			// FIXME: include: include,
+			include: include,
 			exclude: exclude.concat('**/tests/**'),
 		},
 	},
