@@ -26,6 +26,7 @@ export default defineConfig({
 		mockReset: false,
 		exclude: exclude,
 		coverage: {
+			all: true,
 			provider: 'v8',
 			reporter: reporter,
 			include: include,
