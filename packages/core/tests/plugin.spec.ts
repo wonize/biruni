@@ -22,7 +22,7 @@ describe('core/plugin.ts', () => {
 			setup.returns.toBeVoid();
 		});
 
-		it.todo('should to have <flow> attribute and default initialized', () => {
+		it('should to have <flow> attribute and default initialized', () => {
 			const flow = instance.toHaveProperty('flow');
 			flow.toEqualTypeOf<DataFlow>();
 		});
@@ -51,6 +51,10 @@ describe('core/plugin.ts', () => {
 			expect(processSpy).toBeCalledTimes(1);
 			expect(processSpy).toBeCalledWith(expect.objectContaining({ __mock__: true }));
 			expect(processSpy).toReturnWith(expect.objectContaining({ __mock__: true }));
+		});
+
+		it('should cunstruct without parameter', () => {
+			expectTypeOf(ConcretePlugin).constructorParameters.toEqualTypeOf<[]>();
 		});
 	});
 });
