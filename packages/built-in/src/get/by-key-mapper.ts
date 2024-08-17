@@ -1,9 +1,9 @@
-import type { StoreData } from '../helpers/mod';
-import clone from 'lodash.clonedeep';
+import type { DataObject } from '@biruni/core/helpers/mod';
 import { getProperty, hasProperty } from 'dot-prop';
+import clone from 'lodash.clonedeep';
 import type { Path } from '../path/mod';
 
-interface GetByKeyMapper<Data extends StoreData> {
+interface GetByKeyMapper<Data extends DataObject> {
 	<Key extends Path.From<Data>, Mapper extends GetByKeyMapperFunction<Data, Key>>(
 		key: Key,
 		mapper: Mapper
@@ -11,23 +11,23 @@ interface GetByKeyMapper<Data extends StoreData> {
 }
 
 type GetByKeyMapperReturnType<
-	Data extends StoreData,
+	Data extends DataObject,
 	Key extends Path.From<Data>,
 	Mapper extends GetByKeyMapperFunction<Data, Key>,
 > = ReturnType<Mapper> | Path.At<Data, Key> | unknown;
 
-interface GetByKeyMapperFunction<Data extends StoreData, Key extends Path.From<Data>> {
+interface GetByKeyMapperFunction<Data extends DataObject, Key extends Path.From<Data>> {
 	(data: Path.At<Data, Key> | never): Path.At<Data, Key> | unknown;
 }
 
-const isByKeyMapper = <Data extends StoreData>(
+const isByKeyMapper = <Data extends DataObject>(
 	input: unknown
 ): input is GetByKeyMapperFunction<Data, Path.From<Data>> => {
 	return typeof input === 'function';
 };
 
 function getByKeyMapper<
-	Data extends StoreData,
+	Data extends DataObject,
 	Key extends Path.From<Data> = Path.From<Data>,
 	Mapper extends GetByKeyMapperFunction<Data, Key> = GetByKeyMapperFunction<Data, Key>,
 >(data: Data, key: Key, mapper: Mapper) {
@@ -36,13 +36,14 @@ function getByKeyMapper<
 	if (typeof mapper !== 'function') {
 		temp_mapper = function alternative_mapper(value) {
 			return value;
-		} as Mapper
+		} as Mapper;
 	}
 
 	if (hasProperty(data, key.toString()) === false) {
 		return clone(data);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const parameter = getProperty(data, key.toString())!;
 	return temp_mapper(parameter);
 }

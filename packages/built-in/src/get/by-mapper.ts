@@ -1,9 +1,7 @@
-import type { StoreData } from '../helpers/mod';
+import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
 
 interface GetByMapper<Data extends StoreData> {
-	<Mapper extends GetByMapperFunction<Data>>(
-		mapper: Mapper
-	): GetByMapperReturnType<Data, Mapper>;
+	<Mapper extends GetByMapperFunction<Data>>(mapper: Mapper): GetByMapperReturnType<Data, Mapper>;
 }
 
 type GetByMapperReturnType<Data extends StoreData, Mapper extends GetByMapperFunction<Data>> =

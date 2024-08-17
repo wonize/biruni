@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
 import { getProperty } from 'dot-prop';
-import merge from 'lodash.merge';
 import cloneDeep from 'lodash.clonedeep';
+import merge from 'lodash.merge';
 import type { Path } from '../path/mod';
-import type { StoreData } from '../helpers/mod';
 
 interface GetByKeys<Data extends StoreData> {
 	<KeyList extends Array<Path.From<Data>>>(
@@ -39,7 +39,7 @@ function getByKeys<
 		temp_keys = [] as KeyList;
 	}
 
-	if (typeof keys !== 'object' && ((keys as any) instanceof Array === false)) {
+	if (typeof keys !== 'object' && (keys as unknown) instanceof Array === false) {
 		temp_keys = [] as KeyList;
 	}
 
