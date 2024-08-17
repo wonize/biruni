@@ -10,6 +10,7 @@ describe('get/by-key-value.ts', () => {
 				.parameter(0)
 				.toBeUnknown();
 			expectTypeOf(isByKey<MockData>).returns.toBeBoolean();
+			expectTypeOf(isByKey<MockData>).guards.toBeNullable();
 		});
 
 		it('Verify the Function Signature and Return Type of the <isKeyOfData>', () => {
@@ -18,6 +19,7 @@ describe('get/by-key-value.ts', () => {
 				.parameter(0)
 				.toBeUnknown();
 			expectTypeOf(isKeyOfData<MockData>).returns.toBeBoolean();
+			expectTypeOf(isKeyOfData<MockData>).guards.toBeString();
 		});
 
 		it('Verify the Type Signature of the <getByKeyValue> Helper Function', () => {

@@ -14,6 +14,7 @@ describe('set/by-setter.ts', () => {
 			expectTypeOf(isBySetter).toBeFunction();
 			expectTypeOf(isBySetter).parameter(0).toBeUnknown();
 			expectTypeOf(isBySetter).returns.toBeBoolean();
+			expectTypeOf(isBySetter).guards.toBeFunction();
 		});
 
 		it('Verify the Type Signature of the <setBySetter> Helper Function', () => {

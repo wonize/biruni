@@ -9,6 +9,7 @@ describe('get/by-mapper.ts', () => {
 				.parameter(0)
 				.toBeUnknown();
 			expectTypeOf(isByMapper<MockData>).returns.toBeBoolean();
+			expectTypeOf(isByMapper<MockData>).guards.toBeFunction();
 		});
 
 		it('Verify the Type Signature of the <getByMapper> Helper Function', () => {

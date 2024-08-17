@@ -14,6 +14,7 @@ describe('set/by-key-setter.ts', () => {
 			expectTypeOf(isByKeySetter).toBeFunction();
 			expectTypeOf(isByKeySetter).parameter(0).toBeUnknown();
 			expectTypeOf(isByKeySetter).returns.toBeBoolean();
+			expectTypeOf(isByKeySetter).guards.toBeFunction();
 		});
 
 		it('Verify the Function Signature and Return Type of the <isKeyOfData>', () => {

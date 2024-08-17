@@ -10,6 +10,7 @@ describe('set/by-pair.ts', () => {
 				.parameter(0)
 				.toBeUnknown();
 			expectTypeOf(isByPair<MockData>).returns.toBeBoolean();
+			expectTypeOf(isByPair<MockData>).guards.toBeObject();
 		});
 
 		it('Verify the Type Signature of the <setByPair> Helper Function', () => {

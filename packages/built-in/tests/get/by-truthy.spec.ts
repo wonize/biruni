@@ -9,6 +9,7 @@ describe('get/by-truthy.ts', () => {
 				.parameter(0)
 				.toBeUnknown();
 			expectTypeOf(isByTruthy<MockData>).returns.toBeBoolean();
+			expectTypeOf(isByTruthy<MockData>).guards.toEqualTypeOf<object>();
 		});
 
 		it('Verify the Type Signature of the <getByTruthy> Helper Function', () => {

@@ -13,6 +13,7 @@ describe('get/by-entire.ts', () => {
 			expectTypeOf(isByEntire).toBeFunction();
 			expectTypeOf(isByEntire).parameter(0).toBeUnknown();
 			expectTypeOf(isByEntire).returns.toBeBoolean();
+			expectTypeOf(isByEntire).guards.toBeNullable();
 		});
 
 		it('Verify the Type Signature of the <getByEntire> Helper Function', () => {

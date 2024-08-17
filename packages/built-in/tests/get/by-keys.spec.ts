@@ -10,6 +10,7 @@ describe('get/by-keys.ts', () => {
 				.parameter(0)
 				.toBeUnknown();
 			expectTypeOf(isByKeys<MockData>).returns.toBeBoolean();
+			expectTypeOf(isByKeys<MockData>).guards.toBeArray();
 		});
 
 		it('Verify the Type Signature of the <getByKeys> Helper Function', () => {

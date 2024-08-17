@@ -14,12 +14,16 @@ describe('set/by-key-value.ts', () => {
 			expectTypeOf(isByKeyValue).toBeFunction();
 			expectTypeOf(isByKeyValue).parameter(0).toBeUnknown();
 			expectTypeOf(isByKeyValue).returns.toBeBoolean();
+			expectTypeOf(isByKeyValue<MockData>).guards.toEqualTypeOf<
+				Path.At<MockData, Path.From<MockData>>
+			>();
 		});
 
 		it('Verify the Function Signature and Return Type of the <isKeyOfData>', () => {
 			expectTypeOf(isKeyOfData).toBeFunction();
 			expectTypeOf(isKeyOfData).parameter(0).toBeUnknown();
 			expectTypeOf(isKeyOfData).returns.toBeBoolean();
+			expectTypeOf(isKeyOfData<MockData>).guards.toBeString();
 		});
 
 		it('Verify the Type Signature of the <setByKeyValue> Helper Function', () => {

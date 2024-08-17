@@ -7,6 +7,7 @@ describe('get/by-key-mapper.ts', () => {
 			expectTypeOf(isByKeyMapper).toBeFunction();
 			expectTypeOf(isByKeyMapper).parameter(0).toBeUnknown();
 			expectTypeOf(isByKeyMapper).returns.toBeBoolean();
+			expectTypeOf(isByKeyMapper).guards.toBeFunction();
 		});
 
 		it('Verify the Type Signature of the <getByKeyMapper> Helper Function', () => {
