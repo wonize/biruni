@@ -1,7 +1,7 @@
+import type { DeepPartial } from '@biruni/core/helpers/deep-partial';
+import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
 import { getProperty, hasProperty, setProperty } from 'dot-prop';
 import clone from 'lodash.clonedeep';
-import type { DeepPartial } from '../helpers/deep-partial';
-import type { StoreData } from '../helpers/mod';
 import type { Path } from '../path/mod';
 import { setByPair } from './by-pair';
 import { setBySetter, type SetBySetterFunction } from './by-setter';
@@ -29,7 +29,10 @@ const isByKeySetter = <Data extends StoreData>(
 function setByKeySetter<
 	Data extends StoreData,
 	Key extends Path.From<Data> = Path.From<Data>,
-	Setter extends SetByKeySetterFunction<Path.At<Data, Key>, Data> = SetByKeySetterFunction<Path.At<Data, Key>, Data>,
+	Setter extends SetByKeySetterFunction<Path.At<Data, Key>, Data> = SetByKeySetterFunction<
+		Path.At<Data, Key>,
+		Data
+	>,
 >(data: Data, key: Key, setter: Setter): Data {
 	let temp_data = data;
 	let temp_setter = setter;
@@ -41,7 +44,7 @@ function setByKeySetter<
 	if (typeof setter !== 'function') {
 		temp_setter = function alternative_setter(param_data) {
 			return param_data;
-		} as Setter
+		} as Setter;
 	}
 
 	const cloned_base = clone(temp_data);
@@ -54,6 +57,7 @@ function setByKeySetter<
 		return cloned_base;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const target_pair = getProperty(cloned_base, key.toString())!;
 	const setter_pair = temp_setter(target_pair);
 	const merge_pair = setProperty({}, key.toString(), setter_pair) as DeepPartial<Data>;

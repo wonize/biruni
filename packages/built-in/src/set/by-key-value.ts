@@ -1,7 +1,7 @@
-import { deepKeys, getProperty, hasProperty, setProperty } from 'dot-prop';
+import type { DeepPartial } from '@biruni/core/helpers/deep-partial';
+import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
+import { hasProperty, setProperty } from 'dot-prop';
 import clone from 'lodash.clonedeep';
-import type { DeepPartial } from '../helpers/deep-partial';
-import type { StoreData } from '../helpers/mod';
 import type { Path } from '../path/mod';
 import { setByPair } from './by-pair';
 
@@ -12,9 +12,7 @@ interface SetByKeyValue<Data extends StoreData> {
 	): void;
 }
 
-const isKeyOfData = <Data extends StoreData>(
-	input: unknown
-): input is Path.From<Data> => {
+const isKeyOfData = <Data extends StoreData>(input: unknown): input is Path.From<Data> => {
 	return typeof input === 'string' || input instanceof String;
 };
 

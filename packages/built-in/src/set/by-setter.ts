@@ -1,7 +1,7 @@
+import type { DeepPartial } from '@biruni/core/helpers/deep-partial';
+import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
 import clone from 'lodash.clone';
 import { setByPair } from './by-pair';
-import type { DeepPartial } from '../helpers/deep-partial';
-import type { StoreData } from '../helpers/mod';
 
 interface SetBySetter<Data extends StoreData> {
 	<Setter extends SetBySetterFunction<Data>>(setter: Setter): void;
@@ -11,15 +11,14 @@ interface SetBySetterFunction<Data extends StoreData> {
 	(data: Readonly<Data>): DeepPartial<Data>;
 }
 
-
 const isBySetter = <Data extends StoreData>(input: unknown): input is SetBySetterFunction<Data> => {
 	return typeof input === 'function';
 };
 
-function setBySetter<Data extends StoreData, Setter extends SetBySetterFunction<Data> = SetBySetterFunction<Data>>(
-	data: Data,
-	setter: Setter
-): Data {
+function setBySetter<
+	Data extends StoreData,
+	Setter extends SetBySetterFunction<Data> = SetBySetterFunction<Data>,
+>(data: Data, setter: Setter): Data {
 	let temp_data = data;
 	let temp_setter = setter;
 
@@ -30,7 +29,7 @@ function setBySetter<Data extends StoreData, Setter extends SetBySetterFunction<
 	if (typeof setter !== 'function') {
 		temp_setter = function alternative_setter(param_data) {
 			return param_data;
-		} as Setter
+		} as Setter;
 	}
 
 	const cloned_base = clone(temp_data);
