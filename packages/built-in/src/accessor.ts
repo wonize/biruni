@@ -1,10 +1,10 @@
-import { Plugin } from '@biruni/core/plugin';
-import { DataFlow } from '@biruni/core/flow';
-import type { StoreData } from '@biruni/core/helpers';
 import type { Core } from '@biruni/core';
+import { DataFlow } from '@biruni/core/flow';
+import type { DataObject as StoreData } from '@biruni/core/helpers';
+import { Plugin } from '@biruni/core/plugin';
 import * as Getter from './get/mod';
-import * as Setter from './set/mod';
 import { hasOwnPropertyPath, type HasOwnPropertyPath } from './has/mod';
+import * as Setter from './set/mod';
 
 class GetAccessor<Data extends StoreData> extends Plugin<Data> {
 	public constructor() {
@@ -22,7 +22,8 @@ class GetAccessor<Data extends StoreData> extends Plugin<Data> {
 		core.bound('getByKeyMapper', this.getByKeyMapper.bind(this));
 	}
 
-	public get: Getter.Overloads<Data> = (first?: unknown, second?: unknown) => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	public get: Getter.Overloads<Data> = (first?: unknown, second?: unknown): any => {
 		if (Getter.isByEntire(first)) {
 			return this.getByEntire();
 		} else if (Getter.isKeyOfData<Data>(first)) {
@@ -190,4 +191,4 @@ class PropertyAccessor<Data extends StoreData> extends Plugin<Data> {
 	}
 }
 
-export { GetAccessor, HasAccessor, SetAccessor, PropertyAccessor };
+export { GetAccessor, HasAccessor, PropertyAccessor, SetAccessor };
