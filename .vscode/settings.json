@@ -1,5 +1,6 @@
 {
   /* <<< FORMATTER >>> */
+  "editor.formatOnSave": true,
   "prettier.enable": true,
   "prettier.useEditorConfig": true,
   "prettier.configPath": "prettier.config.mjs",
