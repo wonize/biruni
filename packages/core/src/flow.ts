@@ -1,4 +1,4 @@
-export const enum DataFlow {
+export enum DataFlow {
 	NONE = 'NONE',
 	INPUT = 'INPUT',
 	OUTPUT = 'OUTPUT',
