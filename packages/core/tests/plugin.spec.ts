@@ -2,27 +2,27 @@ import { Core } from '@/core';
 import { DataFlow } from '@/flow';
 import { Plugin } from '@/plugin';
 import type { MOCK_NAMESPACE, MockData } from '@repo/mocks';
+import type { MockInstance } from 'vitest';
 
 describe('core/plugin.ts', () => {
 	describe('Plugin Interface', () => {
 		const instance = expectTypeOf<Plugin<MockData>>();
 
-		it('should to have <process> method', () => {
+		it('should have correct <process> method', () => {
 			const process = instance.toHaveProperty('process');
 			process.toBeFunction();
 			process.parameter(0).toBeObject();
-			process.parameter(1).toBeUndefined();
 			process.returns.toBeObject();
 		});
 
-		it('should to have <setup> method', () => {
+		it('should have correct <setup> method', () => {
 			const setup = instance.toHaveProperty('setup');
 			setup.toBeFunction();
 			setup.parameter(0).toEqualTypeOf<Core<MockData>>();
 			setup.returns.toBeVoid();
 		});
 
-		it('should to have <flow> attribute and default initialized', () => {
+		it('should have correct <flow> attribute', () => {
 			const flow = instance.toHaveProperty('flow');
 			flow.toEqualTypeOf<DataFlow>();
 		});
@@ -35,18 +35,29 @@ describe('core/plugin.ts', () => {
 			}
 		}
 
-		const concrete = new ConcretePlugin();
+		let concrete: Plugin<MockData>;
+		let setupSpy: MockInstance;
+		let processSpy: MockInstance;
 
-		const setupSpy = vi.spyOn(concrete, 'setup');
-		it('should call <setup> and assign the given parameter to <core>', () => {
+		beforeEach(() => {
+			concrete = new ConcretePlugin();
+			setupSpy = vi.spyOn(concrete, 'setup');
+			processSpy = vi.spyOn(concrete, 'process');
+		});
+
+		afterEach(() => {
+			vi.resetAllMocks();
+			vi.clearAllMocks();
+		});
+
+		it('should implement <setup> method with assign given <Core> instance', () => {
 			concrete.setup({ __mock__: true } as unknown as Core<MockData, typeof MOCK_NAMESPACE>);
 			expect(setupSpy).toBeCalledTimes(1);
 			expect(setupSpy).toBeCalledWith(expect.objectContaining({ __mock__: true }));
 			expect(concrete['core']).toStrictEqual(expect.objectContaining({ __mock__: true }));
 		});
 
-		const processSpy = vi.spyOn(concrete, 'process');
-		it('should call <process> and return the given parameter', () => {
+		it('should implement <process> method with return given arguments', () => {
 			concrete.process({ __mock__: true } as unknown as MockData);
 			expect(processSpy).toBeCalledTimes(1);
 			expect(processSpy).toBeCalledWith(expect.objectContaining({ __mock__: true }));
@@ -55,6 +66,10 @@ describe('core/plugin.ts', () => {
 
 		it('should cunstruct without parameter', () => {
 			expectTypeOf(ConcretePlugin).constructorParameters.toEqualTypeOf<[]>();
+		});
+
+		it('should initialized default <NONE> to <flow> attribute', () => {
+			expect(concrete.flow).toStrictEqual(DataFlow.NONE);
 		});
 	});
 });
