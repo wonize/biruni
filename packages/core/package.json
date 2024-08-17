@@ -44,14 +44,14 @@
 			"types": "./dist/types/helpers/mod.d.ts"
 		},
 		"./plugin": {
-			"require": "./dist/cjs/plugin/mod.js",
-			"import": "./dist/esm/plugin/mod.js",
-			"types": "./dist/types/plugin/mod.d.ts"
+			"require": "./dist/cjs/plugin.js",
+			"import": "./dist/esm/plugin.js",
+			"types": "./dist/types/plugin.d.ts"
 		},
 		"./flow": {
-			"require": "./dist/cjs/plugin/flow.js",
-			"import": "./dist/esm/plugin/flow.js",
-			"types": "./dist/types/plugin/flow.d.ts"
+			"require": "./dist/cjs/flow.js",
+			"import": "./dist/esm/flow.js",
+			"types": "./dist/types/flow.d.ts"
 		},
 		"./*": {
 			"require": "./dist/cjs/*.js",
