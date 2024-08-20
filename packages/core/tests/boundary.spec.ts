@@ -69,7 +69,7 @@ describe('Boundary class', () => {
 	describe('.constructor', () => {
 		it('should accept an optional initial <Record> of boundaries', () => {
 			type EmptyConstructorArgument = [];
-			type InitialConstructorArguments = [boundaries?: Record<string, unknown>];
+			type InitialConstructorArguments = [boundaries?: Record<PropertyKey, unknown>];
 			type ConstructorArguments = EmptyConstructorArgument | InitialConstructorArguments;
 			expectTypeOf(Boundary).constructorParameters.toEqualTypeOf<ConstructorArguments>();
 		});
