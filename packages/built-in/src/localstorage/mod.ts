@@ -1,32 +1,64 @@
-import type { StoreData } from '@biruni/core/helpers';
-import { BiruniPlugin, type ContextType } from '@biruni/core/plugin';
+import Core, { DataFlow, Plugin } from '@biruni/core';
+import type { DataObject } from '@biruni/core/helpers';
 
-class LocalStoragePlugin<Data extends StoreData> extends BiruniPlugin<Data> {
-	override type: ContextType = 'persister';
-	override name = 'built-in/localStorage' as const;
-
+class LocalStorageGetPlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
-		super();
+		super('localstorage.get');
 	}
 
-	// @ts-expect-error the `getItem` never return null, handled by initializer
-	override preprocess: (data: Data) => Promise<Data> = async () => {
-		return localStorage.getItem(this.namespace);
-	};
+	public override flow: DataFlow = DataFlow.OUTPUT;
 
-	override postprocess: (data: Data) => Promise<Data> = async (data) => {
-		if (typeof data !== 'string') {
-			throw 'Error: <postprocess> in <built-in/localStorage>' + this.namespace;
-		}
+	public override setup(core: Core<Data>) {
+		super.setup(core);
+	}
 
-		localStorage.setItem(this.namespace, data);
-		return data;
-	};
+	public override process(): Data {
+		// @ts-expect-error return <string> type is accepted
+		return localStorage.getItem(this.core.namespace);
+	}
 }
 
-const localstorage = <Data extends StoreData>() => {
-	return new LocalStoragePlugin<Data>();
-};
+class LocalStorageSetPlugin<Data extends DataObject> extends Plugin<Data> {
+	public constructor() {
+		super('localstorage.set');
+	}
 
-export default localstorage;
-export { localstorage as LocalStoragePlugin, localstorage };
+	public override flow: DataFlow = DataFlow.INPUT;
+
+	public override setup(core: Core<Data>) {
+		super.setup(core);
+		document.addEventListener('storage', this.on_change_storage.bind(this));
+	}
+
+	private on_change_storage(/* event */) {
+		/// FIXME: need more research
+		//	this.core.process(DataFlow.INPUT, (data) => {
+		//		return diff(data, event.data);
+		//	})
+	}
+
+	public override process(data: Data): Data {
+		if (typeof data === 'string' || data instanceof String) {
+			localStorage.setItem(this.core.namespace, data as unknown as string);
+		}
+		return data;
+	}
+}
+
+class LocalStoragePlugin<Data extends DataObject> extends Plugin<Data> {
+	public constructor() {
+		super('localstorage');
+	}
+
+	public override setup(core: Core<Data>) {
+		super.setup(core);
+		core.plug(new LocalStorageGetPlugin<Data>());
+		core.plug(new LocalStorageSetPlugin<Data>());
+	}
+}
+
+function localstorage() {
+	return new LocalStoragePlugin();
+}
+
+export { localstorage, LocalStoragePlugin };
