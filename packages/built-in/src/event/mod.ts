@@ -1,37 +1,47 @@
-import type { Event as BiruniEvent } from '@biruni/core';
-import type { StoreData } from '@biruni/core/helpers';
-import type { Add, Remove } from '@biruni/core/listener';
-import { diff } from '@biruni/core/listener/diff';
-import * as Plugin from '@biruni/core/plugin';
+import Core, { Plugin } from '@biruni/core';
+import type { DataObject } from '@biruni/core/helpers';
+import { DataFlow } from '@biruni/core/mod';
 import { default as EventEmitter } from 'events';
 
-class BiruniEventEmitter<Data extends StoreData> extends Plugin.BiruniPlugin<Data> {
-	#event_emitter: EventEmitter;
-
-	override type: Plugin.ContextType = 'synchronizer';
-	override name = 'built-in/event-emitter' as const;
-
+class BiruniListener<Data extends DataObject> extends Plugin<Data> {
+	private listeners: EventEmitter;
 	public constructor() {
-		super();
-		this.#event_emitter = new EventEmitter<BiruniEvent.EventMap>();
+		super('biruni::listener');
+		this.listeners = new EventEmitter();
 	}
 
-	override addListener: Add<Data> = (event, listener) => {
-		this.#event_emitter.addListener(event, listener);
-	};
+	public override setup(core: Core<Data, string>): void {
+		super.setup(core);
 
-	override removeListener: Remove<Data> = (event, listener) => {
-		this.#event_emitter.removeListener(event, listener);
-	};
+		core.bound('on', this.add_listener.bind(this));
+		core.bound('addListener', this.add_listener.bind(this));
+		core.bound('off', this.remove_listener.bind(this));
+		core.bound('removeListener', this.remove_listener.bind(this));
 
-	override postprocess: (data: Data) => Promise<Data> = async (data) => {
-		this.#event_emitter.emit('change', diff({}, data));
-		return data;
-	};
+		this.attach_listeners = this.attach_listeners.bind(this);
+		this.attach_listeners(DataFlow.OUTPUT);
+		this.attach_listeners(DataFlow.INPUT);
+	}
+
+	private attach_listeners(this: BiruniListener<Data>, flow: DataFlow) {
+		function on_output(this: BiruniListener<Data>, data: Data): void {
+			this.listeners.emit(flow, data);
+		}
+		const onOutput = on_output.bind(this);
+		this.core.watch(flow, onOutput);
+	}
+
+	public add_listener(flow: DataFlow, handler: () => void) {
+		this.listeners.addListener(flow, handler);
+	}
+
+	public remove_listener(flow: DataFlow, handler: () => void) {
+		this.listeners.removeListener(flow, handler);
+	}
 }
 
-const event = <Data extends StoreData>() => {
-	return new BiruniEventEmitter<Data>();
+const event = <Data extends DataObject>() => {
+	return new BiruniListener<Data>();
 };
 
-export { event as EventEmitterPlugin, event };
+export { BiruniListener, event };
