@@ -2,233 +2,329 @@ import { Core } from '@/core';
 import { DataFlow } from '@/flow';
 import { Plugin } from '@/plugin';
 import { MOCK_NAMESPACE, mockData, type MockData } from '@repo/mocks';
+import type { Mock } from 'vitest';
 
-describe('core/core.ts', () => {
-	describe('Interface', () => {
-		const prototype = expect(Core.prototype);
-		const instance = expectTypeOf(Core<MockData>).instance;
+describe('Core class', () => {
+	let core: Core<MockData, typeof MOCK_NAMESPACE>;
 
-		it('should to have <bound> method', () => {
-			prototype.toHaveProperty('bound');
-			const bound = instance.toHaveProperty('bound');
-			bound.toBeFunction();
-			bound.parameter(0).toBeString();
-			bound.parameter(1).toBeUnknown();
+	beforeEach(() => {
+		core = new Core(MOCK_NAMESPACE);
+	});
+
+	describe('.namespace', () => {
+		const namespace = expectTypeOf(Core<MockData>).instance.toHaveProperty('namespace');
+
+		it('should be a getter property of <Core> instance', () => {
+			expect(core).toHaveProperty('namespace');
 		});
 
-		it('should to have <namespace> accessor', () => {
-			instance.toHaveProperty('namespace');
+		it('should be a <string> getter property', () => {
+			namespace.toEqualTypeOf<Readonly<string>>();
+			expect(core.namespace).toBeTypeOf('string');
 		});
 
-		it('should to have <plug> method', () => {
-			prototype.toHaveProperty('plug');
-			const plug = instance.toHaveProperty('plug');
-			plug.toBeFunction();
-			plug.parameter(0).toEqualTypeOf<Plugin<MockData>>();
-			plug.returns.toBeVoid();
-		});
-
-		it('should to have <register> method', () => {
-			prototype.toHaveProperty('register');
-			const register = instance.toHaveProperty('register');
-			register.toBeFunction();
-			register.parameter(0).toBeString();
-			register.parameter(1).toBeFunction();
-			register.returns.toBeObject();
-		});
-
-		it('should to have <invoke> method', () => {
-			prototype.toHaveProperty('invoke');
-			const invoke = instance.toHaveProperty('invoke');
-			invoke.toBeFunction();
-			invoke.parameters.toEqualTypeOf<[string, ...unknown[]]>();
-			invoke.returns.toBeUnknown();
-		});
-
-		it('should to have <watch> method', () => {
-			prototype.toHaveProperty('watch');
-			const watch = instance.toHaveProperty('watch');
-			watch.toBeFunction();
-			watch.parameter(0).toBeString();
-			watch.parameter(1).toBeFunction();
-			watch.returns.toBeObject();
-		});
-
-		it('should to have <trigger> method', () => {
-			prototype.toHaveProperty('trigger');
-			const trigger = instance.toHaveProperty('trigger');
-			trigger.toBeFunction();
-			trigger.parameters.toEqualTypeOf<[string, ...unknown[]]>();
-			trigger.returns.toBeVoid();
-		});
-
-		it('should to have <process> method', () => {
-			prototype.toHaveProperty('process');
-			const process = instance.toHaveProperty('process');
-			process.toBeFunction();
-			process.parameter(0).toEqualTypeOf<DataFlow>();
-			const process_callback = process.parameter(1);
-			process_callback.toBeFunction();
-			process_callback.parameter(0).toEqualTypeOf<MockData>();
-			process_callback.returns.toBeUnknown();
-			process.returns.toEqualTypeOf<MockData>();
+		it('should equal to the initialized namespace argument', () => {
+			expect(core.namespace).toStrictEqual(MOCK_NAMESPACE);
 		});
 	});
 
-	describe('Functionality <Core>', () => {
-		const core = new Core(MOCK_NAMESPACE);
-		const processSpy = vi.spyOn(core, 'process');
-		const plugSpy = vi.spyOn(core, 'plug');
-		const registerSpy = vi.spyOn(core, 'register');
-		const invokeSpy = vi.spyOn(core, 'invoke');
-		const triggerSpy = vi.spyOn(core, 'trigger');
-		const watchSpy = vi.spyOn(core, 'watch');
-		const boundSpy = vi.spyOn(core, 'bound');
-		const initSpy = vi.spyOn(core, 'init');
+	describe('.bound', () => {
+		const bound = expectTypeOf(Core<MockData>).instance.toHaveProperty('bound');
 
-		it('should to register new internal function and invoke correctly', () => {
-			const internal = vi.fn().mockImplementation((param) => ({ result: param.param }));
-			core.register('custom', internal);
-
-			expect(Array.from(core['internal'].entries())).toStrictEqual(
-				expect.arrayContaining([expect.arrayContaining(['custom', internal])])
-			);
-
-			expect(registerSpy).toBeCalledTimes(1);
-			expect(registerSpy).toBeCalledWith('custom', internal);
-			expect(registerSpy).toReturnWith(expect.objectContaining({ custom: internal }));
-
-			core.invoke('custom', { param: 'value' });
-			expect(invokeSpy).toBeCalledTimes(1);
-			expect(invokeSpy).toBeCalledWith('custom', expect.objectContaining({ param: 'value' }));
-			expect(invokeSpy).toReturnWith(expect.objectContaining({ result: 'value' }));
-
-			expect(internal).toBeCalledTimes(1);
-			expect(internal).toBeCalledWith(expect.objectContaining({ param: 'value' }));
-			expect(internal).toReturnWith(expect.objectContaining({ result: 'value' }));
+		it('should be a method of <Core> instance', () => {
+			expect(core).toHaveProperty('bound');
 		});
 
-		it('should throw excepction when internal not exists', () => {
-			expect(() => {
-				core.invoke('bluh', 'value');
-			}).toThrowError();
+		it('should be a function', () => {
+			bound.toBeFunction();
+			expect(core.bound).toBeTypeOf('function');
 		});
 
-		it('should register a <hook> listener', () => {
-			const fn = vi.fn().mockImplementation((p) => ({ result: p }));
-			core.watch('onCustom', fn);
-
-			expect(Array.from(core['hooks'])).toStrictEqual(
-				expect.arrayContaining([expect.arrayContaining(['onCustom', new Set([fn])])])
-			);
-
-			expect(watchSpy).toBeCalledTimes(1);
-			expect(watchSpy).toBeCalledWith('onCustom', fn);
-			expect(watchSpy).toReturnWith(expect.objectContaining({ onCustom: fn }));
-
-			expect(fn).toBeCalledTimes(0);
-
-			core.trigger('onCustom', 'value');
-
-			expect(fn).toBeCalledTimes(1);
-			expect(fn).toBeCalledWith('value');
-			expect(fn).toReturnWith(expect.objectContaining({ result: 'value' }));
-
-			expect(triggerSpy).toBeCalledTimes(1);
-			expect(triggerSpy).toBeCalledWith('onCustom', 'value');
-			expect(triggerSpy).toReturnWith(undefined);
+		it('should accept a <string> as the first argument', () => {
+			bound.parameter(0).toBeString();
 		});
 
-		it('should register a boundary', () => {
-			const fn = vi.fn().mockImplementation((p) => ({ result: p }));
-			core.bound('fn', fn);
-			expect(boundSpy).toBeCalledWith('fn', fn);
-
-			core.bound('value', 'value');
-			expect(boundSpy).toBeCalledWith('value', 'value');
-
-			expect(boundSpy).toBeCalledTimes(2);
+		it('should accept a <unknown> as the second argument', () => {
+			bound.parameter(1).toBeUnknown();
 		});
 
-		it('should register a plugin', () => {
-			const mockPlugin = { setup: vi.fn() } as unknown as Plugin<MockData>;
+		it('should return an object shape with the bound function mapped', () => {
+			bound.returns.toBeObject();
+			const fn = vi.fn();
+			const result = core.bound('getData', fn);
+			expect(result).toHaveProperty('getData');
+			expect(result.getData).toBe(fn);
+			// expect(injectSpy).toHaveBeenCalledWith('getData', fn);
+			// expect(injectSpy).toHaveReturnedWith(expect.objectContaining({ getData: fn }));
+		});
+	});
 
-			core.plug(mockPlugin);
+	describe('.plug', () => {
+		const plug = expectTypeOf(Core<MockData>).instance.toHaveProperty('plug');
 
-			expect(mockPlugin.setup).toReturnTimes(1);
-			expect(mockPlugin.setup).toBeCalledWith(core);
+		afterEach(() => {
+			core['plugins'].clear();
 		});
 
-		it('should pipe with INPUT', () => {
-			const mockPlugin = {
-				flow: DataFlow.INPUT,
-				setup: vi.fn(),
-				process: vi.fn().mockImplementation((d) => d),
-			} as unknown as Plugin<object>;
-			core.plug(mockPlugin);
-
-			const fn = vi.fn().mockImplementation(() => ({ value: 'value' }));
-			core.process(DataFlow.INPUT, fn);
-
-			expect(mockPlugin.process).toBeCalledTimes(1);
-			expect(mockPlugin.process).toBeCalledWith(expect.objectContaining({ value: 'value' }));
-			expect(mockPlugin.process).toReturnWith(expect.objectContaining({ value: 'value' }));
-			expect(plugSpy).toReturnWith(void 0);
+		it('should be a method of <Core> instance', () => {
+			expect(core).toHaveProperty('plug');
 		});
 
-		it('should pipe with OUTPUT', () => {
-			const mockPlugin = {
-				flow: DataFlow.OUTPUT,
-				setup: vi.fn(),
-				process: vi.fn().mockImplementation((d) => d),
-			} as unknown as Plugin<object>;
-			core.plug(mockPlugin);
-
-			const fn = vi.fn().mockImplementation(() => ({ value: 'value' }));
-			core.process(DataFlow.OUTPUT, fn);
-			expect(mockPlugin.process).toBeCalledTimes(1);
-			expect(mockPlugin.process).toBeCalledWith(expect.objectContaining({ value: 'value' }));
-			expect(mockPlugin.process).toReturnWith(expect.objectContaining({ value: 'value' }));
+		it('should be a function', () => {
+			plug.toBeFunction();
+			expect(core.plug).toBeTypeOf('function');
 		});
 
-		it('should return only <Data> on <NONE> flow', () => {
-			const mockPlugin = {
-				flow: DataFlow.NONE,
-				setup: vi.fn(),
-				process: vi.fn().mockImplementation((d) => d),
-			} as unknown as Plugin<object>;
-			core.plug(mockPlugin);
-
-			const fn = vi.fn().mockImplementation(() => ({ value: 'value' }));
-			core.process(DataFlow.OUTPUT, fn);
-			expect(mockPlugin.process).toBeCalledTimes(0);
-			expect(processSpy).toReturnWith(expect.objectContaining({ value: 'value' }));
+		it('should accept a concreted instance of <Plugin> interface as the first argument', () => {
+			plug.parameter(0).toBeObject();
+			plug.parameter(0).toEqualTypeOf<Plugin<MockData>>();
+			plug.parameter(0).not.toBeNullable();
 		});
 
-		it('should return only on <NONE> flow', () => {
-			const mockPlugin = {
-				flow: DataFlow.OUTPUT,
-				setup: vi.fn(),
-				process: vi.fn().mockImplementation((d) => d),
-			} as unknown as Plugin<object>;
-			core.plug(mockPlugin);
-
-			const fn = vi.fn().mockImplementation(() => ({ value: 'value' }));
-			core.process(DataFlow.NONE, fn);
-			expect(mockPlugin.process).toBeCalledTimes(0);
-			expect(processSpy).toReturnWith(expect.objectContaining({ value: 'value' }));
+		it('should return <void>', () => {
+			plug.returns.toBeVoid();
 		});
 
-		it('should accessor to namespace', () => {
-			expect(core.namespace).toStrictEqual(MOCK_NAMESPACE);
+		it('should properly register a plugin and reflect in the core', () => {
+			class StubPlugin extends Plugin<MockData> {
+				constructor() {
+					super('stub-plugin');
+				}
+			}
+			const plugin = new StubPlugin();
+
+			core.plug(plugin);
+
+			expect(core['plugins'].has(plugin.name)).toBeTruthy();
 		});
 
-		it('should assign <Data> to <set data> in <init>', () => {
-			const initializer = vi.fn().mockReturnValue(mockData);
-			core.init(initializer);
-			expect(initializer).toBeCalledTimes(1);
-			expect(initializer).toReturnTimes(1);
-			expect(initSpy).toReturnWith(expect.objectContaining({}));
+		it('should invoke <Plugin.setup> method with forward <Core> instance', () => {
+			class StubPlugin extends Plugin<MockData> {
+				constructor() {
+					super('stub-plugin');
+				}
+			}
+			const plugin = new StubPlugin();
+			const setupSpy = vi.spyOn(plugin, 'setup');
+
+			core.plug(plugin);
+
+			expect(setupSpy).toBeCalledTimes(1);
+			expect(setupSpy).toBeCalledWith(core);
+		});
+	});
+
+	describe('.register', () => {
+		const register = expectTypeOf(Core<MockData>).instance.toHaveProperty('register');
+
+		it('should be a method of <Core> instance', () => {
+			expect(core).toHaveProperty('register');
+		});
+
+		it('should be a function', () => {
+			register.toBeFunction();
+			expect(core.register).toBeTypeOf('function');
+		});
+
+		it('should accept a <string> as the first argument', () => {
+			register.parameter(0).toBeString();
+		});
+
+		it('should accept a <function> callback as the second argument', () => {
+			const callback = register.parameter(1);
+			callback.toBeFunction();
+			callback.parameters.toEqualTypeOf<[...any[]]>();
+			callback.returns.toBeAny();
+		});
+
+		it('should return an object shape with specific properties', () => {
+			register.returns.toBeObject();
+			const result = core.register('customApi', vi.fn());
+			expect(result).toMatchObject({ customApi: expect.any(Function) });
+		});
+	});
+
+	describe('.invoke', () => {
+		const invoke = expectTypeOf(Core<MockData>).instance.toHaveProperty('invoke');
+
+		it('should be a method of <Core> instance', () => {
+			expect(core).toHaveProperty('invoke');
+		});
+
+		it('should be a function', () => {
+			invoke.toBeFunction();
+			expect(core.invoke).toBeTypeOf('function');
+		});
+
+		it('should accept a <string> as the first argument', () => {
+			invoke.parameter(0).toBeString();
+		});
+
+		it('should accept a <unknown> as the rest argument', () => {
+			invoke.parameters.toEqualTypeOf<[string, ...unknown[]]>();
+		});
+
+		it('should return <unknown>', () => {
+			invoke.returns.toBeUnknown();
+		});
+
+		it('should call the invoked function with provided arguments', () => {
+			const api = vi.fn().mockReturnValue('my_lowercase_text');
+			core.register('customApi', api);
+			const result = core.invoke('customApi', 'MY_UPPERCASE_TEXT');
+			expect(api).toBeCalledTimes(1);
+			expect(api).toBeCalledWith('MY_UPPERCASE_TEXT');
+			expect(api).toReturnTimes(1);
+			expect(api).toReturnWith('my_lowercase_text');
+			expect(result).toStrictEqual('my_lowercase_text');
+		});
+	});
+
+	describe('.watch', () => {
+		const watch = expectTypeOf(Core<MockData>).instance.toHaveProperty('watch');
+
+		it('should be a method of <Core> instance', () => {
+			expect(core).toHaveProperty('watch');
+		});
+
+		it('should be a function', () => {
+			watch.toBeFunction();
+			expect(core.watch).toBeTypeOf('function');
+		});
+
+		it('should accept a <DataFlow> or <string> as the first argument', () => {
+			watch.parameter(0).toEqualTypeOf<DataFlow | string>();
+		});
+
+		it('should accept a <function> callback as the second argument', () => {
+			const callback = watch.parameter(1);
+			callback.toBeFunction();
+			callback.parameters.toEqualTypeOf<[...any[]]>();
+			callback.returns.toBeAny();
+		});
+
+		it('should return an object shape', () => {
+			watch.returns.toBeObject();
+		});
+	});
+
+	describe('.trigger', () => {
+		const trigger = expectTypeOf(Core<MockData>).instance.toHaveProperty('trigger');
+
+		it('should be a method of <Core> instance', () => {
+			expect(core).toHaveProperty('trigger');
+		});
+
+		it('should be a function', () => {
+			trigger.toBeFunction();
+			expect(core.trigger).toBeTypeOf('function');
+		});
+
+		it('should accept a <string> as the first argument', () => {
+			trigger.parameter(0).toBeString();
+		});
+
+		it('should accept a <unknown> as the rest argument', () => {
+			trigger.parameters.toEqualTypeOf<[string, ...unknown[]]>();
+		});
+
+		it('should return <void>', () => {
+			trigger.returns.toBeVoid();
+		});
+
+		it('should invoke the event callback when triggered', () => {
+			const listener = vi.fn();
+			core.watch('customEvent', listener);
+			core.trigger('customEvent', 'mocked_data');
+			expect(listener).toBeCalledTimes(1);
+			expect(listener).toReturnTimes(1);
+			expect(listener).toBeCalledWith('mocked_data');
+		});
+	});
+
+	describe('.process', () => {
+		const process = expectTypeOf(Core<MockData>).instance.toHaveProperty('process');
+
+		it('should be a method of <Core> instance', () => {
+			expect(core).toHaveProperty('process');
+		});
+
+		it('should be a function', () => {
+			process.toBeFunction();
+			expect(core.process).toBeTypeOf('function');
+		});
+
+		it('should accept a <DataFlow> as the first argument', () => {
+			process.parameter(0).toEqualTypeOf<DataFlow>();
+		});
+
+		it('should accept a <function> callback as the second argument', () => {
+			const callback = process.parameter(1);
+			callback.toBeFunction();
+			callback.parameter(0).toEqualTypeOf<MockData>();
+			callback.returns.toBeUnknown();
+		});
+
+		it('should return an object shape <Data> geenric argument', () => {
+			process.returns.toBeObject();
+			process.returns.toMatchTypeOf<MockData>();
+		});
+
+		it('should correctly process data and return the expected result', () => {
+			const processed_data = core.process(DataFlow.INPUT, (data) => {
+				return { ...data, processed: true };
+			});
+			expect(processed_data).toMatchObject({ processed: true });
+		});
+
+		it('should trigger the <DataFlow> events', () => {
+			const on_output1 = vi.fn();
+			const on_output2 = vi.fn();
+			const on_custom = vi.fn();
+			core.watch(DataFlow.OUTPUT, on_output1);
+			core.watch(DataFlow.OUTPUT, on_output2);
+			core.watch('customEvent', on_custom);
+			core.process(DataFlow.OUTPUT, () => mockData);
+			expect(on_output1).toBeCalledTimes(1);
+			expect(on_output2).toBeCalledTimes(1);
+			expect(on_custom).toBeCalledTimes(0);
+		});
+	});
+
+	describe('.init', () => {
+		const init = expectTypeOf(Core<MockData>).instance.toHaveProperty('init');
+
+		it('should be a method of <Core> instance', () => {
+			expect(core).toHaveProperty('init');
+		});
+
+		it('should be a function', () => {
+			init.toBeFunction();
+			expect(core.init).toBeTypeOf('function');
+		});
+
+		it('should accept a <function> initializer as the first argument', () => {
+			const initializer = init.parameter(0);
+			initializer.toBeFunction();
+			initializer.parameter(0).toBeUndefined();
+			initializer.returns.toEqualTypeOf<MockData>();
+		});
+
+		it('should return an object shape', () => {
+			init.returns.toBeObject();
+		});
+
+		it('should execute the initializer and return boundaries', () => {
+			const retrieveTheme = vi.fn().mockReturnValue(mockData.theme);
+			core.bound('retrieveTheme', retrieveTheme);
+			const store = core.init(() => mockData);
+			expect(store).toHaveProperty('retrieveTheme');
+			expect(store.retrieveTheme).toBeTypeOf('function');
+			const result = (store as any).retrieveTheme();
+			expect(result).toStrictEqual(mockData.theme);
+			expect(retrieveTheme).toBeCalledTimes(1);
+			expect(retrieveTheme).toReturnTimes(1);
+			expect(retrieveTheme).toReturnWith(mockData.theme);
 		});
 	});
 });

@@ -68,7 +68,7 @@ describe('core/plugin.ts', () => {
 			expectTypeOf(ConcretePlugin).constructorParameters.toEqualTypeOf<[]>();
 		});
 
-		it('should initialized default <NONE> to <flow> attribute', () => {
+		it('should <flow> attribute be <DataFlow.NONE> when initialized', () => {
 			expect(concrete.flow).toStrictEqual(DataFlow.NONE);
 		});
 	});
