@@ -2,7 +2,6 @@ import { Core } from '@/core';
 import { DataFlow } from '@/flow';
 import { Plugin } from '@/plugin';
 import { MOCK_NAMESPACE, mockData, type MockData } from '@repo/mocks';
-import type { Mock } from 'vitest';
 
 describe('Core class', () => {
 	let core: Core<MockData, typeof MOCK_NAMESPACE>;
@@ -289,6 +288,25 @@ describe('Core class', () => {
 			expect(on_output2).toBeCalledTimes(1);
 			expect(on_custom).toBeCalledTimes(0);
 		});
+
+		it('should setup a plugin', () => {
+			const plugin = {
+				name: 'plugin#1',
+				flow: DataFlow.INPUT,
+				setup: vi.fn(),
+				process: vi.fn((data: MockData) => data),
+			} as unknown as Plugin<MockData>;
+
+			core.plug(plugin);
+			expect(plugin.setup).toHaveBeenCalledWith(core);
+
+			core.init(() => mockData);
+
+			const processor = vi.fn((data) => data);
+			const result = core.process(DataFlow.INPUT, processor);
+			expect(plugin.process).toHaveBeenCalledWith(mockData);
+			expect(result).toMatchObject(mockData);
+		});
 	});
 
 	describe('.init', () => {
@@ -318,6 +336,7 @@ describe('Core class', () => {
 			const retrieveTheme = vi.fn().mockReturnValue(mockData.theme);
 			core.bound('retrieveTheme', retrieveTheme);
 			const store = core.init(() => mockData);
+			expect(core['data']).toMatchObject(mockData);
 			expect(store).toHaveProperty('retrieveTheme');
 			expect(store.retrieveTheme).toBeTypeOf('function');
 			const result = (store as any).retrieveTheme();
