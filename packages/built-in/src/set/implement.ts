@@ -1,4 +1,10 @@
-class SetAccessor<Data extends StoreData> extends Plugin<Data> {
+import type { Core } from '@biruni/core';
+import { DataFlow } from '@biruni/core/flow';
+import type { DataObject } from '@biruni/core/helpers';
+import { Plugin } from '@biruni/core/plugin';
+import * as Setter from './_mod';
+
+export class SetAccessor<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
 		super('accessor.setter');
 	}

@@ -1,12 +1,12 @@
 import type { DeepPartial } from '@biruni/core/helpers/deep-partial';
-import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
+import type { DataObject } from '@biruni/core/helpers/mod';
 import { getProperty, hasProperty, setProperty } from 'dot-prop';
 import clone from 'lodash.clonedeep';
 import type { Path } from '../path/mod';
 import { setByPair } from './by-pair';
 import { setBySetter, type SetBySetterFunction } from './by-setter';
 
-interface SetByKeySetter<Data extends StoreData> {
+interface SetByKeySetter<Data extends DataObject> {
 	<Key extends Path.From<Data>, Setter extends SetByKeySetterFunction<Path.At<Data, Key>, Data>>(
 		key: Key,
 		setter: Setter
@@ -15,19 +15,19 @@ interface SetByKeySetter<Data extends StoreData> {
 
 interface SetByKeySetterFunction<
 	Value extends Path.At<Data, Path.From<Data>>,
-	Data extends StoreData = StoreData,
+	Data extends DataObject = DataObject,
 > {
 	(value: Readonly<Value>): Partial<Value>;
 }
 
-const isByKeySetter = <Data extends StoreData>(
+const isByKeySetter = <Data extends DataObject>(
 	input: unknown
 ): input is SetByKeySetterFunction<Path.At<Data, Path.From<Data>>, Data> => {
 	return typeof input === 'function';
 };
 
 function setByKeySetter<
-	Data extends StoreData,
+	Data extends DataObject,
 	Key extends Path.From<Data> = Path.From<Data>,
 	Setter extends SetByKeySetterFunction<Path.At<Data, Key>, Data> = SetByKeySetterFunction<
 		Path.At<Data, Key>,

@@ -1,18 +1,18 @@
 import type { DeepPartial } from '@biruni/core/helpers/deep-partial';
-import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
+import type { DataObject } from '@biruni/core/helpers/mod';
 import { deepKeys, deleteProperty, hasProperty } from 'dot-prop';
 import clone from 'lodash.clonedeep';
 import merge from 'lodash.merge';
 
-interface SetByPair<Data extends StoreData> {
+interface SetByPair<Data extends DataObject> {
 	(data: DeepPartial<Data>): void;
 }
 
-const isByPair = <Data extends StoreData>(input: unknown): input is DeepPartial<Data> => {
+const isByPair = <Data extends DataObject>(input: unknown): input is DeepPartial<Data> => {
 	return typeof input === 'object' && input !== null;
 };
 
-function setByPair<Data extends StoreData>(data: Data, pairs: DeepPartial<Data>): Data {
+function setByPair<Data extends DataObject>(data: Data, pairs: DeepPartial<Data>): Data {
 	if (
 		(typeof pairs !== 'object' || pairs === null) &&
 		(typeof data !== 'object' || data === null)
