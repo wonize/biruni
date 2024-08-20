@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
+import type { DataObject } from '@biruni/core/helpers/mod';
 import { getProperty } from 'dot-prop';
 import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
 import type { Path } from '../path/mod';
 
-interface GetByKeys<Data extends StoreData> {
+interface GetByKeys<Data extends DataObject> {
 	<KeyList extends Array<Path.From<Data>>>(
 		keys: Partial<KeyList>
 	): GetByKeysReturnType<Data, KeyList>;
 }
 
 type GetByKeysReturnType<
-	Data extends StoreData,
+	Data extends DataObject,
 	KeyList extends Partial<Array<Path.From<Data>>>,
 > = Readonly<{
 	[SelectedKey in KeyList extends Partial<Array<infer Key>> ? Key : never]: Data[SelectedKey];
 }>;
 
-const isByKeys = <Data extends StoreData>(
+const isByKeys = <Data extends DataObject>(
 	input: unknown
 ): input is Partial<Array<Path.From<Data>>> => {
 	return (
@@ -29,7 +29,7 @@ const isByKeys = <Data extends StoreData>(
 };
 
 function getByKeys<
-	Data extends StoreData,
+	Data extends DataObject,
 	KeyList extends Array<Path.From<Data>> = Array<Path.From<Data>>,
 >(data: Data, keys: Partial<KeyList>) {
 	let temp_base = data;

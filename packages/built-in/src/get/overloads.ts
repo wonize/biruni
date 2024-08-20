@@ -1,4 +1,4 @@
-import type { StoreData } from '../helpers/mod';
+import type { DataObject } from '@biruni/core/helpers/mod';
 
 import type { GetByEntire } from './by-entire';
 import type { GetByKeyMapper } from './by-key-mapper';
@@ -7,7 +7,7 @@ import type { GetByKeys } from './by-keys';
 import type { GetByMapper } from './by-mapper';
 import type { GetByTruthy } from './by-truthy';
 
-interface GetOverloads<Data extends StoreData>
+interface GetOverloads<Data extends DataObject>
 	extends GetByEntire<Data>,
 		GetByMapper<Data>,
 		GetByKey<Data>,

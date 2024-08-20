@@ -1,24 +1,24 @@
+import type { DataObject } from '@biruni/core/helpers/mod';
 import { getProperty } from 'dot-prop';
 import type { Path } from '../path/mod';
-import type { StoreData } from '../helpers/mod';
 
-interface GetByKey<Data extends StoreData> {
+interface GetByKey<Data extends DataObject> {
 	<Key extends Path.From<Data>>(key: Key): GetByKeyReturnType<Data, Key>;
 }
 
-type GetByKeyReturnType<Data extends StoreData, Key extends Path.From<Data>> = Path.At<Data, Key>;
+type GetByKeyReturnType<Data extends DataObject, Key extends Path.From<Data>> = Path.At<Data, Key>;
 
-const isKeyOfData = <Data extends StoreData>(input: unknown): input is Path.From<Data> => {
+const isKeyOfData = <Data extends DataObject>(input: unknown): input is Path.From<Data> => {
 	return typeof input === 'string' || input instanceof String;
 };
 
-const isByKey = <Data extends StoreData>(
+const isByKey = <Data extends DataObject>(
 	input: Data | unknown
 ): input is undefined | never | null => {
 	return typeof input === 'undefined' || input === null || Boolean(input) === false;
 };
 
-function getByKey<Data extends StoreData, Key extends Path.From<Data> = Path.From<Data>>(
+function getByKey<Data extends DataObject, Key extends Path.From<Data> = Path.From<Data>>(
 	data: Data,
 	key: Key
 ): Path.At<Data, Key> | undefined {

@@ -1,5 +1,5 @@
 import type { DeepPartial } from '@biruni/core/helpers/deep-partial';
-import type { RemoveNever, DataObject as StoreData } from '@biruni/core/helpers/mod';
+import type { DataObject, RemoveNever } from '@biruni/core/helpers/mod';
 import { deepKeys, getProperty, setProperty } from 'dot-prop';
 import cloneDeep from 'lodash.clonedeep';
 import type { Path } from '../path/mod';
@@ -10,12 +10,12 @@ type TruthyMap<T extends object> = DeepPartial<{
 		: boolean;
 }>;
 
-interface GetByTruthy<Data extends StoreData> {
+interface GetByTruthy<Data extends DataObject> {
 	<Truthy extends TruthyMap<Data>>(truthy: Truthy): GetByTruthyReturnType<Data, Truthy>;
 }
 
 type GetByTruthyReturnType<
-	Data extends StoreData,
+	Data extends DataObject,
 	Truthy extends TruthyMap<Data> = TruthyMap<Data>,
 > = Readonly<
 	RemoveNever<{
@@ -26,7 +26,7 @@ type GetByTruthyReturnType<
 	}>
 >;
 
-const isByTruthy = <Data extends StoreData>(input: unknown): input is TruthyMap<Data> => {
+const isByTruthy = <Data extends DataObject>(input: unknown): input is TruthyMap<Data> => {
 	return (
 		typeof input === 'object' &&
 		input !== null &&
@@ -35,7 +35,7 @@ const isByTruthy = <Data extends StoreData>(input: unknown): input is TruthyMap<
 	);
 };
 
-function getByTruthy<Data extends StoreData, Truthy extends TruthyMap<Data> = TruthyMap<Data>>(
+function getByTruthy<Data extends DataObject, Truthy extends TruthyMap<Data> = TruthyMap<Data>>(
 	data: Data,
 	truthy: Truthy
 ): GetByTruthyReturnType<Data, typeof truthy> {

@@ -1,24 +1,26 @@
-import type { DataObject as StoreData } from '@biruni/core/helpers/mod';
+import type { DataObject } from '@biruni/core/helpers/mod';
 
-interface GetByMapper<Data extends StoreData> {
+interface GetByMapper<Data extends DataObject> {
 	<Mapper extends GetByMapperFunction<Data>>(mapper: Mapper): GetByMapperReturnType<Data, Mapper>;
 }
 
-type GetByMapperReturnType<Data extends StoreData, Mapper extends GetByMapperFunction<Data>> =
+type GetByMapperReturnType<Data extends DataObject, Mapper extends GetByMapperFunction<Data>> =
 	| ReturnType<Mapper>
 	| Data
 	| unknown;
 
-interface GetByMapperFunction<Data extends StoreData> {
+interface GetByMapperFunction<Data extends DataObject> {
 	(data: Readonly<Data> | never): Data | unknown;
 }
 
-const isByMapper = <Data extends StoreData>(input: unknown): input is GetByMapperFunction<Data> => {
+const isByMapper = <Data extends DataObject>(
+	input: unknown
+): input is GetByMapperFunction<Data> => {
 	return typeof input === 'function';
 };
 
 function getByMapper<
-	Data extends StoreData,
+	Data extends DataObject,
 	Mapper extends GetByMapperFunction<Data> = GetByMapperFunction<Data>,
 >(data: Data, mapper: Mapper) {
 	let temp_mapper = mapper;
