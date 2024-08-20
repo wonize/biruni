@@ -1,27 +1,55 @@
-import type { StoreData } from '@biruni/core/helpers';
-import { BiruniPlugin, type ContextType } from '@biruni/core/plugin';
+import Core, { DataFlow, Plugin } from '@biruni/core';
+import type { DataObject } from '@biruni/core/helpers';
 
-class JsonPlugin<Data extends StoreData> extends BiruniPlugin<Data> {
-	override type: ContextType = 'parser';
-	override name = 'built-in/json' as const;
-
+class JsonParsePlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
-		super();
+		super('json.parse');
 	}
 
-	override preprocess: (data: Data) => Promise<Data> = async (data) => {
-		if (data) return JSON.parse(data as unknown as string) as Data;
-		return data;
-	};
+	public override flow: DataFlow = DataFlow.OUTPUT;
 
-	override postprocess: (data: Data) => Promise<Data> = async (data) => {
-		return JSON.stringify(data ?? {}) as unknown as Data;
-	};
+	public override setup(core: Core<Data>) {
+		super.setup(core);
+	}
+
+	public override process(data: Data | string): Data {
+		if (typeof data === 'string' || data instanceof String) {
+			return JSON.parse(data as string);
+		}
+		return data;
+	}
 }
 
-const json = <Data extends StoreData>() => {
-	return new JsonPlugin<Data>();
-};
+class JsonStringifyPlugin<Data extends DataObject> extends Plugin<Data> {
+	public constructor() {
+		super('json.stringify');
+	}
 
-export default json;
-export { json as JsonPlugin, json };
+	public override flow: DataFlow = DataFlow.INPUT;
+
+	public override setup(core: Core<Data>) {
+		super.setup(core);
+	}
+
+	public override process(data: Data): Data {
+		return JSON.stringify(data) as unknown as Data;
+	}
+}
+
+class JsonPlugin<Data extends DataObject> extends Plugin<Data> {
+	public constructor() {
+		super('json');
+	}
+
+	public override setup(core: Core<Data>) {
+		super.setup(core);
+		core.plug(new JsonParsePlugin<Data>());
+		core.plug(new JsonStringifyPlugin<Data>());
+	}
+}
+
+function json<Data extends DataObject>() {
+	return new JsonPlugin<Data>();
+}
+
+export { json, JsonPlugin };
