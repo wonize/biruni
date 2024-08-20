@@ -1,8 +1,8 @@
 import type { Core } from '@biruni/core';
 import { DataFlow } from '@biruni/core/flow';
-import type { DataObject as StoreData } from '@biruni/core/helpers';
+import type { DataObject, DataObject as StoreData } from '@biruni/core/helpers';
 import { Plugin } from '@biruni/core/plugin';
-import { hasOwnPropertyPath, type HasOwnPropertyPath } from './has/mod';
+import { hasOwnPropertyPath, type HasOwnPropertyPath } from './has';
 
 export class HasAccessor<Data extends StoreData> extends Plugin<Data> {
 	public constructor() {
@@ -19,4 +19,8 @@ export class HasAccessor<Data extends StoreData> extends Plugin<Data> {
 			return hasOwnPropertyPath(data, path);
 		}) as unknown as boolean;
 	};
+}
+
+export function has<Data extends DataObject>() {
+	return new HasAccessor<Data>();
 }
