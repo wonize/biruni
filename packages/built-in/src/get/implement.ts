@@ -1,10 +1,10 @@
 import type { Core } from '@biruni/core';
 import { DataFlow } from '@biruni/core/flow';
-import type { DataObject as StoreData } from '@biruni/core/helpers';
+import type { DataObject } from '@biruni/core/helpers';
 import { Plugin } from '@biruni/core/plugin';
 import * as Getter from './_mod';
 
-class GetAccessor<Data extends StoreData> extends Plugin<Data> {
+export class GetAccessor<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
 		super('accessor.getter');
 	}
@@ -80,4 +80,6 @@ class GetAccessor<Data extends StoreData> extends Plugin<Data> {
 	};
 }
 
-export { GetAccessor };
+export function getter<Data extends DataObject = DataObject>() {
+	return new GetAccessor<Data>();
+}
