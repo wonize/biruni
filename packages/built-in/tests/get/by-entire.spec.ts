@@ -1,84 +1,120 @@
-import { mockData, type MockData } from '@repo/mocks';
-
 import {
 	getByEntire,
 	isByEntire,
 	type GetByEntire,
 	type GetByEntireReturnType,
 } from '@/get/by-entire';
+import { mockData, type MockData } from '@repo/mocks';
 
-describe('get/by-entire.ts', () => {
-	describe('Verify Signature', () => {
-		it('Verify the Function Signature and Return Type of the <isByEntire>', () => {
-			expectTypeOf(isByEntire).toBeFunction();
-			expectTypeOf(isByEntire).parameter(0).toBeUnknown();
-			expectTypeOf(isByEntire).returns.toBeBoolean();
-			expectTypeOf(isByEntire).guards.toBeNullable();
-		});
-
-		it('Verify the Type Signature of the <getByEntire> Helper Function', () => {
-			expectTypeOf(getByEntire<MockData>).toBeFunction();
-			expectTypeOf(getByEntire<MockData>)
-				.parameter(0)
-				.toEqualTypeOf<MockData>();
-			expectTypeOf(getByEntire<MockData>)
-				.parameter(1)
-				.toBeVoid();
-			expectTypeOf(getByEntire<MockData>).returns.toEqualTypeOf<Readonly<MockData>>();
-		});
-
-		it('Verify the Type Signature of the <SetByPair> Method Interface', () => {
-			expectTypeOf<GetByEntire<MockData>>().toBeFunction();
-			expectTypeOf<GetByEntire<MockData>>().parameter(0).toBeVoid();
-			expectTypeOf<GetByEntire<MockData>>().returns.toEqualTypeOf<Readonly<MockData>>();
-		});
-
-		it('Verify the Return Type Signature of the <SetByPair> Method Interface', () => {
-			expectTypeOf<GetByEntireReturnType<MockData>>().toBeObject();
-			expectTypeOf<GetByEntireReturnType<MockData>>().toEqualTypeOf<Readonly<MockData>>();
-		});
+describe('isByEntire', () => {
+	it('should be a function', () => {
+		expectTypeOf(isByEntire).toBeFunction();
+		expect(isByEntire).toBeTypeOf('function');
 	});
 
-	describe('Test Type-Gaurd', () => {
-		it('should return true when input is nullable', () => {
-			expect(isByEntire(undefined)).toBeTruthy();
-			expect(isByEntire(undefined)).not.toBeFalsy();
-			expect(isByEntire(null)).toBeTruthy();
-			expect(isByEntire(null)).not.toBeFalsy();
-		});
-
-		it('should return false when input is not nullable', () => {
-			expect(isByEntire('string')).toBeFalsy();
-			expect(isByEntire('string')).not.toBeTruthy();
-			expect(isByEntire(mockData)).toBeFalsy();
-			expect(isByEntire(mockData)).not.toBeTruthy();
-		});
+	it('should have the first parameter as <unknown>', () => {
+		expectTypeOf(isByEntire).parameter(0).toBeUnknown();
 	});
 
-	describe('Test Functionality', () => {
-		it('should return cloned base object when is exists and object', () => {
-			const base = mockData;
-			const result = getByEntire(base);
-			expect(result).toMatchObject(base);
-			expect(result).not.toBe(base);
-			expect(JSON.stringify(result)).toHaveLength(JSON.stringify(base).length);
-		});
-
-		it('should return empty object when base object is empty', () => {
-			const base = {};
-			const result = getByEntire(base);
-			expect(result).toMatchObject(base);
-			expect(result).not.toBe(base);
-			expect(JSON.stringify(result)).toHaveLength(2);
-		});
+	it('should return a boolean', () => {
+		expectTypeOf(isByEntire).returns.toBeBoolean();
 	});
 
-	describe('Edge Case', () => {
-		it('should return empty object when base is non-object', () => {
-			const base = 'non-object';
-			const result = getByEntire(base);
-			expect(result).toMatchObject({});
-			expect(JSON.stringify(result)).toHaveLength(2);
-		});
+	it('should type-guard nullable values', () => {
+		expectTypeOf(isByEntire).guards.toBeNullable();
+	});
+
+	it('should return <true> for <undefined> and <null>', () => {
+		expect(isByEntire(undefined)).toBe(true);
+		expect(isByEntire(null)).toBe(true);
+	});
+
+	it('should return <false> for a <string> and <mockData>', () => {
+		expect(isByEntire('string')).toBe(false);
+		expect(isByEntire(mockData)).toBe(false);
+	});
+});
+
+describe('GetByEntire (interface)', () => {
+	it('should be a function', () => {
+		expectTypeOf<GetByEntire<MockData>>().toBeFunction();
+	});
+
+	it('should have the first parameter as void', () => {
+		expectTypeOf<GetByEntire<MockData>>().parameter(0).toBeVoid();
+	});
+
+	it('should return an object type', () => {
+		expectTypeOf<GetByEntire<MockData>>().returns.toBeObject();
+		expectTypeOf<GetByEntireReturnType<MockData>>().toBeObject();
+	});
+
+	it('should return a Readonly<MockData>', () => {
+		expectTypeOf<GetByEntire<MockData>>().returns.toEqualTypeOf<Readonly<MockData>>();
+		expectTypeOf<GetByEntireReturnType<MockData>>().toEqualTypeOf<Readonly<MockData>>();
+	});
+});
+
+describe('getByEntire', () => {
+	it('should be a function', () => {
+		expectTypeOf(getByEntire<MockData>).toBeFunction();
+		expect(getByEntire<MockData>).toBeTypeOf('function');
+	});
+
+	it('should required a first parameter of type <MockData>', () => {
+		expectTypeOf(getByEntire<MockData>).parameters.toEqualTypeOf<[base: MockData]>();
+	});
+
+	it('should return a <Readonly<MockData>>', () => {
+		expectTypeOf(getByEntire<MockData>).returns.toEqualTypeOf<Readonly<MockData>>();
+	});
+
+	it('should return a cloned object when a valid <base> object is provided', () => {
+		const result = getByEntire(mockData);
+		expect(result).toMatchObject(mockData);
+		expect(result, 'the <reference> not to be same').not.toBe(mockData);
+		expect(JSON.stringify(result)).toHaveLength(JSON.stringify(mockData).length);
+	});
+
+	it('should return an empty object when an empty <base> object is provided', () => {
+		const result = getByEntire({});
+		expect(result).toMatchObject({});
+		expect(result, 'the <reference> not to be same').not.toBe({});
+		expect(JSON.stringify(result)).toHaveLength(2); // Length of "{}"
+	});
+
+	it('should return an empty object when a non-object argument is provided', () => {
+		// @ts-expect-error to test non-object argument
+		const result = getByEntire('hello world');
+		expect(result).toMatchObject({});
+		expect(JSON.stringify(result)).toHaveLength(2); // Length of "{}"
+	});
+
+	it('should return an empty object when <null> is provided', () => {
+		// @ts-expect-error to test null argument
+		const result = getByEntire(null);
+		expect(result).toMatchObject({});
+		expect(JSON.stringify(result)).toHaveLength(2); // Length of "{}"
+	});
+
+	it('should return an empty object when <undefined> is provided', () => {
+		// @ts-expect-error to test undefined argument
+		const result = getByEntire(undefined);
+		expect(result).toMatchObject({});
+		expect(JSON.stringify(result)).toHaveLength(2); // Length of "{}"
+	});
+
+	it('should return a cloned array when a valid array is provided', () => {
+		const baseArray = [1, 2, 3];
+		const result = getByEntire(baseArray);
+		expect(result).toMatchObject(baseArray);
+		expect(result, 'the <reference> not to be same').not.toBe(baseArray); // Ensure it's a clone
+		expect(JSON.stringify(result)).toHaveLength(JSON.stringify(baseArray).length);
+	});
+
+	it('should return an empty object when an empty array is provided', () => {
+		const result = getByEntire([]);
+		expect(result).toMatchObject({});
+		expect(JSON.stringify(result)).toHaveLength(2); // Length of "{}"
 	});
 });
