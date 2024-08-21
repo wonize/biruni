@@ -1,71 +1,37 @@
-import type { MockData } from '@repo/mocks';
+import * as mod from '@/accessor';
 
-describe.todo('core/accessor.ts', () => {
-	it('should be same signature with interface', () => {
-		expectTypeOf<Store<MockData>>().toMatchTypeOf<StoreInterface<MockData>>();
-	});
+it('should re-export <GetAccessor> and <getter>', () => {
+	expect(mod).toHaveProperty('GetAccessor');
+	expect(mod.GetAccessor).toBeTypeOf('object');
+	expect(mod.GetAccessor).not.toBeNull();
+	expect(mod.GetAccessor).not.toBeInstanceOf(Array);
+	expect(mod.getter).toBeTypeOf('function');
+	expect(mod).toHaveProperty('getter');
+});
 
-	describe('Getter Methods', () => {
-		it('should have <get> method', () => {
-			expect(Store.prototype).toHaveProperty('get');
-			expectTypeOf(Store.prototype).toHaveProperty('get');
-		});
+it('should re-export <SetAccessor> and <setter>', () => {
+	expect(mod).toHaveProperty('SetAccessor');
+	expect(mod.SetAccessor).toBeTypeOf('object');
+	expect(mod.SetAccessor).not.toBeNull();
+	expect(mod.SetAccessor).not.toBeInstanceOf(Array);
+	expect(mod).toHaveProperty('setter');
+	expect(mod.setter).toBeTypeOf('function');
+});
 
-		it('should have <getByKey> method', () => {
-			expect(Store.prototype).toHaveProperty('getByKey');
-			expectTypeOf(Store.prototype).toHaveProperty('getByKey');
-		});
+it('should export <HasAccessor>, <hasOwn>', () => {
+	expect(mod).toHaveProperty('HasAccessor');
+	expect(mod.HasAccessor).toBeTypeOf('object');
+	expect(mod.HasAccessor).not.toBeNull();
+	expect(mod.SetAccessor).not.toBeInstanceOf(Array);
+	expect(mod).toHaveProperty('hasOwn');
+	expect(mod.hasOwn).toBeTypeOf('function');
+});
 
-		it('should have <getByKeyMapper> method', () => {
-			expect(Store.prototype).toHaveProperty('getByKeyMapper');
-			expectTypeOf(Store.prototype).toHaveProperty('getByKeyMapper');
-		});
-
-		it('should have <getByEntire> method', () => {
-			expect(Store.prototype).toHaveProperty('getByEntire');
-			expectTypeOf(Store.prototype).toHaveProperty('getByEntire');
-		});
-
-		it('should have <getByMapper> method', () => {
-			expect(Store.prototype).toHaveProperty('getByMapper');
-			expectTypeOf(Store.prototype).toHaveProperty('getByMapper');
-		});
-
-		it('should have <getByKeys> method', () => {
-			expect(Store.prototype).toHaveProperty('getByKeys');
-			expectTypeOf(Store.prototype).toHaveProperty('getByKeys');
-		});
-
-		it('should have <getByTruthy> method', () => {
-			expect(Store.prototype).toHaveProperty('getByTruthy');
-			expectTypeOf(Store.prototype).toHaveProperty('getByTruthy');
-		});
-	});
-
-	describe('Setter', () => {
-		it('should have <set> method', () => {
-			expect(Store.prototype).toHaveProperty('set');
-			expectTypeOf(Store.prototype).toHaveProperty('set');
-		});
-
-		it('should have <setByKeyValue> method', () => {
-			expect(Store.prototype).toHaveProperty('setByKeyValue');
-			expectTypeOf(Store.prototype).toHaveProperty('setByKeyValue');
-		});
-
-		it('should have <setByKeySetter> method', () => {
-			expect(Store.prototype).toHaveProperty('setByKeySetter');
-			expectTypeOf(Store.prototype).toHaveProperty('setByKeySetter');
-		});
-
-		it('should have <setBySetter> method', () => {
-			expect(Store.prototype).toHaveProperty('setBySetter');
-			expectTypeOf(Store.prototype).toHaveProperty('setBySetter');
-		});
-
-		it('should have <setByPair> method', () => {
-			expect(Store.prototype).toHaveProperty('setByPair');
-			expectTypeOf(Store.prototype).toHaveProperty('setByPair');
-		});
-	});
+it('should export <PropertyAccessor> and <accessorizer>', () => {
+	expect(mod).toHaveProperty('PropertyAccessor');
+	expect(mod.PropertyAccessor).toBeTypeOf('object');
+	expect(mod.PropertyAccessor).not.toBeNull();
+	expect(mod.PropertyAccessor).not.toBeInstanceOf(Array);
+	expect(mod).toHaveProperty('accessorizer');
+	expect(mod.accessorizer).toBeTypeOf('function');
 });
