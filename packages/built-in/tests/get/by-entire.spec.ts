@@ -12,7 +12,7 @@ describe('isByEntire', () => {
 		expect(isByEntire).toBeTypeOf('function');
 	});
 
-	it('should have the first parameter as <unknown>', () => {
+	it('should accept an <unkown> parameter type', () => {
 		expectTypeOf(isByEntire).parameter(0).toBeUnknown();
 	});
 
@@ -36,15 +36,16 @@ describe('isByEntire', () => {
 });
 
 describe('GetByEntire (interface)', () => {
-	it('should be a function', () => {
+	it('should be a function interface', () => {
 		expectTypeOf<GetByEntire<MockData>>().toBeFunction();
+		expectTypeOf<GetByEntire<MockData>>().toBeObject();
 	});
 
-	it('should have the first parameter as void', () => {
+	it('should have the first parameter as <void>', () => {
 		expectTypeOf<GetByEntire<MockData>>().parameter(0).toBeVoid();
 	});
 
-	it('should return an object type', () => {
+	it('should return an <object> type', () => {
 		expectTypeOf<GetByEntire<MockData>>().returns.toBeObject();
 		expectTypeOf<GetByEntireReturnType<MockData>>().toBeObject();
 	});
@@ -61,7 +62,7 @@ describe('getByEntire', () => {
 		expect(getByEntire<MockData>).toBeTypeOf('function');
 	});
 
-	it('should required a first parameter of type <MockData>', () => {
+	it('should require the first parameter to be of type <base> object', () => {
 		expectTypeOf(getByEntire<MockData>).parameters.toEqualTypeOf<[base: MockData]>();
 	});
 
