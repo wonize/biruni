@@ -1,7 +1,7 @@
 import Core, { DataFlow, Plugin } from '@biruni/core';
 import type { DataObject } from '@biruni/core/helpers';
 
-class LocalStorageGetPlugin<Data extends DataObject> extends Plugin<Data> {
+export class LocalStorageGetPlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
 		super('localstorage.get');
 	}
@@ -18,7 +18,7 @@ class LocalStorageGetPlugin<Data extends DataObject> extends Plugin<Data> {
 	}
 }
 
-class LocalStorageSetPlugin<Data extends DataObject> extends Plugin<Data> {
+export class LocalStorageSetPlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
 		super('localstorage.set');
 	}
@@ -45,7 +45,7 @@ class LocalStorageSetPlugin<Data extends DataObject> extends Plugin<Data> {
 	}
 }
 
-class LocalStoragePlugin<Data extends DataObject> extends Plugin<Data> {
+export class LocalStoragePlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
 		super('localstorage');
 	}
@@ -57,8 +57,8 @@ class LocalStoragePlugin<Data extends DataObject> extends Plugin<Data> {
 	}
 }
 
-function localstorage() {
-	return new LocalStoragePlugin();
+export function localstorage<Data extends DataObject = DataObject>() {
+	return new LocalStoragePlugin<Data>();
 }
 
-export { localstorage, LocalStoragePlugin };
+export default localstorage;
