@@ -1,2 +1,2 @@
 export * from './has';
-export { HasAccessor } from './implement';
+export { HasAccessor, has as default, has, has as hasOwn } from './implement';
