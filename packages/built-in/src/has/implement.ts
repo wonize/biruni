@@ -21,6 +21,6 @@ export class HasAccessor<Data extends StoreData> extends Plugin<Data> {
 	};
 }
 
-export function has<Data extends DataObject>() {
+export function has<Data extends DataObject = DataObject>() {
 	return new HasAccessor<Data>();
 }
