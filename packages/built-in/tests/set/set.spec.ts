@@ -26,8 +26,8 @@ describe('Setter Accessor Boundaries', () => {
 
 	describe('on Setup', () => {
 		it('invoke correctly by <Core> instance', () => {
-			expect(instance.setup).toBeCalledTimes(1);
-			expect(instance.setup).toBeCalledWith(expect.objectContaining({}));
+			expect(set_instance.setup).toBeCalledTimes(1);
+			expect(set_instance.setup).toBeCalledWith(expect.objectContaining({}));
 		});
 	});
 
