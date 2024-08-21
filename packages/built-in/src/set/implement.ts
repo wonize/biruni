@@ -59,3 +59,7 @@ export class SetAccessor<Data extends DataObject> extends Plugin<Data> {
 		});
 	};
 }
+
+export function setter<Data extends DataObject = DataObject>() {
+	return new SetAccessor<Data>();
+}
