@@ -1,7 +1,7 @@
 import Core, { DataFlow, Plugin } from '@biruni/core';
 import type { DataObject } from '@biruni/core/helpers';
 
-class JsonParsePlugin<Data extends DataObject> extends Plugin<Data> {
+export class JsonParsePlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
 		super('json.parse');
 	}
@@ -20,7 +20,7 @@ class JsonParsePlugin<Data extends DataObject> extends Plugin<Data> {
 	}
 }
 
-class JsonStringifyPlugin<Data extends DataObject> extends Plugin<Data> {
+export class JsonStringifyPlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
 		super('json.stringify');
 	}
@@ -36,7 +36,7 @@ class JsonStringifyPlugin<Data extends DataObject> extends Plugin<Data> {
 	}
 }
 
-class JsonPlugin<Data extends DataObject> extends Plugin<Data> {
+export class JsonPlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor() {
 		super('json');
 	}
@@ -48,8 +48,8 @@ class JsonPlugin<Data extends DataObject> extends Plugin<Data> {
 	}
 }
 
-function json<Data extends DataObject>() {
+export function json<Data extends DataObject>() {
 	return new JsonPlugin<Data>();
 }
 
-export { json, JsonPlugin };
+export default json;
