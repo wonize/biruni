@@ -3,10 +3,10 @@ import type { DataObject } from '@biruni/core/helpers';
 import { DataFlow } from '@biruni/core/mod';
 import { default as EventEmitter } from 'events';
 
-class BiruniListener<Data extends DataObject> extends Plugin<Data> {
+export class EventPlugin<Data extends DataObject> extends Plugin<Data> {
 	private listeners: EventEmitter;
 	public constructor() {
-		super('biruni::listener');
+		super('biruni.event');
 		this.listeners = new EventEmitter();
 	}
 
@@ -23,8 +23,8 @@ class BiruniListener<Data extends DataObject> extends Plugin<Data> {
 		this.attach_listeners(DataFlow.INPUT);
 	}
 
-	private attach_listeners(this: BiruniListener<Data>, flow: DataFlow) {
-		function on_output(this: BiruniListener<Data>, data: Data): void {
+	private attach_listeners(this: EventPlugin<Data>, flow: DataFlow) {
+		function on_output(this: EventPlugin<Data>, data: Data): void {
 			this.listeners.emit(flow, data);
 		}
 		const onOutput = on_output.bind(this);
@@ -40,8 +40,8 @@ class BiruniListener<Data extends DataObject> extends Plugin<Data> {
 	}
 }
 
-const event = <Data extends DataObject>() => {
-	return new BiruniListener<Data>();
-};
+export function event<Data extends DataObject>() {
+	return new EventPlugin<Data>();
+}
 
-export { BiruniListener, event };
+export default event;
