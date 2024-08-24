@@ -1,27 +1,71 @@
-import * as mod from '@/mod'
+import { mockData, type MockData } from '@repo/mocks';
+import * as mod from '@/mod';
 
-describe('Module Barrel Export', () => {
-	it('should re-export <localStorage> plugin and aliases', () => {
-		expect(mod).toHaveProperty('localstorage')
-		expect(mod).toHaveProperty('LocalStoragePlugin')
-	})
+it('have re-export <EventPlugin>', () => {
+	expect(mod.EventPlugin<MockData>).toBeDefined();
+});
 
-	it('should re-export <JSON> plugin and aliases', () => {
-		expect(mod).toHaveProperty('json')
-		expect(mod).toHaveProperty('JsonPlugin')
-	})
+it('have re-export <event>', () => {
+	expect(mod.event<MockData>).toBeDefined();
+});
 
-	it('should re-export <EventEmitter> plugin and aliases', () => {
-		expect(mod).toHaveProperty('event')
-		expect(mod).toHaveProperty('EventEmitterPlugin')
-	})
+it('have re-export <JsonPlugin>', () => {
+	expect(mod.JsonPlugin<MockData>).toBeDefined();
+});
 
-	it('should re-export <recommended> plugin and aliases', () => {
-		expect(mod).toHaveProperty('builtins')
-		expect(mod).toHaveProperty('recommended')
-		expect(mod).toHaveProperty('BuiltinPlugin')
-		expect(mod).toHaveProperty('BasicLocalStorage')
-		expect(mod).toHaveProperty('LocalStorageCollection')
-		expect(mod).toHaveProperty('default')
-	})
-})
+it('have re-export <json>', () => {
+	expect(mod.json<MockData>).toBeDefined();
+});
+
+it('have re-export <LocalStoragePlugin>', () => {
+	expect(mod.LocalStoragePlugin<MockData>).toBeDefined();
+});
+
+it('have re-export <localstorage>', () => {
+	expect(mod.localstorage<MockData>).toBeDefined();
+});
+
+it('have re-export <HasAccessor>', () => {
+	expect(mod.HasAccessor<MockData>).toBeDefined();
+});
+
+it('have re-export <hasOwn>', () => {
+	expect(mod.hasOwn<MockData>).toBeDefined();
+});
+
+it('have re-export <GetAccessor>', () => {
+	expect(mod.GetAccessor<MockData>).toBeDefined();
+});
+
+it('have re-export <getter>', () => {
+	expect(mod.getter<MockData>).toBeDefined();
+});
+
+it('have re-export <SetAccessor>', () => {
+	expect(mod.SetAccessor<MockData>).toBeDefined();
+});
+
+it('have re-export <setter>', () => {
+	expect(mod.setter<MockData>).toBeDefined();
+});
+
+it('have re-export <PropertyAccessor>', () => {
+	expect(mod.PropertyAccessor<MockData>).toBeDefined();
+});
+
+it('have re-export <accessorizer>', () => {
+	expect(mod.accessorizer<MockData>).toBeDefined();
+});
+
+it('have re-export <StarterPack>', () => {
+	expect(mod.StarterPack<MockData>).toBeDefined();
+});
+
+it('have re-export <starter>', () => {
+	expect(mod.starter<MockData>).toBeDefined();
+});
+
+it('have re-export <starter> as <default>', () => {
+	expect(mod.default<MockData>).toBeDefined();
+	expect(mod.default<MockData>).toBe(mod.starter<MockData>);
+});
