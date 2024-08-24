@@ -25,6 +25,14 @@ export default defineConfig({
 		environment: 'jsdom',
 		mockReset: false,
 		exclude: exclude,
+		typecheck: {
+			enabled: true,
+		},
+		/* browser: {
+			enabled: true,
+			isolate: true,
+			name: 'brave-browser',
+		}, */
 		coverage: {
 			all: true,
 			provider: 'v8',
