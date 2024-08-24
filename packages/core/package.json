@@ -74,13 +74,7 @@
 		"node": ">=18"
 	},
 	"scripts": {
-		"local:coverage:watch": "vitest --watch --clearScreen --coverage",
-		"local:coverage": "vitest run --coverage",
-		"local:test": "vitest run",
-		"local:test:watch": "vitest --watch --clearScreen",
-		"local:typecheck": "vitest run --typecheck",
-		"local:typecheck:watch": "vitest --typecheck --watch --clearScreen",
-		"local:test:full": "vitest --watch --clearScreen --coverage --typecheck --ui",
+		"local:dev": "vitest --clearScreen --typecheck --coverage --watch --ui",
 		"local:build": "tsx ./scripts/build.ts"
 	},
 	"dependencies": {
