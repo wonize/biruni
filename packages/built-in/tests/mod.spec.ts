@@ -1,5 +1,5 @@
-import { mockData, type MockData } from '@repo/mocks';
 import * as mod from '@/mod';
+import { type MockData } from '@repo/mocks';
 
 it('have re-export <EventPlugin>', () => {
 	expect(mod.EventPlugin<MockData>).toBeDefined();
