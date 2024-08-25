@@ -1,9 +1,19 @@
 import { event, EventPlugin } from '@/event/mod';
+import * as mod from '@/event/mod';
 import Core, { DataFlow, Plugin } from '@biruni/core';
 import { MOCK_NAMESPACE, mockData, type MockData } from '@repo/mocks';
 import type { MockInstance } from 'vitest';
 
 describe('event', () => {
+	it('have re-export in <mod.ts>', () => {
+		expect(mod).toHaveProperty('event');
+	});
+
+	it('have re-export as <default>', () => {
+		expect(mod).toHaveProperty('default');
+		expect(mod.default).toBe(mod.event);
+	});
+
 	it('should be a <function>', () => {
 		expectTypeOf(event).toBeFunction();
 		expect(event).toBeTypeOf('function');
@@ -38,6 +48,10 @@ describe('EventPlugin', () => {
 		vi.clearAllMocks();
 		core.plug(instance);
 		store = core.init(vi.fn(() => mockData));
+	});
+
+	it('have re-export in <mod.ts>', () => {
+		expect(mod).toHaveProperty('EventPlugin');
 	});
 
 	it('should a class with <Plugin> interface', () => {
