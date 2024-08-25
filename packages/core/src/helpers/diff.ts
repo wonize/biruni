@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-constraint, @typescript-eslint/no-explicit-any */
 
-import type { RemoveNever, DataObject } from '../../../core/src/helpers/type-utility';
+import type { RemoveNever, DataObject } from './type-utility';
 
 export function diff<Source extends Data, Target extends Data, Data extends any = DataObject>(
 	source_data: Source,
