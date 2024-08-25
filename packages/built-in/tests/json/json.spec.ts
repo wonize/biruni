@@ -1,9 +1,14 @@
+import * as mod from '@/json/mod';
 import json, { JsonParsePlugin, JsonPlugin, JsonStringifyPlugin } from '@/json/mod';
 import { Core, DataFlow, type Plugin } from '@biruni/core';
 import { MOCK_NAMESPACE, mockData, type MockData } from '@repo/mocks';
 import type { MockInstance } from 'vitest';
 
 describe('JsonParsePlugin', () => {
+	it('have re-export in <mod.ts>', () => {
+		expect(mod).toHaveProperty('JsonParsePlugin');
+	});
+
 	it('should type of <JsonParsePlugin> instance to be <Plugin> interface', () => {
 		expectTypeOf(JsonParsePlugin<MockData>).instance.toMatchTypeOf<Plugin<MockData>>();
 	});
@@ -63,6 +68,10 @@ describe('JsonParsePlugin', () => {
 });
 
 describe('JsonStringifyPlugin', () => {
+	it('have re-export in <mod.ts>', () => {
+		expect(mod).toHaveProperty('JsonStringifyPlugin');
+	});
+
 	it('should type of <JsonStringifyPlugin> instance to be <Plugin> interface', () => {
 		expectTypeOf(JsonStringifyPlugin<MockData>).instance.toMatchTypeOf<Plugin<MockData>>();
 	});
@@ -94,6 +103,10 @@ describe('JsonStringifyPlugin', () => {
 });
 
 describe('JsonPlugin (Collection)', () => {
+	it('have re-export in <mod.ts>', () => {
+		expect(mod).toHaveProperty('JsonPlugin');
+	});
+
 	it('should be a <Plugin> interface', () => {
 		expectTypeOf(JsonPlugin<MockData>).instance.toMatchTypeOf<Plugin<MockData>>();
 	});
@@ -122,6 +135,15 @@ describe('JsonPlugin (Collection)', () => {
 });
 
 describe('json (invoker)', () => {
+	it('have re-export in <mod.ts>', () => {
+		expect(mod).toHaveProperty('json');
+	});
+
+	it('have re-export as <default>', () => {
+		expect(mod).toHaveProperty('default');
+		expect(mod.default).toBe(mod.json);
+	});
+
 	it('should be a <function>', () => {
 		expectTypeOf(json).toBeFunction();
 		expect(json).toBeTypeOf('function');
