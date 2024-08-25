@@ -1,27 +1,25 @@
-import type { StoreData } from '@biruni/core/helpers';
-import * as Plugin from '@biruni/core/plugin';
+import { Core, DataFlow, Plugin } from '@biruni/core';
+import type { DataObject } from '@biruni/core/helpers';
 import type { ZodSchema } from 'zod';
 
-class ZodPlugin<Data extends StoreData> extends Plugin.BiruniPlugin<Data> {
-	override type: Plugin.ContextType = 'validator';
-	override name = 'biruni/zod' as const;
-
+export class ZodPlugin<Data extends DataObject> extends Plugin<Data> {
 	public constructor(private schema: ZodSchema) {
-		super();
+		super('biruni.zod');
 	}
 
-	override postprocess: (data: Data) => Promise<Data> = async (data) => {
-		return this.schema.parse(data);
-	};
+	public override flow: DataFlow = DataFlow.INPUT;
 
-	override preprocess: (data: Data) => Promise<Data> = async (data) => {
+	public override setup(core: Core<Data>) {
+		super.setup(core);
+	}
+
+	public override process(data: Data): Data {
 		return this.schema.parse(data);
-	};
+	}
 }
 
-const zod = <Data extends StoreData>(schema: ZodSchema): Plugin.BiruniPlugin<Data> => {
+export function zod<Data extends DataObject>(schema: ZodSchema): Plugin<Data> {
 	return new ZodPlugin<Data>(schema);
-};
+}
 
 export default zod;
-export { zod as ZodPlugin, zod };
