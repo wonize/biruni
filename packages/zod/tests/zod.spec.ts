@@ -10,6 +10,11 @@ describe('zod', function () {
 		expect(mod).toHaveProperty('zod');
 	});
 
+	it('should have re-export as <default> in <mod.ts>', function () {
+		expect(mod).toHaveProperty('default');
+		expect(mod['default']).toStrictEqual(mod.zod);
+	});
+
 	it('is a <function>', function () {
 		expectTypeOf(mod.zod).toBeFunction();
 		expect(mod.zod).toBeTypeOf('function');
@@ -27,11 +32,6 @@ describe('zod', function () {
 describe('ZodPlugin', function () {
 	it('should have re-export in <mod.ts>', function () {
 		expect(mod).toHaveProperty('ZodPlugin');
-	});
-
-	it('should have re-export as <default> in <mod.ts>', function () {
-		expect(mod).toHaveProperty('default');
-		expect(mod['default']).toStrictEqual(mod.ZodPlugin);
 	});
 
 	it('have an instance where is compatible with <Plugin> interface', function () {
