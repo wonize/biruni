@@ -13,6 +13,7 @@ const exclude = configDefaults.exclude
 	.concat('**/build/**')
 	.concat('**/scripts/**')
 	.concat('**/docs/**')
+	.concat('**/coverage/**')
 	.concat('**/examples/**');
 
 const reporter = ['html', 'json', 'text', 'clover'];
